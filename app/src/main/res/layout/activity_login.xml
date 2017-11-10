@@ -14,4 +14,9 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal" />
 
+    <com.facebook.share.widget.ShareButton
+        android:id="@+id/facebook_share_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

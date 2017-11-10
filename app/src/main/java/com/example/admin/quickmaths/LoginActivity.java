@@ -12,6 +12,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.widget.ShareButton;
 
 import java.util.concurrent.Callable;
 
@@ -30,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // This MUST be placed after the above two lines.
         setContentView(R.layout.activity_login);
+
+        ShareButton shareButton = findViewById(R.id.facebook_share_button);
+        //need to add content to object content for sharing
 
         LoginButton mFacebookSignInButton = findViewById(R.id.facebook_sign_in_button);
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager,
@@ -58,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
         );
+
     }
 
     private void handleSignInResult(Callable<Void> callable) {
@@ -65,3 +70,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "handleSignInResult: Signed in");
     }
 }
+
+/*
+ShareButton shareButton = (ShareButton)findViewById(R.id.fb_share_button);
+shareButton.setShareContent(content);
+ */
