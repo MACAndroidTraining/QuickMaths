@@ -1,5 +1,6 @@
 package com.example.admin.quickmaths;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     //share dialog for share button
     ShareDialog shareDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
         ShareButton shareButton = findViewById(R.id.facebook_share_button);
         //need to add content to object content for sharing
+
+
 
         LoginButton mFacebookSignInButton = findViewById(R.id.facebook_sign_in_button);
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager,
@@ -70,35 +74,38 @@ public class LoginActivity extends AppCompatActivity {
                         handleSignInResult(null);
                     }
                 }
+
         );
+
 
         //facebook showing ShareDialog
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))//example URL
                     .build();
             shareDialog.show(linkContent);
+            shareButton.setShareContent(linkContent);//TODO: add data to content for sharing
+
         }
 
+//        MessageDialog.show(MainActivity.class, content);
+//        shareButton.setShareContent(linkContent);//TODO: add data to content for sharing
+
+
+
+    }
+
+    //returning result from activity
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void handleSignInResult(Callable<Void> callable) {
 
         Log.d(TAG, "handleSignInResult: Signed in");
     }
+
+
 }
-
-/*
-ShareButton shareButton = (ShareButton)findViewById(R.id.fb_share_button);
-shareButton.setShareContent(content);
-
-
-getting url for content share:
-
-if (ShareDialog.canShow(ShareLinkContent.class)) {
-    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-            .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
-            .build();
-    shareDialog.show(linkContent);
-}
- */
