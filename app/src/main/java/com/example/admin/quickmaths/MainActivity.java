@@ -35,12 +35,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        mScannerView = new ZXingScannerView(this);
-//        setContentView(mScannerView);
-
         mScannerView = findViewById(R.id.scannerView);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 //        beep = MediaPlayer.create(this, R.raw.barcode_beep_sound_effect);
