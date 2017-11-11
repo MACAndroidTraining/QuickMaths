@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 //        setContentView(mScannerView);
 
         mScannerView = findViewById(R.id.scannerView);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 //        beep = MediaPlayer.create(this, R.raw.barcode_beep_sound_effect);
         beep = MediaPlayer.create(this, R.raw.skraaa);
