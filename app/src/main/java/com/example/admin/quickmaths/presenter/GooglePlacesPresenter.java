@@ -1,20 +1,25 @@
 package com.example.admin.quickmaths.presenter;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import com.example.admin.quickmaths.GooglePlacesRemoteServiceHelper;
 import com.example.admin.quickmaths.model.DirectionsResponse;
+import com.example.admin.quickmaths.model.EndLocation;
 import com.example.admin.quickmaths.model.GooglePlacesResult;
 import com.example.admin.quickmaths.model.Leg;
 import com.example.admin.quickmaths.model.Location;
 import com.example.admin.quickmaths.model.Result;
 import com.example.admin.quickmaths.model.Route;
+import com.example.admin.quickmaths.model.StartLocation;
 import com.example.admin.quickmaths.model.Step;
 import com.example.admin.quickmaths.utils.MainActivityContract;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +40,9 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter, Se
 
     MainActivityContract.View view;
     List<Result> resultList = new ArrayList<>();
+    List<Step> stepList = new ArrayList<>();
+    String currentLocation;
+    GoogleMap map;
 
     @Override
     public void attachView(MainActivityContract.View view) {
@@ -48,6 +56,9 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter, Se
 
     @Override
     public void getNearbyResults(final String CurrentLocation, final GoogleMap googleMap) {
+
+        currentLocation = CurrentLocation;
+        map = googleMap;
 
         GooglePlacesRemoteServiceHelper.getNearbyResults(CurrentLocation)
                 .subscribeOn(Schedulers.io())
@@ -70,6 +81,12 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter, Se
                     public void onNext(List<Result> results) {
 
                         resultList.addAll(results);
+                        String[] coordinates = CurrentLocation.split(",");
+                        //Distinct marker for current location on the map
+                        LatLng currentLocation = new LatLng(Double.parseDouble(coordinates[0]),
+                                Double.parseDouble(coordinates[1]));
+                        googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
                         for(Result result: results) {
                             Location location = result.getGeometry().getLocation();
@@ -94,8 +111,8 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter, Se
     }
 
     @Override
-    public void getDirections(String origin, String destination) {
-        GooglePlacesRemoteServiceHelper.getDirections(origin, destination)
+    public void getDirections(String destination) {
+        GooglePlacesRemoteServiceHelper.getDirections(currentLocation, destination)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DirectionsResponse>() {
@@ -108,7 +125,21 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter, Se
                     public void onNext(DirectionsResponse directionsResponse) {
                         Route route = directionsResponse.getRoutes().get(0);
                         Leg leg = route.getLegs().get(0);
-                        List<Step> stepList = leg.getSteps();
+                        stepList.addAll(leg.getSteps());
+                        List<LatLng> polyline = new ArrayList<>();
+                        for (Step step: stepList) {
+                            StartLocation startLocation = step.getStartLocation();
+                            EndLocation endLocation = step.getEndLocation();
+                            polyline.add(new LatLng(startLocation.getLat(), startLocation.getLng()));
+                            polyline.add(new LatLng(endLocation.getLat(), endLocation.getLng()));
+                        }
+
+                        PolylineOptions polylineOptions = new PolylineOptions();
+                        for (LatLng latLng: polyline) {
+                            polylineOptions.add(latLng);
+                        }
+                        polylineOptions.width(5).color(Color.BLUE);
+                        map.addPolyline(polylineOptions);
                     }
 
                     @Override
@@ -118,8 +149,9 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter, Se
 
                     @Override
                     public void onComplete() {
-
+                        view.updateDirections(stepList);
                     }
                 });
     }
+
 }
