@@ -15,13 +15,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.admin.quickmaths.model.Step;
+import com.example.admin.quickmaths.presenter.GooglePlacesPresenter;
+import com.example.admin.quickmaths.utils.MainActivityContract;
 import com.google.zxing.Result;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
 
 public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+
+
 
     private static final String TAG = "MainActivity";
     // used while getting the permissions from the user to use the camera
@@ -183,4 +192,5 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         AlertDialog alert1 = builder.create();
         alert1.show();
     }
+
 }
