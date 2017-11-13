@@ -114,6 +114,8 @@ public class LoginActivity extends AppCompatActivity {
                 };
 
         //registering callback on login
+        mFacebookSignInButton.registerCallback(mFacebookCallbackManager, mCallBack);
+
 
         //facebook showing ShareDialog
 //        if (ShareDialog.canShow(ShareLinkContent.class)) {
