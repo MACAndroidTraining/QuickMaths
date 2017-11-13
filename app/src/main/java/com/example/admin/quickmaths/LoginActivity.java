@@ -71,68 +71,49 @@ public class LoginActivity extends AppCompatActivity {
         mTokenTracker.startTracking();
         mProfileTracker.startTracking();
 
-
-
         //request permission for retrieving user's friend's list and login btn
         LoginButton mFacebookSignInButton = findViewById(R.id.facebook_sign_in_button);
         mFacebookSignInButton.setReadPermissions("user_friends");
 
         FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {
-                    //retrieving user profile img and first name to welcome the user
-                    @Override
-                    public void onSuccess(final LoginResult loginResult) {
-                        //TODO: Use the Profile class to get information about the current user.
+            //retrieving user profile img and first name to welcome the user
+            @Override
+            public void onSuccess(final LoginResult loginResult) {
+                //TODO: Use the Profile class to get information about the current user.
 
-                        //retrieving access token and user profile
-                        AccessToken accessToken = loginResult.getAccessToken();
-                        Profile profile = Profile.getCurrentProfile();
-                        displayWelcomeMessage(profile);
+                //retrieving access token and user profile
+                AccessToken accessToken = loginResult.getAccessToken();
+                Profile profile = Profile.getCurrentProfile();
+                displayWelcomeMessage(profile);
 
-                        //retrieving user profile img
-                        Uri imageLink = profile.getProfilePictureUri(250, 250);
+                //retrieving user profile img
+                Uri imageLink = profile.getProfilePictureUri(250, 250);
 
 
-                        //Welcoming user via text view---removed if statement for now
-                        // TODO:find why it returns null as if statement
+                //Welcoming user via text view---removed if statement for now
+                // TODO:find why it returns null as if statement
 
-                        Glide.with(LoginActivity.this)
-                                .load(imageLink)
-                                .into(imageView);
-                        textView.setText("Welcome " + profile.getFirstName());
+                Glide.with(LoginActivity.this)
+                        .load(imageLink)
+                        .into(imageView);
+                textView.setText("Welcome " + profile.getFirstName());
 
-                    }
+            }
 
-                    @Override
-                    public void onCancel() {
-                        handleSignInResult(null);
-                    }
+            @Override
+            public void onCancel() {
+                handleSignInResult(null);
+            }
 
-                    @Override
-                    public void onError(FacebookException error) {
-                        Log.d(LoginActivity.class.getCanonicalName(), error.getMessage());
-                        handleSignInResult(null);
-                    }
-                };
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(LoginActivity.class.getCanonicalName(), error.getMessage());
+                handleSignInResult(null);
+            }
+        };
 
         //registering callback on login
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager, mCallBack);
-
-
-        //facebook showing ShareDialog
-//        if (ShareDialog.canShow(ShareLinkContent.class)) {
-//            ShareLinkContent linkContent = new ShareLinkContent.Builder()
-//                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))//example URL
-//                    .build();
-//            shareDialog.show(linkContent);
-//            shareButton.setShareContent(linkContent);//TODO: add data to content for sharing
-//
-//        }
-
-//        MessageDialog.show(MainActivity.class, content);
-//        shareButton.setShareContent(linkContent);//TODO: add data to content for sharing
-
-
-
     }
 
     //returning result from activity
@@ -147,13 +128,11 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "handleSignInResult: Signed in");
     }
 
-
     private String displayWelcomeMessage(Profile profile) {
         StringBuilder stringBuffer = new StringBuilder();
         if (profile != null) {
             stringBuffer.append("Welcome ").append(profile.getName());
         }
         return stringBuffer.toString();
-
-
+    }
 }
