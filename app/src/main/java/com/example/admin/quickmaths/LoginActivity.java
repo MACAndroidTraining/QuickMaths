@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -25,10 +28,13 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "Facebook Login";
 
     //callback manager
-    CallbackManager mFacebookCallbackManager;
+    private CallbackManager mFacebookCallbackManager;
+
+    private AccessTokenTracker mTokenTracker;
+    private ProfileTracker mProfileTracker;
 
     //share dialog for share button
-    ShareDialog shareDialog;
+//    ShareDialog shareDialog;
 
 
     @Override
@@ -38,15 +44,18 @@ public class LoginActivity extends AppCompatActivity {
 
         //initializing FB objects
         mFacebookCallbackManager = CallbackManager.Factory.create();
-        shareDialog = new ShareDialog(this);
-
-        // This MUST be placed after the above two lines.
+//        shareDialog = new ShareDialog(this);
         setContentView(R.layout.activity_login);
 
-        ShareButton shareButton = findViewById(R.id.facebook_share_button);
+//        ShareButton shareButton = findViewById(R.id.facebook_share_button);
         //need to add content to object content for sharing
 
-
+        //token tracker
+        mTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+            }
+        };
 
         LoginButton mFacebookSignInButton = findViewById(R.id.facebook_sign_in_button);
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager,
