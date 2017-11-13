@@ -10,9 +10,20 @@
         android:id="@+id/facebook_sign_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_marginTop="15dp" />
+
+    <ImageView
+        android:id="@+id/my_image_view"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center_vertical|center_horizontal" />
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.facebook.share.widget.ShareButton
         android:id="@+id/facebook_share_button"

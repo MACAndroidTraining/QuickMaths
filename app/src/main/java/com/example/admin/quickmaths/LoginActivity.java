@@ -5,7 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -14,12 +17,8 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareButton;
-import com.facebook.share.widget.ShareDialog;
 
 import java.util.concurrent.Callable;
 
@@ -68,22 +67,38 @@ public class LoginActivity extends AppCompatActivity {
         mTokenTracker.startTracking();
         mProfileTracker.startTracking();
 
+        //image view and text view for login results
+        final ImageView imageView = findViewById(R.id.my_image_view);
+        final TextView textView = findViewById(R.id.tvWelcome);
+
         //request permission for retrieving user's friend's list and login btn
         LoginButton mFacebookSignInButton = findViewById(R.id.facebook_sign_in_button);
         mFacebookSignInButton.setReadPermissions("user_friends");
 
-        mFacebookSignInButton.registerCallback(mFacebookCallbackManager,
-                new FacebookCallback<LoginResult>() {
+        FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {
+                    //retrieving user profile img and first name to welcome the user
                     @Override
                     public void onSuccess(final LoginResult loginResult) {
                         //TODO: Use the Profile class to get information about the current user.
-                        handleSignInResult(new Callable<Void>() {
-                            @Override
-                            public Void call() throws Exception {
-                                LoginManager.getInstance().logOut();
-                                return null;
-                            }
-                        });
+
+                        //retrieving access token and user profile
+                        AccessToken accessToken = loginResult.getAccessToken();
+                        Profile profile = Profile.getCurrentProfile();
+                        displayWelcomeMessage(profile);
+
+                        //retrieving user profile img
+                        Uri imageLink = profile.getProfilePictureUri(250, 250);
+
+
+                        //Welcoming user via text view  TODO:find why it returns null
+                        if(profile != null){
+
+                            Glide.with(LoginActivity.this)
+                                    .load(imageLink)
+                                    .into(imageView);
+                            textView.setText("Welcome " + profile.getFirstName());
+                        }
+
                     }
 
                     @Override
@@ -96,10 +111,9 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(LoginActivity.class.getCanonicalName(), error.getMessage());
                         handleSignInResult(null);
                     }
-                }
+                };
 
-        );
-
+        //registering callback on login
 
         //facebook showing ShareDialog
 //        if (ShareDialog.canShow(ShareLinkContent.class)) {
