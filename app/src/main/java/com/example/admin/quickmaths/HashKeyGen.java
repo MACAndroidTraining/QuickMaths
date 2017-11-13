@@ -5,7 +5,7 @@ public class HashKeyGen {
     //TODO: Generate hash key: Done
 //        PackageInfo info;
 //        try {
-//            info = getPackageManager().getPackageInfo("com.example.admin.loginactivity",
+//            info = getPackageManager().getPackageInfo("com.example.admin.quickmaths", <--loginactivity previously just in case
 //                    PackageManager.GET_SIGNATURES);
 //            for (Signature signature : info.signatures) {
 //                MessageDigest md;

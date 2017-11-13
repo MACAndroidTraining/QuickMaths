@@ -47,6 +47,10 @@ public class LoginActivity extends AppCompatActivity {
 //        shareDialog = new ShareDialog(this);
         setContentView(R.layout.activity_login);
 
+        //image view and text view for login results
+        final ImageView imageView = findViewById(R.id.my_image_view);
+        final TextView textView = findViewById(R.id.tvWelcome);
+
 //        ShareButton shareButton = findViewById(R.id.facebook_share_button);
         //need to add content to object content for sharing
 
@@ -61,15 +65,13 @@ public class LoginActivity extends AppCompatActivity {
         mProfileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                displayWelcomeMessage(currentProfile);
+                textView.setText(displayWelcomeMessage(currentProfile));
             }
         };
         mTokenTracker.startTracking();
         mProfileTracker.startTracking();
 
-        //image view and text view for login results
-        final ImageView imageView = findViewById(R.id.my_image_view);
-        final TextView textView = findViewById(R.id.tvWelcome);
+
 
         //request permission for retrieving user's friend's list and login btn
         LoginButton mFacebookSignInButton = findViewById(R.id.facebook_sign_in_button);
@@ -90,14 +92,13 @@ public class LoginActivity extends AppCompatActivity {
                         Uri imageLink = profile.getProfilePictureUri(250, 250);
 
 
-                        //Welcoming user via text view  TODO:find why it returns null
-                        if(profile != null){
+                        //Welcoming user via text view---removed if statement for now
+                        // TODO:find why it returns null as if statement
 
-                            Glide.with(LoginActivity.this)
-                                    .load(imageLink)
-                                    .into(imageView);
-                            textView.setText("Welcome " + profile.getFirstName());
-                        }
+                        Glide.with(LoginActivity.this)
+                                .load(imageLink)
+                                .into(imageView);
+                        textView.setText("Welcome " + profile.getFirstName());
 
                     }
 
@@ -145,6 +146,14 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.d(TAG, "handleSignInResult: Signed in");
     }
+
+
+    private String displayWelcomeMessage(Profile profile) {
+        StringBuilder stringBuffer = new StringBuilder();
+        if (profile != null) {
+            stringBuffer.append("Welcome ").append(profile.getName());
+        }
+        return stringBuffer.toString();
 
 
 }
