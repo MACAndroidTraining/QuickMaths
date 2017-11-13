@@ -68,7 +68,10 @@ public class LoginActivity extends AppCompatActivity {
         mTokenTracker.startTracking();
         mProfileTracker.startTracking();
 
+        //request permission for retrieving user's friend's list and login btn
         LoginButton mFacebookSignInButton = findViewById(R.id.facebook_sign_in_button);
+        mFacebookSignInButton.setReadPermissions("user_friends");
+
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -99,14 +102,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //facebook showing ShareDialog
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-            ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))//example URL
-                    .build();
-            shareDialog.show(linkContent);
-            shareButton.setShareContent(linkContent);//TODO: add data to content for sharing
-
-        }
+//        if (ShareDialog.canShow(ShareLinkContent.class)) {
+//            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+//                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))//example URL
+//                    .build();
+//            shareDialog.show(linkContent);
+//            shareButton.setShareContent(linkContent);//TODO: add data to content for sharing
+//
+//        }
 
 //        MessageDialog.show(MainActivity.class, content);
 //        shareButton.setShareContent(linkContent);//TODO: add data to content for sharing
