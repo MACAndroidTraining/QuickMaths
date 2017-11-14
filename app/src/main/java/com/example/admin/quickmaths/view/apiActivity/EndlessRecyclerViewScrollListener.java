@@ -1,4 +1,4 @@
-package com.example.admin.quickmaths;
+package com.example.admin.quickmaths.view.apiActivity;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

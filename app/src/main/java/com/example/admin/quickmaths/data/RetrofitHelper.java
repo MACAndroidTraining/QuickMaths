@@ -1,4 +1,4 @@
-package com.example.admin.quickmaths;
+package com.example.admin.quickmaths.data;
 
 import android.util.Log;
 

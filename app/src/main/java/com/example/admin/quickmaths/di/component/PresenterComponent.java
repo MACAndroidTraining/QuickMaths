@@ -2,7 +2,7 @@ package com.example.admin.quickmaths.di.component;
 
 import android.support.v7.widget.LinearLayoutManager;
 
-import com.example.admin.quickmaths.MainActivity;
+import com.example.admin.quickmaths.view.mainActivity.MainActivity;
 import com.example.admin.quickmaths.di.modules.BlankFragmentModule;
 import com.example.admin.quickmaths.di.modules.BundleModule;
 import com.example.admin.quickmaths.di.modules.ItemAnimatorModule;
