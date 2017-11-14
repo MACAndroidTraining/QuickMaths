@@ -5,8 +5,10 @@ import android.util.Log;
 
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.data.RetrofitHelper;
-import com.example.admin.quickmaths.model.Search.Item;
-import com.example.admin.quickmaths.model.Search.Search;
+import com.example.admin.quickmaths.model.WalmartSearch.Item;
+import com.example.admin.quickmaths.model.WalmartSearch.WalmartSearch;
+import com.example.admin.quickmaths.model.bestBuy.BestBuy;
+import com.example.admin.quickmaths.model.bestBuy.Product;
 import com.example.admin.quickmaths.model.display.DisplayObject;
 
 import java.util.ArrayList;
@@ -27,7 +29,6 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
     private static final String TAG = "ApiActivityPresenter";
     ApiActivityContract.View view;
-    Map<String, String> query = new ArrayMap<>();
     List<DisplayObject> itemList = new ArrayList<>();
 
     @Override
@@ -41,52 +42,38 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
     }
 
     public void makeCall(int pageCallUpdate, String upc) {
-//        Dummy data
-//        DisplayObject Walmart = new DisplayObject( "Walmart Super Center",
-//                                                        55.00,
-//                                                        34.00,
-//                                                        R.drawable.walmart);
-//
-//        DisplayObject Target = new DisplayObject("Target",
-//                                                        42.42,
-//                                                        52.00,
-//                                                        R.drawable.target300);
-//
-//        itemList.add( Walmart );
-//        itemList.add( Target );
-//        recycleViewAdapter.notifyDataSetChanged();
-
         Log.d(TAG, "makeCall: upc:" + upc);
-        Log.d(TAG, "makeCall: " + query);
+        callWalmart(pageCallUpdate, upc);
+        callBestBuy( upc );
+    }
 
+    private void callWalmart(int pageCallUpdate, String upc) {
+        Map<String, String> query = new ArrayMap<>();
         query.put("query", upc);
-//        query.put("query", "813516025388");
-//        query.put("query", "039400019770");
         query.put("format", "json");
         query.put("apiKey", "jy3vtxwdpxva9vs8jakbf2us");
-        //query.put("numItems", "25");
         query.put("start", String.valueOf(pageCallUpdate));
 
-        RetrofitHelper.getCall(query)
+        RetrofitHelper.callWalmart(query)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Search>() {
+                .subscribe(new Observer<WalmartSearch>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        Log.d(TAG, "onSubscribe: " + d.toString());
+                        Log.d(TAG, "Walmart onSubscribe: " + d.toString());
                     }
 
                     @Override
-                    public void onNext(@NonNull Search search) {
+                    public void onNext(@NonNull WalmartSearch search) {
 
-                        Log.d(TAG, "onNext: Found " + search.getNumItems());
+                        Log.d(TAG, "Walmart onNext: Found " + search.getNumItems());
 
                         if (search.getItems() != null) {
                             for (Item i : search.getItems()) {
 //                            itemList.add(i);
-                                Log.d(TAG, "onNext: Item name: " + i.getName());
-                                Log.d(TAG, "onNext: Item sale price:" + i.getSalePrice());
-                                Log.d(TAG, "onNext: Item msrp:" + i.getMsrp());
+                                Log.d(TAG, "Walmart onNext: Item name: " + i.getName());
+                                Log.d(TAG, "Walmart onNext: Item sale price:" + i.getSalePrice());
+                                Log.d(TAG, "Walmart onNext: Item msrp:" + i.getMsrp());
                                 DisplayObject walmart = new DisplayObject(
 //                                    "Walmart Super Center",
                                         i.getName(),
@@ -102,16 +89,73 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.toString());
+                        Log.d(TAG, "Walmart onError: " + e.toString());
                     }
 
                     @Override
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
-                        view.initRecyclerView( itemList );
+                        view.initRecyclerView(itemList);
 
-                        Log.d(TAG, "onComplete: ");
+                        Log.d(TAG, "Walmart onComplete: ");
+                        Log.d(TAG, " ");
                     }
                 });
+    }
+
+    private void callBestBuy( String upc ) {
+        // https://bestbuyapis.github.io/api-documentation/#products-api
+        Map<String, String> bestBuyQuery = new ArrayMap<>();
+        bestBuyQuery.put("format", "json");
+        bestBuyQuery.put("show", "all");
+        bestBuyQuery.put("apiKey", "FI0jE6GWPKhI4DNGRQmOuoiz");
+
+        RetrofitHelper.callBestBuy(upc, bestBuyQuery)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<BestBuy>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "Best Buy onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(BestBuy bestBuy) {
+                        Log.d(TAG, "Best Buy onNext: Found " + bestBuy.getTotal());
+
+                        if (bestBuy.getProducts() != null) {
+                            for (Product p : bestBuy.getProducts()) {
+                                Log.d(TAG, "Best Buy onNext: Item name: " + p.getName());
+                                Log.d(TAG, "Best Buy onNext: Item regular price:" + p.getRegularPrice());
+                                Log.d(TAG, "Best Buy onNext: Item sale price:" + p.getSalePrice());
+                                // TODO: 11/14/2017 also has an 'On Sale' value, could include that.
+                                // TODO: 11/14/2017 and ratings
+
+                                DisplayObject bb = new DisplayObject(
+                                        p.getName(),
+                                        p.getSalePrice(),
+                                        34.00,
+                                        R.drawable.bestbuy
+                                );
+
+                                itemList.add(bb);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Best Buy onError: " + e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "Best Buy onComplete: ");
+                        Log.d(TAG, "  ");
+                        view.initRecyclerView(itemList);
+                    }
+                });
+        // https://bestbuyapis.github.io/api-documentation/#stores-api
+        // could be used for distance to nearest store.
     }
 }

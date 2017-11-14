@@ -1,5 +1,5 @@
 
-package com.example.admin.quickmaths.model.Search;
+package com.example.admin.quickmaths.model.WalmartSearch;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class Search implements Serializable{
+public class WalmartSearch implements Serializable{
 
     @SerializedName("query")
     @Expose

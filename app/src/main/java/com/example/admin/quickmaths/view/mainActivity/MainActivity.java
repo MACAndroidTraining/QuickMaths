@@ -62,6 +62,14 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 //        beep = MediaPlayer.create(this, R.raw.barcode_beep_sound_effect);
         beep = MediaPlayer.create(this, R.raw.skraaa);
 
+//        //go straight to api
+//        String upc = "813516025388"; // refurbished apple ipod nano, 16bg, blue
+//        String upc = "039400019770"; // Bush's best brown sugar hickory baked beans, 28 oz
+//        String upc = "014633733877"; // Mirror's Edge Catalyst - PlayStation 4
+//        Intent intent = new Intent(this, ApiActivity.class);
+//        intent.putExtra("query", upc);
+//        startActivity(intent);
+
         //  check version.
         int currentApiVersion = Build.VERSION.SDK_INT;
         if (currentApiVersion >= Build.VERSION_CODES.M) {
