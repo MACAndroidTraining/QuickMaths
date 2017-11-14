@@ -1,4 +1,4 @@
-package com.example.admin.quickmaths;
+package com.example.admin.quickmaths.view.mainActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.admin.quickmaths.R;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
