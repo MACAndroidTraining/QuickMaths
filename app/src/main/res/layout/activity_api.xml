@@ -6,7 +6,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.admin.quickmaths.ApiActivity">
+    tools:context="com.example.admin.quickmaths.view.apiActivity.ApiActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvUPC"
+        android:textSize="@dimen/text_size_small"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
