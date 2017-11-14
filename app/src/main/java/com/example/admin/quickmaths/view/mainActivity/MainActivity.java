@@ -1,4 +1,4 @@
-package com.example.admin.quickmaths;
+package com.example.admin.quickmaths.view.mainActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,9 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+<<<<<<< HEAD:app/src/main/java/com/example/admin/quickmaths/MainActivity.java
 import com.example.admin.quickmaths.model.Step;
 import com.example.admin.quickmaths.presenter.GooglePlacesPresenter;
 import com.example.admin.quickmaths.utils.MainActivityContract;
+=======
+import com.example.admin.quickmaths.R;
+>>>>>>> a5cbf0d16b1b11b29bd65f85abca53cbfb1a1a51:app/src/main/java/com/example/admin/quickmaths/view/mainActivity/MainActivity.java
 import com.google.zxing.Result;
 
 import java.util.List;

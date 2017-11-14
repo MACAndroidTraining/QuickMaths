@@ -21,13 +21,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
+=======
+        <activity android:name=".view.mainActivity.MainActivity">
+>>>>>>> a5cbf0d16b1b11b29bd65f85abca53cbfb1a1a51
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".LoginActivity" />
         <activity android:name=".ApiActivity"></activity>
         <!--
@@ -45,6 +50,9 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
+=======
+        <activity android:name=".view.LoginActivity" />
+>>>>>>> a5cbf0d16b1b11b29bd65f85abca53cbfb1a1a51
     </application>
 
 </manifest>

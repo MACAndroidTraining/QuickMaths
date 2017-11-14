@@ -6,8 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
+=======
+    tools:context="com.example.admin.quickmaths.view.mainActivity.MainActivity">
+>>>>>>> a5cbf0d16b1b11b29bd65f85abca53cbfb1a1a51
 
     <me.dm7.barcodescanner.zxing.ZXingScannerView
         android:id="@+id/scannerView"
