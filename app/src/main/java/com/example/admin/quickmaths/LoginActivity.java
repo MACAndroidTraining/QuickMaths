@@ -33,10 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     private AccessTokenTracker mTokenTracker;
     private ProfileTracker mProfileTracker;
 
-    //share dialog for share button
-//    ShareDialog shareDialog;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
