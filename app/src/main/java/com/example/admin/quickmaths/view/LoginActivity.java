@@ -1,4 +1,4 @@
-package com.example.admin.quickmaths.view.loginActivity;
+package com.example.admin.quickmaths.view;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -8,8 +8,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.admin.quickmaths.R;
 import com.bumptech.glide.Glide;
+import com.example.admin.quickmaths.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;

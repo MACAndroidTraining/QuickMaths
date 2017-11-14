@@ -9,6 +9,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
     <me.dm7.barcodescanner.zxing.ZXingScannerView
         android:id="@+id/scannerView"
         android:layout_width="match_parent"

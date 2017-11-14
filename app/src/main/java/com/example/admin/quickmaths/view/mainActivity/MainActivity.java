@@ -18,10 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.zxing.Result;
-
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.view.apiActivity.ApiActivity;
+import com.google.zxing.Result;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
