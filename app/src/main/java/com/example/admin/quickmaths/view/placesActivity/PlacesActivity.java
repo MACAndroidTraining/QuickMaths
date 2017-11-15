@@ -41,9 +41,6 @@ public class PlacesActivity extends AppCompatActivity {
     //callback manager
     private CallbackManager mFacebookCallbackManager;
 
-    private AccessTokenTracker mTokenTracker;
-    private ProfileTracker mProfileTracker;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +59,14 @@ public class PlacesActivity extends AppCompatActivity {
         final TextView textView = findViewById(R.id.tvWelcome);
 
         //token tracker
-        mTokenTracker = new AccessTokenTracker() {
+        AccessTokenTracker mTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             }
         };
 
         //tracking new logins from device
-        mProfileTracker = new ProfileTracker() {
+        ProfileTracker mProfileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                 textView.setText(displayWelcomeMessage(currentProfile));
@@ -97,10 +94,8 @@ public class PlacesActivity extends AppCompatActivity {
                 //retrieving user profile img
                 Uri imageLink = profile.getProfilePictureUri(250, 250);
 
-
                 //Welcoming user via text view---removed if statement for now
                 // TODO:find why it returns null as if statement
-
                 Glide.with(PlacesActivity.this)
                         .load(imageLink)
                         .into(imageView);
