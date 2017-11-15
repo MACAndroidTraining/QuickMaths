@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
     //implicit intent activity on share btn
     public void btnShare(View view) {
 
-        //TODO: either explicitly open fb with fb btn or remove it
+        //TODO: general implicit share button is currently hardcoded
         shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My App.");

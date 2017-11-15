@@ -11,36 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="15dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dp" />
+        android:layout_margin="@dimen/layout_margin"
+        android:layout_marginBottom="@dimen/layout_margin"
+        android:layout_marginTop="@dimen/layout_margin" />
 
     <ImageView
         android:id="@+id/my_image_view"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:paddingBottom="5dp" />
+        android:layout_marginBottom="@dimen/layout_margin"
+        android:paddingBottom="@dimen/layout_padding" />
 
     <com.facebook.share.widget.ShareButton
         android:id="@+id/facebook_share_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp" />
+        android:layout_margin="@dimen/layout_margin" />
 
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="20sp" />
+        android:textSize="@dimen/text_size_small" />
 
     <com.facebook.share.widget.LikeView
         android:id="@+id/like_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp" />
+        android:layout_margin="@dimen/layout_margin" />
 
     <Button
         android:id="@+id/btnShare"
