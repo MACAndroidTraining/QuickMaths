@@ -25,6 +25,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         cartList = new ArrayList<>();
+        prepareCart();
 
         mAdapter = new CartListAdapter(cartList);
 
@@ -35,6 +36,22 @@ public class CartActivity extends AppCompatActivity {
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
+
+    }
+
+    private void prepareCart() {
+
+        DisplayObject item1 = new DisplayObject("Walmart", 1.50, 34.00, R.drawable.walmart);
+        DisplayObject item2 = new DisplayObject("Best Buy", 1.30, 34.00, R.drawable.walmart);
+        DisplayObject item3 = new DisplayObject("Target", 1.10, 34.00, R.drawable.walmart);
+        DisplayObject item4 = new DisplayObject("Big Lots", 1.40, 34.00, R.drawable.walmart);
+        DisplayObject item5 = new DisplayObject("Kmart", 1.20, 34.00, R.drawable.walmart);
+
+        cartList.add(item1);
+        cartList.add(item2);
+        cartList.add(item3);
+        cartList.add(item4);
+        cartList.add(item5);
 
     }
 

@@ -7,17 +7,21 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.admin.quickmaths.CartActivity;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.view.apiActivity.ApiActivity;
 import com.google.zxing.Result;
@@ -28,7 +32,8 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
 
-public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler,
+        NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = "MainActivity";
     // used while getting the permissions from the user to use the camera
@@ -82,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 requestPermission();
             }
         }
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     private boolean checkPermission() {
@@ -215,4 +224,31 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         alert1.show();
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        Intent intent;
+
+        if (id == R.id.nav_camera) {
+
+        } else if (id == R.id.nav_favorites) {
+
+            intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_settings) {
+
+        } else if (id == R.id.nav_about) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawerLayout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
