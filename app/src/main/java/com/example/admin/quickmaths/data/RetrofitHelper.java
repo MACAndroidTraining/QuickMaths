@@ -82,4 +82,7 @@ pet smart
 Sam's Club
 http://developer.staples.com/apis
 Target
+
+could work:
+http://support.koleimports.com/kb/dropship-api-documentation/api-products
  */
