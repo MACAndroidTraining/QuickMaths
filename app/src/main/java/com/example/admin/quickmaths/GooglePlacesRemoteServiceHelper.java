@@ -1,13 +1,8 @@
 package com.example.admin.quickmaths;
 
 
-import com.example.admin.quickmaths.model.DirectionsResponse;
-import com.example.admin.quickmaths.model.GooglePlacesResult;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
-import java.net.URL;
+import com.example.admin.quickmaths.model.google.DirectionsResponse;
+import com.example.admin.quickmaths.model.google.GooglePlacesResult;
 
 import io.reactivex.Observable;
 import retrofit2.Retrofit;

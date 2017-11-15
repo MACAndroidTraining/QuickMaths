@@ -1,8 +1,8 @@
 package com.example.admin.quickmaths.view.apiActivity;
 
-import com.example.admin.quickmaths.BasePresenter;
-import com.example.admin.quickmaths.BaseView;
 import com.example.admin.quickmaths.model.display.DisplayObject;
+import com.example.admin.quickmaths.utils.BasePresenter;
+import com.example.admin.quickmaths.utils.BaseView;
 
 import java.util.List;
 

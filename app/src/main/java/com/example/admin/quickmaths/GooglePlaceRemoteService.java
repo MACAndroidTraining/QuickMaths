@@ -1,8 +1,8 @@
 package com.example.admin.quickmaths;
 
 
-import com.example.admin.quickmaths.model.DirectionsResponse;
-import com.example.admin.quickmaths.model.GooglePlacesResult;
+import com.example.admin.quickmaths.model.google.DirectionsResponse;
+import com.example.admin.quickmaths.model.google.GooglePlacesResult;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

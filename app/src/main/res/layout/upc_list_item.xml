@@ -12,11 +12,19 @@
         android:paddingBottom="@dimen/layout_padding"
         android:paddingRight="@dimen/layout_padding">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:maxWidth="@dimen/image_width"
+            android:id="@+id/tvStoreName"/>
+
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="@dimen/image_width"
             android:layout_height="match_parent"
-            android:src="@drawable/walmart"
             android:contentDescription="Store Logo" />
 
         <LinearLayout
@@ -28,7 +36,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tvStoreName"
+                android:id="@+id/tvProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Walmart"

@@ -1,5 +1,5 @@
 
-package com.example.admin.quickmaths.model;
+package com.example.admin.quickmaths.model.google;
 
 import java.io.Serializable;
 import java.util.List;
