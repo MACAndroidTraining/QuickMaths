@@ -22,7 +22,7 @@ import java.util.List;
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
 //    List<Item> itemList = new ArrayList<>();
-    List<DisplayObject> itemList = new ArrayList<>();
+    public List<DisplayObject> itemList = new ArrayList<>();
     Context context;
     DecimalFormat df = new DecimalFormat("#.00");
 
