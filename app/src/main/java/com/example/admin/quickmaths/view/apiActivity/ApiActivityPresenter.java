@@ -12,10 +12,18 @@ import com.example.admin.quickmaths.model.WalmartSearch.WalmartSearch;
 import com.example.admin.quickmaths.model.bestBuy.BestBuy;
 import com.example.admin.quickmaths.model.bestBuy.Product;
 import com.example.admin.quickmaths.model.display.DisplayObject;
+import com.example.admin.quickmaths.utils.SignedRequestsHelper;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -46,8 +54,9 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
     public void makeCall(int pageCallUpdate, String upc) {
         Log.d(TAG, "makeCall: upc:" + upc);
         callWalmart(pageCallUpdate, upc);
-        callBestBuy( upc );
+        callBestBuy(upc);
         callUpcDB(upc);
+        callAmazon(upc);
     }
 
     private void callWalmart(int pageCallUpdate, String upc) {
@@ -106,7 +115,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                 });
     }
 
-    private void callBestBuy( String upc ) {
+    private void callBestBuy(String upc) {
         // https://bestbuyapis.github.io/api-documentation/#products-api
         Map<String, String> bestBuyQuery = new ArrayMap<>();
         bestBuyQuery.put("format", "json");
@@ -215,4 +224,60 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                 });
     }
 
+    private void callAmazon(final String upc) {
+
+        final Thread t = new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                final String AWS_ACCESS_KEY_ID = "AKIAJS3W7HDOJLZ7XYTQ";
+                final String AWS_SECRET_KEY = "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";
+                final String ENDPOINT = "ecs.amazonaws.com";
+                final String ITEM_ID = upc;
+
+                SignedRequestsHelper helper;
+                try {
+                    helper = SignedRequestsHelper.getInstance(ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_KEY);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Service", "AWSECommerceService");
+                params.put("Version", "2009-03-31");
+                params.put("Operation", "ItemLookup");
+                params.put("ItemId", ITEM_ID);
+                params.put("ResponseGroup", "Medium");
+                params.put("AssociateTag", "myers831-20");
+                params.put("IdType", "UPC");
+                params.put("SearchIndex", "All");
+
+                String requestUrl = helper.sign(params);
+
+                try {
+                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+                    Document doc = db.parse(requestUrl);
+
+                    Node lItem2 = doc.getElementsByTagName("FormattedPrice").item(0);
+                    Node titleNode = doc.getElementsByTagName("Title").item(0);
+
+                    DisplayObject amazon = new DisplayObject(titleNode.getTextContent(),
+                            Double.parseDouble(lItem2.getTextContent().substring(1)),
+                            0,
+                            R.drawable.walmart);
+
+                    itemList.add(amazon);
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        t.start();
+
+        view.initRecyclerView(itemList);
+    }
 }
