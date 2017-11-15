@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GooglePlacesRemoteServiceHelper {
 
-    public static final String PLACES_API_KEY = "AIzaSyApgfTuDisvIJCmQYgZTH0_tnhoWbCTi2Y";
+    public static final String PLACES_API_KEY = "AIzaSyCWIiUADHL68okOfePQib_N7SBdNhH4ldo";
     public static final String DIRECTIONS_API_KEY = "AIzaSyDXG9C6R8tZAtYM6UWsrKIXnaiwNNsBxYk";
     private static final String BASE_URL = "https://maps.googleapis.com/";
 
@@ -51,4 +51,3 @@ public class GooglePlacesRemoteServiceHelper {
     }
 
 }
-

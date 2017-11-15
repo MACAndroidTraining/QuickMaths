@@ -50,6 +50,7 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
     compile 'com.google.android.gms:play-services-location:11.6.0'
     compile 'com.google.android.gms:play-services-maps:11.6.0'
+    compile 'com.google.maps.android:android-maps-utils:0.5+'
 
 
 }

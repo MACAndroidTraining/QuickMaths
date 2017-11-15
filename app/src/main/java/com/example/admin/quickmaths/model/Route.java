@@ -1,11 +1,12 @@
 
 package com.example.admin.quickmaths.model;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Route {
+public class Route implements Serializable {
 
     @SerializedName("summary")
     @Expose
@@ -13,6 +14,13 @@ public class Route {
     @SerializedName("legs")
     @Expose
     private List<Leg> legs = null;
+    @SerializedName("overview_polyline")
+    @Expose
+    private OverviewPolyline overviewPolyline;
+
+    public OverviewPolyline getOverviewPolyline() { return overviewPolyline; }
+
+    public void setOverviewPolyline(OverviewPolyline overviewPolyline) {this.overviewPolyline = overviewPolyline; }
 
     public String getSummary() {
         return summary;
