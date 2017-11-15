@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.admin.quickmaths.R;
 import com.bumptech.glide.Glide;
+import com.example.admin.quickmaths.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -22,7 +22,6 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.widget.ShareButton;
 
 import java.util.concurrent.Callable;
 
@@ -32,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     Button btnShare;
     Intent shareIntent;
     String shareBody = "This is a great app! You should try it now!";
-    ShareButton shareButton;
 
 
     private static final String TAG = "Facebook Login";
@@ -53,15 +51,11 @@ public class LoginActivity extends AppCompatActivity {
 
         //initializing FB objects
         mFacebookCallbackManager = CallbackManager.Factory.create();
-//        shareDialog = new ShareDialog(this);
         setContentView(R.layout.activity_login);
 
         //image view and text view for login results
         final ImageView imageView = findViewById(R.id.my_image_view);
         final TextView textView = findViewById(R.id.tvWelcome);
-
-//        ShareButton shareButton = findViewById(R.id.facebook_share_button);
-        //need to add content to object content for sharing
 
         //token tracker
         mTokenTracker = new AccessTokenTracker() {
