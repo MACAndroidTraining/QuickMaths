@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.admin.quickmaths.R;
+import com.example.admin.quickmaths.view.placesActivity.PlacesActivity;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -102,14 +103,15 @@ public class LoginActivity extends AppCompatActivity {
                 Glide.with(LoginActivity.this)
                         .load(imageLink)
                         .into(imageView);
-                textView.setText("Welcome " + profile.getFirstName());
+                textView.setText(String.format("%s%s", getString(R.string.greet),
+                        profile.getFirstName()));
 
             }
 
             @Override
             public void onCancel() {
-                handleSignInResult(null);
-            }
+                textView.setText(R.string.login_cancel);
+             }
 
             @Override
             public void onError(FacebookException error) {
