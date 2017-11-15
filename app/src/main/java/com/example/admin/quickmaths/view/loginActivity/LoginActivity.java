@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,10 +22,17 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.widget.ShareButton;
 
 import java.util.concurrent.Callable;
 
 public class LoginActivity extends AppCompatActivity {
+
+    //creating share button, intent, and hardcode text
+    Button btnShare;
+    Intent shareIntent;
+    String shareBody = "This is a great app! You should try it now!";
+    ShareButton shareButton;
 
 
     private static final String TAG = "Facebook Login";
@@ -38,6 +47,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        //btnShare Bind
+        btnShare = findViewById(R.id.btnShare);
 
         //initializing FB objects
         mFacebookCallbackManager = CallbackManager.Factory.create();
@@ -131,5 +143,17 @@ public class LoginActivity extends AppCompatActivity {
             stringBuffer.append("Welcome ").append(profile.getName());
         }
         return stringBuffer.toString();
+    }
+
+    //implicit intent activity on share btn
+    public void btnShare(View view) {
+
+        //TODO: either explicitly open fb with fb btn or remove it
+        shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My App.");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(shareIntent, "Share via "));
+
     }
 }
