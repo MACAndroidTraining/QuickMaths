@@ -51,6 +51,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.6.0'
     compile 'com.google.android.gms:play-services-maps:11.6.0'
     compile 'com.google.maps.android:android-maps-utils:0.5+'
-
+    compile 'javax.validation:validation-api:1.0.0.GA'
+    // http://search.maven.org/#artifactdetails%7Cjavax.validation%7Cvalidation-api%7C1.0.0.GA%7Cjar
 
 }

@@ -1,30 +1,18 @@
 package com.example.admin.quickmaths.view.apiActivity;
 
 import android.os.Bundle;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.admin.quickmaths.R;
-import com.example.admin.quickmaths.data.RetrofitHelper;
-import com.example.admin.quickmaths.model.Search.Item;
-import com.example.admin.quickmaths.model.Search.Search;
 import com.example.admin.quickmaths.model.display.DisplayObject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class ApiActivity extends AppCompatActivity implements ApiActivityContract.View {
 

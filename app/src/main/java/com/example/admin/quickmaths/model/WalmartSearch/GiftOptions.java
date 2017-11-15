@@ -1,5 +1,5 @@
 
-package com.example.admin.quickmaths.model.Search;
+package com.example.admin.quickmaths.model.WalmartSearch;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
