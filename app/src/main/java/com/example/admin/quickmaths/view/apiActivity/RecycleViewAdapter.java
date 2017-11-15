@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.admin.quickmaths.MapsActivity;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.model.display.DisplayObject;
+import com.example.admin.quickmaths.view.placesActivity.PlacesActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -121,7 +122,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 @Override
                 public void onClick(View view) {
                     Log.d(TAG, "onClick: clicked");
-                    Intent intent = new Intent(context, MapsActivity.class);
+                    Intent intent = new Intent(context, PlacesActivity.class);
                     intent.putExtra("store", d.getStore());
                     context.startActivity(intent);
                 }
