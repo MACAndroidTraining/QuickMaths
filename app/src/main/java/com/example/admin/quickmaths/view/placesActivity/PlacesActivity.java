@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.admin.quickmaths.R;
-import com.example.admin.quickmaths.view.loginActivity.LoginActivity;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -26,6 +25,8 @@ import com.facebook.login.widget.LoginButton;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.LikeView;
 import com.facebook.share.widget.ShareButton;
+
+import java.util.concurrent.Callable;
 
 public class PlacesActivity extends AppCompatActivity {
 
@@ -100,7 +101,7 @@ public class PlacesActivity extends AppCompatActivity {
                 //Welcoming user via text view---removed if statement for now
                 // TODO:find why it returns null as if statement
 
-                Glide.with(LoginActivity.this)
+                Glide.with(PlacesActivity.this)
                         .load(imageLink)
                         .into(imageView);
                 textView.setText(String.format("%s%s", getString(R.string.greet),
@@ -115,7 +116,7 @@ public class PlacesActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(LoginActivity.class.getCanonicalName(), error.getMessage());
+                Log.d(PlacesActivity.class.getCanonicalName(), error.getMessage());
                 handleSignInResult(null);
             }
         };
@@ -152,5 +153,26 @@ public class PlacesActivity extends AppCompatActivity {
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My App.");
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(shareIntent, "Share via "));
+    }
+
+    //returning result from activity
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleSignInResult(Callable<Void> callable) {
+
+        Log.d(TAG, "handleSignInResult: Signed in");
+    }
+
+    //implicit intent activity on share btn
+    private String displayWelcomeMessage(Profile profile) {
+        StringBuilder stringBuffer = new StringBuilder();
+        if (profile != null) {
+            stringBuffer.append("Welcome ").append(profile.getName());
+        }
+        return stringBuffer.toString();
     }
 }
