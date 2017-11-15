@@ -22,6 +22,8 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 
 import java.util.concurrent.Callable;
 
@@ -31,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnShare;
     Intent shareIntent;
     String shareBody = "This is a great app! You should try it now!";
-
+    ShareButton shareButton;
 
     private static final String TAG = "Facebook Login";
 
@@ -117,6 +119,21 @@ public class LoginActivity extends AppCompatActivity {
 
         //registering callback on login
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager, mCallBack);
+
+        //TODO: either explicitly open fb with fb btn or remove it: done
+        //Share Dialog
+        //You cannot preset the shared link in design time, if you do so, the fb share button will
+        //look disabled. You need to set in the code as below
+        shareButton = findViewById(R.id.facebook_share_button);
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentTitle("Hello Guys")
+                .setContentDescription(
+                        "Coder who learned and share")
+                .setContentUrl(Uri.parse("http://instinctcoder.com"))
+                .setImageUrl(Uri.parse("https://scontent-sin1-1.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/12936641_845624472216348_1810921572759298872_n.jpg?oh=72421b8fa60d05e68c6fedbb824adfbf&oe=577949AA"))
+
+                .build();
+        shareButton.setShareContent(content);
     }
 
     //returning result from activity
