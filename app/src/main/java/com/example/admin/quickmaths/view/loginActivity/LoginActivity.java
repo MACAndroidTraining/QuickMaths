@@ -23,6 +23,7 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.LikeView;
 import com.facebook.share.widget.ShareButton;
 
 import java.util.concurrent.Callable;
@@ -134,6 +135,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 .build();
         shareButton.setShareContent(content);
+
+        //Like view object todo: deprecation noted down
+        LikeView likeView = findViewById(R.id.like_view);
+        likeView.setObjectIdAndType(
+                "https://www.facebook.com/FacebookDevelopers",
+                LikeView.ObjectType.PAGE);
     }
 
     //returning result from activity
