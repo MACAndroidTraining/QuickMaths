@@ -2,6 +2,7 @@ package com.example.admin.quickmaths.data;
 
 import android.util.Log;
 
+import com.example.admin.quickmaths.model.UPCItemDB.SearchResult;
 import com.example.admin.quickmaths.model.WalmartSearch.WalmartSearch;
 import com.example.admin.quickmaths.model.bestBuy.BestBuy;
 
@@ -26,6 +27,7 @@ public class RetrofitHelper {
 
     public static final String BASE_URL_WALMART = "http://api.walmartlabs.com";
     public static final String BASE_URL_BEST_BUY = "https://api.bestbuy.com";
+    public static final String BASE_URL_UPCDB = "https://api.upcitemdb.com/prod/trial/";
 
     static public Retrofit create(String url){
 
@@ -53,6 +55,13 @@ public class RetrofitHelper {
         return service.bestBuyResponseService(upc, query);
     }
 
+    static public Observable<SearchResult> callUpcDB(Map<String, String> query){
+        Retrofit retrofit = create(BASE_URL_UPCDB);
+        RequestService service = retrofit.create(RequestService.class);
+        Log.d(TAG, "callUpcDB: " + query);
+        return service.upcDBService(query);
+    }
+
     public interface RequestService {
         @GET("/v1/search")
         Observable<WalmartSearch> walmartResponseService(@QueryMap Map<String, String> query);
@@ -63,6 +72,10 @@ public class RetrofitHelper {
         // https://api.bestbuy.com/v1/products(upc=014633733877)?format=json&show=all&apiKey=FI0jE6GWPKhI4DNGRQmOuoiz
         // show= lets you control what is returned.
         // 'https://api.bestbuy.com/v1/products(categoryPath.name="All%20Flat-Panel%20TVs")?format=json&show=sku,name,salePrice&sort=salesRankMediumTerm.asc&apiKey=FI0jE6GWPKhI4DNGRQmOuoiz
+
+        @GET("lookup")
+        Observable<SearchResult> upcDBService(@QueryMap Map<String, String> query);
+//        https://api.upcitemdb.com/prod/trial/lookup?upc=052000320169
     }
 }
 

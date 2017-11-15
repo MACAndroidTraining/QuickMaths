@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.data.RetrofitHelper;
+import com.example.admin.quickmaths.model.UPCItemDB.Offer;
+import com.example.admin.quickmaths.model.UPCItemDB.SearchResult;
 import com.example.admin.quickmaths.model.WalmartSearch.Item;
 import com.example.admin.quickmaths.model.WalmartSearch.WalmartSearch;
 import com.example.admin.quickmaths.model.bestBuy.BestBuy;
@@ -45,6 +47,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
         Log.d(TAG, "makeCall: upc:" + upc);
         callWalmart(pageCallUpdate, upc);
         callBestBuy( upc );
+        callUpcDB(upc);
     }
 
     private void callWalmart(int pageCallUpdate, String upc) {
@@ -158,4 +161,58 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
         // https://bestbuyapis.github.io/api-documentation/#stores-api
         // could be used for distance to nearest store.
     }
+
+    private void callUpcDB(String upc) {
+        Map<String, String> query = new ArrayMap<>();
+        query.put("upc", upc);
+
+        RetrofitHelper.callUpcDB(query)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<SearchResult>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        Log.d(TAG, "UPC DB onSubscribe: " + d.toString());
+                    }
+
+                    @Override
+                    public void onNext(@NonNull SearchResult search) {
+
+                        Log.d(TAG, "UPC DB onNext: Found " + search.getTotal());
+
+                        if (search.getTotal() > 0) {
+                            for (Offer i : search.getItems().get(0).getOffers()) {
+//                            itemList.add(i);
+                                Log.d(TAG, "UPC DB onNext: Item name: " + i.getTitle());
+                                Log.d(TAG, "UPC DB onNext: Item sale price:" + i.getPrice());
+//                                Log.d(TAG, "UPC DB onNext: Item msrp:" + i.getMsrp());
+                                DisplayObject upcItem = new DisplayObject(
+//                                    "Walmart Super Center",
+                                        i.getTitle(),
+                                        i.getPrice(),
+                                        34.00,
+                                        R.drawable.walmart
+                                );
+
+                                itemList.add(upcItem);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.d(TAG, "UPC DB onError: " + e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+//                        recycleViewAdapter.notifyDataSetChanged();
+                        view.initRecyclerView(itemList);
+
+                        Log.d(TAG, "UPC DB onComplete: ");
+                        Log.d(TAG, " ");
+                    }
+                });
+    }
+
 }
