@@ -47,7 +47,8 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".StreetViewActivity"></activity>
+        <activity android:name=".StreetViewActivity" />
+        <activity android:name=".view.placesActivity.PlacesActivity"></activity>
     </application>
 
 </manifest>
