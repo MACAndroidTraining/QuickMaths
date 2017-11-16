@@ -123,7 +123,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 public void onClick(View view) {
                     Log.d(TAG, "onClick: clicked");
                     Intent intent = new Intent(context, PlacesActivity.class);
-                    intent.putExtra("store", d.getStore());
+                    intent.putExtra("deal", d);
                     context.startActivity(intent);
                 }
             });
