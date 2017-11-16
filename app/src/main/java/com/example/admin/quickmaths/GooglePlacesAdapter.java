@@ -15,41 +15,34 @@ import com.example.admin.quickmaths.model.google.Location;
 import com.example.admin.quickmaths.model.google.Photo;
 import com.example.admin.quickmaths.model.google.Result;
 import com.example.admin.quickmaths.model.google.Step;
-import com.example.admin.quickmaths.presenter.GooglePlacesPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Jason on 11/4/2017.
- */
 
 public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapter.ViewHolder>{
 
-    List<Result> resultList;
-    Context context;
-    GooglePlacesPresenter presenter;
-    List<Step> stepList;
+    private List<Result> resultList;
+    private Context context;
+    private List<Step> stepList;
+    private List<String> wayPoints = new ArrayList<>();
 
 
-    public GooglePlacesAdapter(List<Result> resultList, GooglePlacesPresenter presenter) {
-        this.resultList = resultList;
-        this.presenter = presenter;
-        stepList = null;
-    }
+    // TODO: 11/16/2017 Create a seperate adapter
+    public GooglePlacesAdapter(List<Result> resultList) { this.resultList = resultList; }
 
-    //Added a random parameter to the constructor so that i can overload it.
-    public GooglePlacesAdapter(List<Step> stepList, GooglePlacesPresenter presenter, Object anything) {
+    //Added a random parameter to the constructor so that i can overload the adapter.
+    public GooglePlacesAdapter(List<Step> stepList, Object anything) {
         this.stepList = stepList;
-        this.presenter = presenter;
-        resultList = null;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         context = parent.getContext();
         ListItemBinding listBinding;
         StepItemBinding stepItemBinding;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
+
         if(resultList != null) {
             listBinding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, parent, false);
             return new ViewHolder(listBinding);
@@ -68,8 +61,6 @@ public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapte
             List<Photo> photoList = result.getPhotos();
             if (photoList != null) {
                 Photo photo = photoList.get(0);
-
-                //I tried use the api to no avail. Finally gave up and did this instead
                 String restaurantpic = "https://maps.googleapis.com/maps/api/place/photo?" +
                         "maxheight=" + photo.getHeight() +
                         "&photoreference=" + photo.getPhotoReference() +
@@ -83,9 +74,10 @@ public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapte
                 holder.mListBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         Location destinationLocation = result.getGeometry().getLocation();
                         String destinationCoordintes = destinationLocation.getLat() + "," + destinationLocation.getLng();
-                        presenter.getDirections(destinationCoordintes);
+                        wayPoints.add(destinationCoordintes);
                     }
                 });
 
@@ -120,5 +112,8 @@ public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapte
         }
     }
 
+    public List<String> getWayPoints() {
+        return wayPoints;
+    }
 
 }
