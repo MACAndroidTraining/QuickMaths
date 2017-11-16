@@ -8,12 +8,16 @@ import android.os.Parcelable;
  */
 
 public class DisplayObject implements Parcelable{
-    String store, logoURL, product;
+    String store;
+    String logoURL;
+    String product;
+    String productDescription;
     double price, distance;
     boolean onLine;
 
-    public DisplayObject(String product, String store, String logoURL, double price, double distance, boolean onLine) {
+    public DisplayObject(String product,String productDescription, String store, String logoURL, double price, double distance, boolean onLine) {
         this.product = product;
+        this.productDescription = productDescription;
         this.store = store;
         this.logoURL = logoURL;
         this.price = price;
@@ -25,6 +29,7 @@ public class DisplayObject implements Parcelable{
         store = in.readString();
         logoURL = in.readString();
         product = in.readString();
+        productDescription = in.readString();
         price = in.readDouble();
         distance = in.readDouble();
         onLine = in.readByte() != 0;
@@ -44,6 +49,10 @@ public class DisplayObject implements Parcelable{
 
     public String getStore() {
         return store;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
     }
 
     public String getLogoURL() {
@@ -70,6 +79,10 @@ public class DisplayObject implements Parcelable{
         this.store = store;
     }
 
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
     public void setLogoURL(String logoURL) {
         this.logoURL = logoURL;
     }
@@ -92,6 +105,7 @@ public class DisplayObject implements Parcelable{
         parcel.writeString(store);
         parcel.writeString(logoURL);
         parcel.writeString(product);
+        parcel.writeString(productDescription);
         parcel.writeDouble(price);
         parcel.writeDouble(distance);
         parcel.writeByte((byte) (onLine ? 1 : 0));
