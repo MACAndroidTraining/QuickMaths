@@ -90,6 +90,8 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                         "Wal-Mart",
                                         i.getName(),
                                         i.getShortDescription(),
+                                        i.getProductUrl(),
+                                        i.getLargeImage(),
                                         i.getSalePrice(),
                                         false
                                 );
@@ -149,6 +151,8 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                         "Best Buy",
                                         p.getName(),
                                         p.getLongDescription(),
+                                        p.getUrl(),
+                                        p.getImage(),
                                         p.getSalePrice(),
                                         false
                                 );
@@ -219,6 +223,8 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                         i.getMerchant(),
                                         i.getTitle(),
                                         search.getItems().get(0).getDescription(),
+                                        i.getLink(),
+                                        search.getItems().get(0).getImages().get(0),
                                         i.getPrice(),
                                         onLine
                                 );
@@ -297,7 +303,9 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                         DisplayObject amazon = new DisplayObject(
                                 "Amazon",
                                 titleNode.getTextContent(),
-                                "",
+                                descriptionNode.getTextContent(),
+                                linkNode.getTextContent(),
+                                image.getTextContent(),
                                 Double.parseDouble(priceNode.getTextContent().substring(1)),
                                 true
                         );

@@ -12,13 +12,14 @@ public class DisplayObject implements Parcelable{
     double price;
     boolean onLine;
 
-    public DisplayObject(String store, String product, String description, String link, double price, boolean onLine) {
+    public DisplayObject(String store, String product, String description, String link, String imageUrl, double price, boolean onLine) {
         this.store = store;
         this.product = product;
         this.description = description;
         this.price = price;
         this.onLine = onLine;
         this.link = link;
+        this.imageUrl = imageUrl;
     }
 
     protected DisplayObject(Parcel in) {
