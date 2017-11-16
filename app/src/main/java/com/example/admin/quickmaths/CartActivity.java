@@ -44,7 +44,7 @@ public class CartActivity extends Fragment {
         cartList = new ArrayList<>();
         prepareCart();
 
-        mAdapter = new CartListAdapter(getActivity(), cartList);
+        mAdapter = new CartListAdapter(getActivity(), cartList, getActivity());
 
         RecyclerView recyclerView = myView.findViewById(R.id.rvCart);
         recyclerView.setAdapter(mAdapter);
