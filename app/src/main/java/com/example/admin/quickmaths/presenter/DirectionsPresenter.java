@@ -55,7 +55,7 @@ public class DirectionsPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
-    public void getNearbyResults(String coordinates, GoogleMap googleMap) {
+    public void getNearbyResults(String coordinates, GoogleMap googleMap, String anything) {
         currentLocation = coordinates;
         map = googleMap;
 

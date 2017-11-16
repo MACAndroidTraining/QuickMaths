@@ -57,11 +57,12 @@ public class GooglePlacesActivity extends AppCompatActivity implements MainActiv
         DaggerPresenterComponent.builder()
                 .linearLayoutManagerModule(new LinearLayoutManagerModule(this))
                 .build().inject(this);
-
+        String storeName = getIntent().getStringExtra("storeName");
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         transaction.add(R.id.flFragment, fragment, "fragment").commit();
         presenter.attachView(this);
+        fragment.setStoreName(storeName);
         fragment.setPresenter(presenter);
 
 

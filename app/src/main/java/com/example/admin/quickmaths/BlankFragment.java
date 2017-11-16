@@ -38,6 +38,7 @@ public class BlankFragment extends Fragment implements OnMapReadyCallback, Googl
     GoogleMap googleMap;
     MainActivityContract.Presenter presenter;
     List<String> wayPoints;
+    String storeName;
 
 
     public BlankFragment() {
@@ -94,7 +95,7 @@ public class BlankFragment extends Fragment implements OnMapReadyCallback, Googl
                     mGoogleApiClient);
             if (mLastLocation != null) {
                 String location = mLastLocation.getLatitude() + "," + mLastLocation.getLongitude();
-                presenter.getNearbyResults(location, googleMap);
+                presenter.getNearbyResults(location, googleMap, storeName);
 
                 if(presenter instanceof DirectionsPresenter) {
 
@@ -111,15 +112,16 @@ public class BlankFragment extends Fragment implements OnMapReadyCallback, Googl
 
     }
 
-    public void setPresenter(MainActivityContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
+    public void setPresenter(MainActivityContract.Presenter presenter) {this.presenter = presenter; }
 
 
 
     public void setWayPoints(List<String> wayPoints) {
         this.wayPoints = wayPoints;
     }
+
+
+    public void setStoreName(String storeName) {this.storeName = storeName; }
 
     @Override
     public void onConnectionSuspended(int i) {
