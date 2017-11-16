@@ -1,7 +1,10 @@
 package com.example.admin.quickmaths.view.apiActivity;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.admin.quickmaths.DetailActivity;
 import com.example.admin.quickmaths.MapsActivity;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.model.display.DisplayObject;
@@ -27,11 +31,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private Context context;
     private DecimalFormat df = new DecimalFormat("#.00");
     private RecyclerViewItemClickListener listener;
+    private Activity activity;
 
-    public RecycleViewAdapter(Context context, List<DisplayObject> itemList) {
+    public RecycleViewAdapter(Context context, List<DisplayObject> itemList, Activity activity) {
         this.context = context;
         this.itemList = itemList;
 //        this.listener = (RecyclerViewItemClickListener) context;
+        this.activity = activity;
     }
 
     @Override
@@ -121,10 +127,20 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d(TAG, "onClick: clicked");
-                    Intent intent = new Intent(context, PlacesActivity.class);
-                    intent.putExtra("deal", d);
-                    context.startActivity(intent);
+//                    Log.d(TAG, "onClick: clicked");
+//                    Intent intent = new Intent(context, PlacesActivity.class);
+//                    intent.putExtra("deal", d);
+//                    context.startActivity(intent);
+                    FragmentManager fragmentManager = activity.getFragmentManager();
+
+                    Bundle args = new Bundle();
+//                    args.putString("query",rawResult.getText());
+                    args.putParcelable("displayObject", d);
+                    DetailActivity frag = new DetailActivity();
+                    frag.setArguments(args);
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, frag)
+                            .commit();
                 }
             });
 

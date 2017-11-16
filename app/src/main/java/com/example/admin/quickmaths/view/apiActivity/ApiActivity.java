@@ -72,7 +72,7 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
     public void initRecyclerView(List<DisplayObject> itemList) {
         newItemList = itemList;
         layoutManager = new LinearLayoutManager(getActivity());
-        recycleViewAdapter = new RecycleViewAdapter(getActivity(), newItemList);
+        recycleViewAdapter = new RecycleViewAdapter(getActivity(), newItemList, getActivity());
         rvItems.setLayoutManager(layoutManager);
         rvItems.setAdapter(recycleViewAdapter);
 
