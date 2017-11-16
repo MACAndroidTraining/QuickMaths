@@ -30,7 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.loginActivity.LoginActivity" />
         <activity android:name=".view.apiActivity.ApiActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
