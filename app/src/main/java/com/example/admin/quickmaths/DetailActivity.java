@@ -36,7 +36,7 @@ public class DetailActivity extends Fragment {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_detail);
 
-        DisplayObject d = getArguments().getParcelable("displayObject");
+        final DisplayObject d = getArguments().getParcelable("displayObject");
 
         if(d.getStore() != null)
             storeName = d.getStore();
@@ -52,7 +52,13 @@ public class DetailActivity extends Fragment {
         btnDetailAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Added to cart", Toast.LENGTH_SHORT).show();
+                DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
+                long isSaved = databaseHelper.saveOffer(d);
+                if(isSaved == -1){
+                    Toast.makeText(getActivity(), "Duplicate Offer", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Added to cart", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

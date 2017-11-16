@@ -162,4 +162,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     interface RecyclerViewItemClickListener {
         void onItemClicked(DisplayObject displayObject);
     }
+
+    public Activity getactivity(){
+        return this.activity;
+    }
 }
