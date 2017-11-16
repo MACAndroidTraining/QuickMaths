@@ -105,11 +105,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean deleteOffer(String name)
+    public boolean deleteOffer(String name, String store)
     {
         SQLiteDatabase database = this.getWritableDatabase();
 //        database.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT + "= '" + name + "'");
-        return database.delete(TABLE_NAME, COLUMN_PRODUCT + "= '" + name + "'", null) > 0;
+        return database.delete(TABLE_NAME, COLUMN_PRODUCT + "= '" + name + "' AND " + COLUMN_STORE + "= '" + store + "'", null) > 0;
     }
 
 }

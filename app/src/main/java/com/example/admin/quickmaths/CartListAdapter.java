@@ -22,7 +22,7 @@ public class CartListAdapter extends RecycleViewAdapter implements ItemTouchHelp
     @Override
     public void onItemDismiss(int position) {
         DatabaseHelper databaseHelper = new DatabaseHelper(getactivity());
-        databaseHelper.deleteOffer(itemList.get(position).getProduct());
+        databaseHelper.deleteOffer(itemList.get(position).getProduct(),itemList.get(position).getStore());
         itemList.remove(position);
         notifyItemRemoved(position);
     }
