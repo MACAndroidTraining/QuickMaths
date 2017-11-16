@@ -6,12 +6,12 @@ import android.graphics.Color;
 
 import com.example.admin.quickmaths.GooglePlacesRemoteServiceHelper;
 import com.example.admin.quickmaths.StreetViewActivity;
-import com.example.admin.quickmaths.model.DirectionsResponse;
-import com.example.admin.quickmaths.model.EndLocation;
-import com.example.admin.quickmaths.model.Leg;
-import com.example.admin.quickmaths.model.OverviewPolyline;
-import com.example.admin.quickmaths.model.Route;
-import com.example.admin.quickmaths.model.Step;
+import com.example.admin.quickmaths.model.google.DirectionsResponse;
+import com.example.admin.quickmaths.model.google.EndLocation;
+import com.example.admin.quickmaths.model.google.Leg;
+import com.example.admin.quickmaths.model.google.OverviewPolyline;
+import com.example.admin.quickmaths.model.google.Route;
+import com.example.admin.quickmaths.model.google.Step;
 import com.example.admin.quickmaths.utils.MainActivityContract;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

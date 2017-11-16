@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.admin.quickmaths.R;
@@ -14,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ApiActivity extends AppCompatActivity implements ApiActivityContract.View {
+public class ApiActivity extends AppCompatActivity implements ApiActivityContract.View{
 
     private static final String TAG = "ApiActivity";
 
@@ -46,7 +47,7 @@ public class ApiActivity extends AppCompatActivity implements ApiActivityContrac
 
     public void initRecyclerView(List<DisplayObject> itemList) {
         layoutManager = new LinearLayoutManager(this);
-        recycleViewAdapter = new RecycleViewAdapter(itemList);
+        recycleViewAdapter = new RecycleViewAdapter(this, itemList);
         rvItems.setLayoutManager(layoutManager);
         rvItems.setAdapter(recycleViewAdapter);
     }
@@ -60,4 +61,9 @@ public class ApiActivity extends AppCompatActivity implements ApiActivityContrac
     public void showError(String error) {
 
     }
+
+//    @Override
+//    public void onItemClicked(DisplayObject displayObject) {
+//        Log.d(TAG, "onItemClicked: ");
+//    }
 }

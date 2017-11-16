@@ -1,5 +1,7 @@
 package com.example.admin.quickmaths;
 
+import android.content.Context;
+
 import com.example.admin.quickmaths.model.display.DisplayObject;
 import com.example.admin.quickmaths.view.apiActivity.RecycleViewAdapter;
 
@@ -12,8 +14,8 @@ import java.util.List;
 public class CartListAdapter extends RecycleViewAdapter implements ItemTouchHelperAdapter {
 
 
-    public CartListAdapter(List<DisplayObject> itemList) {
-        super(itemList);
+    public CartListAdapter(Context context, List<DisplayObject> itemList) {
+        super(context, itemList);
     }
 
     @Override

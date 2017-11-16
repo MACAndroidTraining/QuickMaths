@@ -44,7 +44,7 @@ public class CartActivity extends Fragment {
         cartList = new ArrayList<>();
         prepareCart();
 
-        mAdapter = new CartListAdapter(cartList);
+        mAdapter = new CartListAdapter(getActivity(), cartList);
 
         RecyclerView recyclerView = myView.findViewById(R.id.rvCart);
         recyclerView.setAdapter(mAdapter);
@@ -61,11 +61,12 @@ public class CartActivity extends Fragment {
 
     private void prepareCart() {
 
-        DisplayObject item1 = new DisplayObject("Walmart", 1.50, 34.00, R.drawable.walmart);
-        DisplayObject item2 = new DisplayObject("Best Buy", 1.30, 34.00, R.drawable.walmart);
-        DisplayObject item3 = new DisplayObject("Target", 1.10, 34.00, R.drawable.walmart);
-        DisplayObject item4 = new DisplayObject("Big Lots", 1.40, 34.00, R.drawable.walmart);
-        DisplayObject item5 = new DisplayObject("Kmart", 1.20, 34.00, R.drawable.walmart);
+        DisplayObject item1 = new DisplayObject("product","Walmart", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.50, 34.00, false);
+        DisplayObject item2 = new DisplayObject("product","Best Buy", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.30, 34.00, false);
+        DisplayObject item3 = new DisplayObject("product","Target", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.10, 34.00, false);
+        DisplayObject item4 = new DisplayObject("product","Big Lots", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.40, 34.00, false);
+        DisplayObject item5 = new DisplayObject("product","Kmart", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.20, 34.00, false);
+
 
         cartList.add(item1);
         cartList.add(item2);

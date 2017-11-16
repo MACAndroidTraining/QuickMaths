@@ -7,22 +7,17 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.admin.quickmaths.databinding.ListItemBinding;
 import com.example.admin.quickmaths.databinding.StepItemBinding;
-import com.example.admin.quickmaths.model.Location;
-import com.example.admin.quickmaths.model.Photo;
-import com.example.admin.quickmaths.model.Result;
-import com.example.admin.quickmaths.model.Step;
+import com.example.admin.quickmaths.model.google.Location;
+import com.example.admin.quickmaths.model.google.Photo;
+import com.example.admin.quickmaths.model.google.Result;
+import com.example.admin.quickmaths.model.google.Step;
 import com.example.admin.quickmaths.presenter.GooglePlacesPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Jason on 11/4/2017.

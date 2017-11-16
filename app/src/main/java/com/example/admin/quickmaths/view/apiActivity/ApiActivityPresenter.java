@@ -87,11 +87,12 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                 Log.d(TAG, "Walmart onNext: Item sale price:" + i.getSalePrice());
                                 Log.d(TAG, "Walmart onNext: Item msrp:" + i.getMsrp());
                                 DisplayObject walmart = new DisplayObject(
-//                                    "Walmart Super Center",
                                         i.getName(),
+                                        "walmart",
+                                        "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg",
                                         i.getSalePrice(),
                                         34.00,
-                                        R.drawable.walmart
+                                        false
                                 );
 
                                 itemList.add(walmart);
@@ -145,9 +146,11 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                                 DisplayObject bb = new DisplayObject(
                                         p.getName(),
+                                        "best buy",
+                                        "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg",
                                         p.getSalePrice(),
                                         34.00,
-                                        R.drawable.bestbuy
+                                        false
                                 );
 
                                 itemList.add(bb);
@@ -187,20 +190,35 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     @Override
                     public void onNext(@NonNull SearchResult search) {
 
-                        Log.d(TAG, "UPC DB onNext: Found " + search.getTotal());
+                        Log.d(TAG, "UPC DB onNext: Found " + search.getItems().get(0).getOffers().size());
 
                         if (search.getTotal() > 0) {
                             for (Offer i : search.getItems().get(0).getOffers()) {
-//                            itemList.add(i);
+
+                                if( i.getMerchant().equals("") )
+                                    break;
+
+                                Log.d(TAG, "UPC DB onNext: Merchant name: " + i.getMerchant());
+                                Log.d(TAG, "UPC DB onNext: Domain name: " + i.getDomain());
                                 Log.d(TAG, "UPC DB onNext: Item name: " + i.getTitle());
                                 Log.d(TAG, "UPC DB onNext: Item sale price:" + i.getPrice());
-//                                Log.d(TAG, "UPC DB onNext: Item msrp:" + i.getMsrp());
+                                Log.d(TAG, "UPC DB onNext: ");
+
+                                boolean onLine = (i.getMerchant().contains(".com"));
+
+                                if( i.getMerchant().equals("Wal-Mart.com") )
+                                    onLine = false;
+                                else if( i.getMerchant().equals("GameFly") ||
+                                        i.getMerchant().equals("TigerDirect") )
+                                    onLine = true;
+
                                 DisplayObject upcItem = new DisplayObject(
-//                                    "Walmart Super Center",
                                         i.getTitle(),
+                                        i.getMerchant(),
+                                        null,
                                         i.getPrice(),
                                         34.00,
-                                        R.drawable.walmart
+                                        onLine
                                 );
 
                                 itemList.add(upcItem);
@@ -263,12 +281,18 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     Node lItem2 = doc.getElementsByTagName("FormattedPrice").item(0);
                     Node titleNode = doc.getElementsByTagName("Title").item(0);
 
-                    DisplayObject amazon = new DisplayObject(titleNode.getTextContent(),
-                            Double.parseDouble(lItem2.getTextContent().substring(1)),
-                            0,
-                            R.drawable.walmart);
+                    if( titleNode != null ) {
+                        DisplayObject amazon = new DisplayObject(
+                                titleNode.getTextContent(),
+                                "amazon",
+                                "http://freelogo2016cdn.b-cdn.net/wp-content/uploads/2016/12/amazon_logo.png",
+                                Double.parseDouble(lItem2.getTextContent().substring(1)),
+                                0,
+                                true
+                        );
 
-                    itemList.add(amazon);
+                        itemList.add(amazon);
+                    }
 
                 } catch (Exception e) {
                     throw new RuntimeException(e);

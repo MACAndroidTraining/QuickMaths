@@ -1,7 +1,7 @@
 package com.example.admin.quickmaths.utils;
 
-import com.example.admin.quickmaths.model.Result;
-import com.example.admin.quickmaths.model.Step;
+import com.example.admin.quickmaths.model.google.Result;
+import com.example.admin.quickmaths.model.google.Step;
 import com.google.android.gms.maps.GoogleMap;
 
 import java.util.List;
