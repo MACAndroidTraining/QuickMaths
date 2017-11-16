@@ -47,7 +47,7 @@ public class ApiActivity extends AppCompatActivity implements ApiActivityContrac
 
     public void initRecyclerView(List<DisplayObject> itemList) {
         layoutManager = new LinearLayoutManager(this);
-        recycleViewAdapter = new RecycleViewAdapter(this, itemList);
+        recycleViewAdapter = new RecycleViewAdapter(itemList);
         rvItems.setLayoutManager(layoutManager);
         rvItems.setAdapter(recycleViewAdapter);
     }
