@@ -53,10 +53,75 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
     public void makeCall(int pageCallUpdate, String upc) {
         Log.d(TAG, "makeCall: upc:" + upc);
+        callAmazon(upc);
         callWalmart(pageCallUpdate, upc);
         callBestBuy(upc);
-//        callUpcDB(upc);
-        callAmazon(upc);
+        callUpcDB(upc);
+    }
+
+    @Override
+    public List<DisplayObject> mergeSort(List<DisplayObject> itemList){
+        Log.d(TAG, "mergeSort: is called, itemList size: "+itemList.size());
+        if(itemList.size() <= 1){
+            return itemList;
+        }
+
+        List<DisplayObject> result = new ArrayList<>();
+        List<DisplayObject> left = new ArrayList<>();
+        List<DisplayObject> right = new ArrayList<>();
+
+        int midpoint = (itemList.size()/2);
+
+        for(int i = 0; i < midpoint; i++){
+            left.add(itemList.get(i));
+        }
+        for(int j = midpoint; j < itemList.size(); j++){
+            right.add(itemList.get(j));
+        }
+
+        left = mergeSort(left);
+        right = mergeSort(right);
+
+        Log.d(TAG, "mergeSort: Left size: "+left.size()+" Right size: "+right.size());
+        result = merge(left, right);
+
+        Log.d(TAG, "mergeSort: result: " +result.size());
+
+        return result;
+    }
+
+    @Override
+    public List<DisplayObject> merge(List<DisplayObject> left, List<DisplayObject> right){
+        List<DisplayObject> result = new ArrayList<>();
+
+
+        while(left.size() != 0 && right.size() != 0){
+            if(left.get(0).getPrice()<=right.get(0).getPrice()){
+                result.add(left.get(0));
+                left.remove(0);
+                Log.d(TAG, "mergeSort: Left size and while: "+left.size() + " mergeSort: Right size and while: "+right.size());
+            }
+            else if(right.get(0).getPrice()<left.get(0).getPrice()){
+                result.add(right.get(0));
+                right.remove(0);
+                Log.d(TAG, "mergeSort: Right size and while: "+right.size() + " mergeSort: Left size and while: "+left.size());
+            }
+        }
+
+        while(!left.isEmpty()){
+            result.add(left.get(0));
+            left.remove(0);
+            Log.d(TAG, "mergeSort: Left size while: "+left.size());
+        }
+
+        while(!right.isEmpty()){
+            result.add(right.get(0));
+            right.remove(0);
+            Log.d(TAG, "mergeSort: Right size while: "+right.size());
+        }
+
+        Log.d(TAG, "merge: result: " +result.size());
+        return result;
     }
 
     private void callWalmart(int pageCallUpdate, String upc) {
@@ -236,6 +301,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     @Override
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
+                        Log.d(TAG, "onComplete: upc before merge");
 //                        view.mergeSort(itemList);
                         view.initRecyclerView(itemList);
 
