@@ -1,5 +1,6 @@
 package com.example.admin.quickmaths.view.mainActivity;
 
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.admin.quickmaths.CartActivity;
 import com.example.admin.quickmaths.R;
+import com.example.admin.quickmaths.ZxingActivity;
 import com.example.admin.quickmaths.view.apiActivity.ApiActivity;
 import com.google.zxing.Result;
 
@@ -32,39 +34,38 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
 
-public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler,
-        NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = "MainActivity";
     // used while getting the permissions from the user to use the camera
     private static final int REQUEST_CAMERA = 1;
-    private MediaPlayer beep;
+//    private MediaPlayer beep;
 
     // the view to scan the code
-    @BindView(R.id.scannerView)
-    ZXingScannerView mScannerView;
-    @BindView(R.id.mySearchView)
-    SearchView mySearchView;
+//    @BindView(R.id.scannerView)
+//    ZXingScannerView mScannerView;
+//    @BindView(R.id.mySearchView)
+//    SearchView mySearchView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.nav_view)
-    NavigationView navView;
-    @BindView(R.id.drawerLayout)
-    DrawerLayout drawerLayout;
+//    @BindView(R.id.nav_view)
+//    NavigationView navView;
+//    @BindView(R.id.drawerLayout)
+//    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
 
-        mScannerView = findViewById(R.id.scannerView);
+//        mScannerView = findViewById(R.id.scannerView);
 
 //        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 //        beep = MediaPlayer.create(this, R.raw.barcode_beep_sound_effect);
-        beep = MediaPlayer.create(this, R.raw.skraaa);
+//        beep = MediaPlayer.create(this, R.raw.skraaa);
 
 //        //go straight to api
 //        String upc = "813516025388"; // refurbished apple ipod nano, 16bg, blue
@@ -164,13 +165,20 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         int currentapiVersion = Build.VERSION.SDK_INT;
         if (currentapiVersion >= Build.VERSION_CODES.M) {
             if (checkPermission()) {
-                if (mScannerView == null) {
-                    // check if the scanner view is null. If so, create a new one.
-                    mScannerView = new ZXingScannerView(this);
-                    setContentView(mScannerView);
-                }
-                mScannerView.setResultHandler(this);
-                mScannerView.startCamera();
+
+                //start fragment
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new ZxingActivity())
+                        .commit();
+
+//                if (mScannerView == null) {
+//                    // check if the scanner view is null. If so, create a new one.
+//                    mScannerView = new ZXingScannerView(this);
+//                    setContentView(mScannerView);
+//                }
+//                mScannerView.setResultHandler(this);
+//                mScannerView.startCamera();
                 Log.d(TAG, "onResume: Camera Started");
             } else {
                 requestPermission();
@@ -178,64 +186,51 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mScannerView.stopCamera();
-    }
-
-    @Override
-    public void handleResult(Result rawResult) {
-        Log.d(TAG, "handleResult: ");
-
-        beep.start();
-
-        final String result = rawResult.getText();
-        Log.d("QRCodeScanner", rawResult.getText());
-        Log.d("QRCodeScanner", rawResult.getBarcodeFormat().toString());
-
-//        showUPCAlert( result );
-        Intent intent = new Intent(this, ApiActivity.class);
-        intent.putExtra("query", rawResult.getText());
-        startActivity(intent);
-    }
-
-    private void showUPCAlert( final String result ) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Scan Result");
-        builder.setTitle("Quick Mafs");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mScannerView.resumeCameraPreview(MainActivity.this);
-            }
-        });
-
-        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
-                startActivity(browserIntent);
-            }
-        });
-
-        builder.setMessage( result );
-        AlertDialog alert1 = builder.create();
-        alert1.show();
-    }
+//    private void showUPCAlert( final String result ) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+////        builder.setTitle("Scan Result");
+//        builder.setTitle("Quick Mafs");
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                mScannerView.resumeCameraPreview(MainActivity.this);
+//            }
+//        });
+//
+//        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
+//                startActivity(browserIntent);
+//            }
+//        });
+//
+//        builder.setMessage( result );
+//        AlertDialog alert1 = builder.create();
+//        alert1.show();
+//    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Intent intent;
+//        Intent intent;
+        FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_camera) {
 
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new ZxingActivity())
+                    .commit();
+
         } else if (id == R.id.nav_favorites) {
 
-            intent = new Intent(this, CartActivity.class);
-            startActivity(intent);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new CartActivity())
+                    .commit();
+
+//            intent = new Intent(this, CartActivity.class);
+//            startActivity(intent);
 
         } else if (id == R.id.nav_settings) {
 

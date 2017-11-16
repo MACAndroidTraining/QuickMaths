@@ -47,8 +47,11 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".StreetViewActivity"></activity>
-        <activity android:name=".CartActivity"></activity>
+        <activity android:name=".StreetViewActivity" />
+        <activity
+            android:name=".CartActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ZxingActivity"></activity>
     </application>
 
 </manifest>
