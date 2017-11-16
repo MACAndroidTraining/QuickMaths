@@ -236,7 +236,6 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     @Override
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
-                        view.notifychange();
 //                        view.mergeSort(itemList);
                         view.initRecyclerView(itemList);
 

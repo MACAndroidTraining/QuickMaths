@@ -16,7 +16,6 @@ public interface ApiActivityContract {
         void initRecyclerView(List<DisplayObject> itemList);
         void showProgress();
         List<DisplayObject> mergeSort(List<DisplayObject> listItem);
-        void notifychange();
     }
 
     interface Presenter extends BasePresenter<View> {
