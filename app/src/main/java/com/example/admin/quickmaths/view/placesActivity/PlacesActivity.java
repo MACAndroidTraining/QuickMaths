@@ -33,7 +33,7 @@ public class PlacesActivity extends AppCompatActivity {
     //creating share button, intent, and hardcode text
     Button btnShare;
     Intent shareIntent;
-    String shareBody = "This is a great app! You should try it now!";
+    String shareBody = "This is a great app for the lowest prices near you!";
     ShareButton shareButton;
 
     private static final String TAG = "Facebook Login";
@@ -125,11 +125,11 @@ public class PlacesActivity extends AppCompatActivity {
         //look disabled. You need to set in the code as below
         shareButton = findViewById(R.id.facebook_share_button);
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentTitle("Hello Guys")
+                .setContentTitle("Cheap, Good Quality Items!")
                 .setContentDescription(
-                        "Coder who learned and share")
+                        "All your low price needs!")
                 .setContentUrl(Uri.parse("http://instinctcoder.com"))
-                .setImageUrl(Uri.parse("https://scontent-sin1-1.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/12936641_845624472216348_1810921572759298872_n.jpg?oh=72421b8fa60d05e68c6fedbb824adfbf&oe=577949AA"))
+                .setImageUrl(Uri.parse("https://www.ssbwiki.com/images/thumb/2/29/Yoshi_SSB4.png/200px-Yoshi_SSB4.png"))
 
                 .build();
         shareButton.setShareContent(content);
