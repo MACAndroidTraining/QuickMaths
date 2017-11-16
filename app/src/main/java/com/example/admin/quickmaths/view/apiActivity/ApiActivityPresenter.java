@@ -55,7 +55,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
         Log.d(TAG, "makeCall: upc:" + upc);
         callWalmart(pageCallUpdate, upc);
         callBestBuy(upc);
-        callUpcDB(upc);
+//        callUpcDB(upc);
         callAmazon(upc);
     }
 

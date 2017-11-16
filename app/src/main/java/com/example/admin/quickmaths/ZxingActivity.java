@@ -1,6 +1,7 @@
 package com.example.admin.quickmaths;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.annotation.Nullable;
@@ -74,9 +75,20 @@ public class ZxingActivity extends Fragment implements ZXingScannerView.ResultHa
         Log.d("QRCodeScanner", rawResult.getBarcodeFormat().toString());
 
 //        showUPCAlert( result );
-        Intent intent = new Intent(getActivity(), ApiActivity.class);
-        intent.putExtra("query", rawResult.getText());
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), ApiActivity.class);
+//        intent.putExtra("query", rawResult.getText());
+//        startActivity(intent);
+
+        FragmentManager fragmentManager = getFragmentManager();
+
+        Bundle args = new Bundle();
+        args.putString("query",rawResult.getText());
+        ApiActivity frag = new ApiActivity();
+        frag.setArguments(args);
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, frag)
+                .commit();
+
     }
 
 //    private void showUPCAlert( final String result ) {
