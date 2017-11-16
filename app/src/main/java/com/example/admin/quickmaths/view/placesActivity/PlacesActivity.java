@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.admin.quickmaths.R;
+import com.example.admin.quickmaths.model.UPCItemDB.Item;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -35,6 +36,9 @@ public class PlacesActivity extends AppCompatActivity {
     Intent shareIntent;
     String shareBody = "This is a great app for the lowest prices near you!";
     ShareButton shareButton;
+
+    //creating Item object from model.UPCItemDB.Item
+    Item item = new Item();
 
     private static final String TAG = "Facebook Login";
 
@@ -125,12 +129,10 @@ public class PlacesActivity extends AppCompatActivity {
         //look disabled. You need to set in the code as below
         shareButton = findViewById(R.id.facebook_share_button);
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentTitle("Cheap, Good Quality Items!")
-                .setContentDescription(
-                        "All your low price needs!")
+                .setContentTitle(item.getTitle())
+                .setContentDescription(item.getDescription())
                 .setContentUrl(Uri.parse("http://instinctcoder.com"))
-                .setImageUrl(Uri.parse("https://www.ssbwiki.com/images/thumb/2/29/Yoshi_SSB4.png/200px-Yoshi_SSB4.png"))
-
+                .setImageUrl(Uri.parse()
                 .build();
         shareButton.setShareContent(content);
 
