@@ -132,7 +132,7 @@ public class PlacesActivity extends AppCompatActivity {
                 .setContentTitle(item.getTitle())
                 .setContentDescription(item.getDescription())
                 .setContentUrl(Uri.parse("http://instinctcoder.com"))
-                .setImageUrl(Uri.parse()
+                .setImageUrl(Uri.parse("http://www.ssbwiki.com/images/thumb/2/29/Yoshi_SSB4.png/200px-Yoshi_SSB4.png"))
                 .build();
         shareButton.setShareContent(content);
 
