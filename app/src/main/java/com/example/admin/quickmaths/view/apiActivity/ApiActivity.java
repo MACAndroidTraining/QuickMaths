@@ -40,12 +40,38 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
 
     View myView;
 
+    String upc;
+
+    boolean oncreatecalled = false;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
+        oncreatecalled = true;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         myView = inflater.inflate(R.layout.activity_api, container, false);
         init();
         return myView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyView: ");
+        oncreatecalled = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+        oncreatecalled = false;
     }
 
     private void init() {
@@ -56,14 +82,22 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
         upcTextView = myView.findViewById(R.id.tvUPC);
         rvItems = myView.findViewById(R.id.rvItems);
 
-        presenter.attachView(this);
         //set up dagger
 
 //        String upc = getIntent().getStringExtra("query");
-        String upc = getArguments().getString("query");
+
+        if(oncreatecalled) {
+            Log.d(TAG, "init: here");
+            upc = getArguments().getString("query");
+            presenter.attachView(this);
+            presenter.makeCall(pageCall, upc);
+        }
+
+
         upcTextView.setText("Results for: " + upc);
 
-        presenter.makeCall(pageCall, upc);
+        initRecyclerView(newItemList);
+
 //        newItemList.add(new DisplayObject("food", "Mac's", "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg", 2.00, 0, true));
 //        newItemList = mergeSort(newItemList);
 //        recycleViewAdapter.notifyDataSetChanged();

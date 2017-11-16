@@ -140,6 +140,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                     frag.setArguments(args);
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame, frag)
+                            .addToBackStack("detail_activity")
                             .commit();
                 }
             });

@@ -227,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new CartActivity())
+                    .addToBackStack("cart_activity")
                     .commit();
 
 //            intent = new Intent(this, CartActivity.class);

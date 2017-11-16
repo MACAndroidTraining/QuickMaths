@@ -87,6 +87,7 @@ public class ZxingActivity extends Fragment implements ZXingScannerView.ResultHa
         frag.setArguments(args);
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, frag)
+                .addToBackStack("api_activity")
                 .commit();
 
     }
