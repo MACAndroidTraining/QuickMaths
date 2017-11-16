@@ -53,8 +53,8 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
     public void makeCall(int pageCallUpdate, String upc) {
         Log.d(TAG, "makeCall: upc:" + upc);
-        callWalmart(pageCallUpdate, upc);
-        callBestBuy(upc);
+//        callWalmart(pageCallUpdate, upc);
+//        callBestBuy(upc);
         callUpcDB(upc);
         callAmazon(upc);
     }
@@ -88,8 +88,8 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                 Log.d(TAG, "Walmart onNext: Item msrp:" + i.getMsrp());
                                 DisplayObject walmart = new DisplayObject(
                                         i.getName(),
-                                        "walmart",
-                                        "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg",
+                                        "Wal-Mart",
+//                                        "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg",
                                         i.getSalePrice(),
                                         34.00,
                                         false
@@ -146,8 +146,8 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                                 DisplayObject bb = new DisplayObject(
                                         p.getName(),
-                                        "best buy",
-                                        "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg",
+                                        "Best Buy",
+//                                        "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg",
                                         p.getSalePrice(),
                                         34.00,
                                         false
@@ -215,7 +215,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                 DisplayObject upcItem = new DisplayObject(
                                         i.getTitle(),
                                         i.getMerchant(),
-                                        null,
+//                                        null,
                                         i.getPrice(),
                                         34.00,
                                         onLine
@@ -285,7 +285,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                         DisplayObject amazon = new DisplayObject(
                                 titleNode.getTextContent(),
                                 "amazon",
-                                "http://freelogo2016cdn.b-cdn.net/wp-content/uploads/2016/12/amazon_logo.png",
+//                                "http://freelogo2016cdn.b-cdn.net/wp-content/uploads/2016/12/amazon_logo.png",
                                 Double.parseDouble(lItem2.getTextContent().substring(1)),
                                 0,
                                 true

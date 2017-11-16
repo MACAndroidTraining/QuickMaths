@@ -37,7 +37,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.upc_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.upc_list_item, parent,
+                false);
 
         return new ViewHolder(view);
     }
@@ -46,10 +47,17 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         DisplayObject item = itemList.get(position);
 
+        Log.d(TAG, "onBindViewHolder: ==========================");
+        Log.d(TAG, "onBindViewHolder: Store name: " + item.getStore());
+        Log.d(TAG, "onBindViewHolder: Product: " + item.getProduct());
+        Log.d(TAG, "onBindViewHolder: Price: " + item.getPrice());
+//        Log.d(TAG, "onBindViewHolder: url null: " + (item.getLogoURL() == null));
+
         String url = "";
-        if( item.getLogoURL() != null ) {
-            url = item.getLogoURL();
-        } else {
+//        if( item.getLogoURL() != null ) {
+//            url = item.getLogoURL();
+//        } else {
+//            Log.d(TAG, "onBindViewHolder: false.");
             switch( item.getStore() ) {
                 case "Wal-Mart.com":
                     url = "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg";
@@ -84,9 +92,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                     break;
                 default:
                     holder.storeName.setText( item.getStore() );
+                    Log.d(TAG, "onBindViewHolder: setting store name as: " + item.getStore());
                     holder.storeLogo.setVisibility(View.GONE);
             }
-        }
+//        }
 
         Glide.with(context)
                 .load( url )

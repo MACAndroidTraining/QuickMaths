@@ -8,14 +8,14 @@ import android.os.Parcelable;
  */
 
 public class DisplayObject implements Parcelable{
-    String store, logoURL, product;
+    String store, product;
+    String url;
     double price, distance;
     boolean onLine;
 
-    public DisplayObject(String product, String store, String logoURL, double price, double distance, boolean onLine) {
+    public DisplayObject(String product, String store, double price, double distance, boolean onLine) {
         this.product = product;
         this.store = store;
-        this.logoURL = logoURL;
         this.price = price;
         this.distance = distance;
         this.onLine = onLine;
@@ -23,7 +23,6 @@ public class DisplayObject implements Parcelable{
 
     protected DisplayObject(Parcel in) {
         store = in.readString();
-        logoURL = in.readString();
         product = in.readString();
         price = in.readDouble();
         distance = in.readDouble();
@@ -46,9 +45,9 @@ public class DisplayObject implements Parcelable{
         return store;
     }
 
-    public String getLogoURL() {
-        return logoURL;
-    }
+//    public String getLogoURL() {
+//        return logoURL;
+//    }
 
     public double getPrice() {
         return price;
@@ -70,9 +69,9 @@ public class DisplayObject implements Parcelable{
         this.store = store;
     }
 
-    public void setLogoURL(String logoURL) {
-        this.logoURL = logoURL;
-    }
+//    public void setLogoURL(String logoURL) {
+//        this.logoURL = logoURL;
+//    }
 
     public void setPrice(double price) {
         this.price = price;
@@ -90,7 +89,7 @@ public class DisplayObject implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(store);
-        parcel.writeString(logoURL);
+//        parcel.writeString(logoURL);
         parcel.writeString(product);
         parcel.writeDouble(price);
         parcel.writeDouble(distance);
