@@ -19,7 +19,7 @@ public interface MainActivityContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-        void getNearbyResults(String coordinates, GoogleMap googleMap);
+        void getNearbyResults(String coordinates, GoogleMap googleMap, String storeName);
         void getDirections(String destination);
     }
 }

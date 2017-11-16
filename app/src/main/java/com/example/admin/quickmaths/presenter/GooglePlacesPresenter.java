@@ -41,9 +41,9 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
-    public void getNearbyResults(final String CurrentLocation, final GoogleMap googleMap) {
+    public void getNearbyResults(final String CurrentLocation, final GoogleMap googleMap, String storeName) {
 
-        GooglePlacesRemoteServiceHelper.getNearbyResults(CurrentLocation)
+        GooglePlacesRemoteServiceHelper.getNearbyResults(CurrentLocation, storeName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<GooglePlacesResult, List<Result>>() {

@@ -29,12 +29,12 @@ public class GooglePlacesRemoteServiceHelper {
         return retrofit;
     }
 
-    public static Observable<GooglePlacesResult> getNearbyResults(String coordinates) {
+    public static Observable<GooglePlacesResult> getNearbyResults(String coordinates, String storeName) {
 
         Retrofit retrofit = create();
         GooglePlaceRemoteService service = retrofit.create(GooglePlaceRemoteService.class);
         return service.getNearbyResults(PLACES_API_KEY, coordinates, 10000+"",
-                "(QuikTrip) OR (Target) OR (walmart)");
+                storeName);
     }
 
     public static Observable<DirectionsResponse> getDirections(String origin, String destination, List<String> wayPoints) {
