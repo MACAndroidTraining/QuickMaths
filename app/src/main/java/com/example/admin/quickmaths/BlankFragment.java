@@ -7,7 +7,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,13 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.admin.quickmaths.presenter.GooglePlacesPresenter;
+import com.example.admin.quickmaths.presenter.DirectionsPresenter;
+import com.example.admin.quickmaths.utils.MainActivityContract;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+
+import java.util.List;
 
 
 /**
@@ -34,6 +36,10 @@ public class BlankFragment extends Fragment implements OnMapReadyCallback, Googl
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     GoogleMap googleMap;
+    MainActivityContract.Presenter presenter;
+    List<String> wayPoints;
+    String storeName;
+
 
     public BlankFragment() {
 
@@ -77,9 +83,11 @@ public class BlankFragment extends Fragment implements OnMapReadyCallback, Googl
         this.googleMap = googleMap;
     }
 
+    // TODO: 11/12/2017 Add runtime permission
+
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        GooglePlacesPresenter presenter = (GooglePlacesPresenter) getArguments().getSerializable("presenter");
+
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
 
@@ -87,13 +95,33 @@ public class BlankFragment extends Fragment implements OnMapReadyCallback, Googl
                     mGoogleApiClient);
             if (mLastLocation != null) {
                 String location = mLastLocation.getLatitude() + "," + mLastLocation.getLongitude();
-                presenter.getNearbyResults(location, googleMap);
+                presenter.getNearbyResults(location, googleMap, storeName);
+
+                if(presenter instanceof DirectionsPresenter) {
+
+                    ((DirectionsPresenter) presenter).setWayPoints(wayPoints);
+
+                    //Im passing null here because on the DirectionsPresenter our destination is one of the waypoints
+                    //it's not necessary to pass the destination here
+                    presenter.getDirections(null);
+                }
             }
         } else {
             // Show rationale and request permission.
         }
 
     }
+
+    public void setPresenter(MainActivityContract.Presenter presenter) {this.presenter = presenter; }
+
+
+
+    public void setWayPoints(List<String> wayPoints) {
+        this.wayPoints = wayPoints;
+    }
+
+
+    public void setStoreName(String storeName) {this.storeName = storeName; }
 
     @Override
     public void onConnectionSuspended(int i) {

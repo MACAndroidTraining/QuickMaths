@@ -41,17 +41,31 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyDg12Lebo1fFa3uBjupmlEertJd8x5w650" />
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".StreetViewActivity" />
+            android:label="@string/title_activity_maps"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".StreetViewActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CartActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ZxingActivity"></activity>
-        <activity android:name=".view.placesActivity.PlacesActivity"></activity>
+        <activity android:name=".ZxingActivity" />
+        <activity android:name=".view.placesActivity.PlacesActivity" />
+
+        <activity android:name=".DirectionsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.placesActivity.GooglePlacesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DetailActivity"></activity>
     </application>
 
 </manifest>

@@ -1,48 +1,34 @@
 package com.example.admin.quickmaths.presenter;
 
-import android.graphics.Color;
-import android.util.Log;
+import android.annotation.SuppressLint;
 
 import com.example.admin.quickmaths.GooglePlacesRemoteServiceHelper;
-import com.example.admin.quickmaths.model.google.DirectionsResponse;
-import com.example.admin.quickmaths.model.google.EndLocation;
 import com.example.admin.quickmaths.model.google.GooglePlacesResult;
-import com.example.admin.quickmaths.model.google.Leg;
 import com.example.admin.quickmaths.model.google.Location;
 import com.example.admin.quickmaths.model.google.Result;
-import com.example.admin.quickmaths.model.google.Route;
-import com.example.admin.quickmaths.model.google.StartLocation;
-import com.example.admin.quickmaths.model.google.Step;
 import com.example.admin.quickmaths.utils.MainActivityContract;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-import static android.content.ContentValues.TAG;
 
-/**
- * Created by Jason on 11/4/2017.
- */
+public class GooglePlacesPresenter implements MainActivityContract.Presenter {
 
-public class GooglePlacesPresenter implements MainActivityContract.Presenter, Serializable {
-
-    MainActivityContract.View view;
-    List<Result> resultList = new ArrayList<>();
-    List<Step> stepList = new ArrayList<>();
-    String currentLocation;
-    GoogleMap map;
+    private MainActivityContract.View view;
+    private List<Result> resultList = new ArrayList<>();
 
     @Override
     public void attachView(MainActivityContract.View view) {
@@ -55,12 +41,9 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter, Se
     }
 
     @Override
-    public void getNearbyResults(final String CurrentLocation, final GoogleMap googleMap) {
+    public void getNearbyResults(final String CurrentLocation, final GoogleMap googleMap, String storeName) {
 
-        currentLocation = CurrentLocation;
-        map = googleMap;
-
-        GooglePlacesRemoteServiceHelper.getNearbyResults(CurrentLocation)
+        GooglePlacesRemoteServiceHelper.getNearbyResults(CurrentLocation, storeName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<GooglePlacesResult, List<Result>>() {
@@ -77,81 +60,96 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter, Se
 
                     }
 
+                    @SuppressLint("NewApi")
                     @Override
                     public void onNext(List<Result> results) {
 
-                        resultList.addAll(results);
+                        List<String> storesReturnedFromSearch = new ArrayList<>();
+                        double currentLocationLat, currentLocationLong;
+                        Map<String, List<Result>> storeSearch = new HashMap<>();
                         String[] coordinates = CurrentLocation.split(",");
+                        currentLocationLat = Double.parseDouble(coordinates[0]);
+                        currentLocationLong = Double.parseDouble(coordinates[1]);
+
+
+                        //Adding the names of all stores in the search in one single array
+                        for(Result result : results) {
+                            if(storesReturnedFromSearch.contains(result.getName()))
+                                continue;
+                            else
+                                storesReturnedFromSearch.add(result.getName());
+                        }
+
+                        //Initializing every single key with a corresponding Result array
+                        for(String storeName:storesReturnedFromSearch) {
+                            List<Result> array = new ArrayList<>();
+                            storeSearch.put(storeName, array);
+                        }
+
+                        //Populating each list for each key in the map
+                        for(Result result: results) {
+                            List<Result> tempArray = new ArrayList<>();
+                            List<Result> keyArray = storeSearch.get(result.getName());
+                            tempArray.add(result);
+                            tempArray.addAll(keyArray);
+                            storeSearch.put(result.getName(), tempArray);
+                        }
+
+                        //Finding the closest store for each merchant
+                        for(String key: storeSearch.keySet()) {
+                            List<Result> stores = storeSearch.get(key);
+                            LatLng closestStore = new LatLng(stores.get(0).getGeometry().getLocation().getLat(),
+                                    stores.get(0).getGeometry().getLocation().getLng());
+
+                            String closestStoreName = stores.get(0).getName();
+                            Result closestResult = stores.get(0);
+
+                            double storeShortestDistance = Math.sqrt((stores.get(0).getGeometry().getLocation().getLat() -
+                                    currentLocationLat) + (stores.get(0).getGeometry().getLocation().getLng() -
+                                    currentLocationLong));
+
+                            for (Result result: stores) {
+                                Location storeLocation = result.getGeometry().getLocation();
+                                double currentStoreDistance = Math.sqrt(storeLocation.getLat() -
+                                        currentLocationLat) + (storeLocation.getLng() -
+                                        currentLocationLong);
+                                if(currentStoreDistance < storeShortestDistance) {
+                                    closestStore = new LatLng(storeLocation.getLat(),storeLocation.getLng());
+                                    closestStoreName = result.getName();
+                                    closestResult = result;
+                                }
+                            }
+
+                            resultList.add(closestResult);
+                            googleMap.addMarker(new MarkerOptions().position(closestStore)
+                                    .title(closestStoreName)).showInfoWindow();
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(closestStore, 10));
+                        }
+
                         //Distinct marker for current location on the map
-                        LatLng currentLocation = new LatLng(Double.parseDouble(coordinates[0]),
-                                Double.parseDouble(coordinates[1]));
+                        LatLng currentLocation = new LatLng(currentLocationLat, currentLocationLong);
                         googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
-                        for(Result result: results) {
-                            Location location = result.getGeometry().getLocation();
-                            LatLng placesCoordinates = new LatLng(location.getLat(), location.getLng());
-                            googleMap.addMarker(new MarkerOptions().position(placesCoordinates).title(result.getName()));
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(placesCoordinates, 10));
-                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "onError: ");
                         e.printStackTrace();
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete: ");
                         view.updateNearbyPlaces(resultList);
                     }
                 });
     }
 
+    //This presenter is connected to the mainActivity. Since we don't retrieve directions on the mainactivity, the
+    //getDirections method is not needed
     @Override
     public void getDirections(String destination) {
-        GooglePlacesRemoteServiceHelper.getDirections(currentLocation, destination)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DirectionsResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
 
-                    }
-
-                    @Override
-                    public void onNext(DirectionsResponse directionsResponse) {
-                        Route route = directionsResponse.getRoutes().get(0);
-                        Leg leg = route.getLegs().get(0);
-                        stepList.addAll(leg.getSteps());
-                        List<LatLng> polyline = new ArrayList<>();
-                        for (Step step: stepList) {
-                            StartLocation startLocation = step.getStartLocation();
-                            EndLocation endLocation = step.getEndLocation();
-                            polyline.add(new LatLng(startLocation.getLat(), startLocation.getLng()));
-                            polyline.add(new LatLng(endLocation.getLat(), endLocation.getLng()));
-                        }
-
-                        PolylineOptions polylineOptions = new PolylineOptions();
-                        for (LatLng latLng: polyline) {
-                            polylineOptions.add(latLng);
-                        }
-                        polylineOptions.width(5).color(Color.BLUE);
-                        map.addPolyline(polylineOptions);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        view.updateDirections(stepList);
-                    }
-                });
     }
 
 }

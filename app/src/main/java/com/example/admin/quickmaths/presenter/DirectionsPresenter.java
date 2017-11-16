@@ -7,7 +7,6 @@ import android.graphics.Color;
 import com.example.admin.quickmaths.GooglePlacesRemoteServiceHelper;
 import com.example.admin.quickmaths.StreetViewActivity;
 import com.example.admin.quickmaths.model.google.DirectionsResponse;
-import com.example.admin.quickmaths.model.google.EndLocation;
 import com.example.admin.quickmaths.model.google.Leg;
 import com.example.admin.quickmaths.model.google.OverviewPolyline;
 import com.example.admin.quickmaths.model.google.Route;
@@ -23,7 +22,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,18 +30,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by Jason on 11/14/2017.
- */
+public class DirectionsPresenter implements MainActivityContract.Presenter {
 
-public class DirectionsPresenter implements MainActivityContract.Presenter, Serializable {
-
-    MainActivityContract.View view;
-    String currentLocation;
-    transient GoogleMap map;
-    List<Step> stepList = new ArrayList<>();
-    Context context;
-    int animationCounter = 0;
+    private MainActivityContract.View view;
+    private String currentLocation;
+    private GoogleMap map;
+    private List<Step> stepList = new ArrayList<>();
+    private Context context;
+    private int animationCounter = 0;
+    private List<String> wayPoints;
 
     public void setContext(Context context) {
         this.context = context;
@@ -60,7 +55,7 @@ public class DirectionsPresenter implements MainActivityContract.Presenter, Seri
     }
 
     @Override
-    public void getNearbyResults(String coordinates, GoogleMap googleMap) {
+    public void getNearbyResults(String coordinates, GoogleMap googleMap, String anything) {
         currentLocation = coordinates;
         map = googleMap;
 
@@ -72,7 +67,8 @@ public class DirectionsPresenter implements MainActivityContract.Presenter, Seri
         final LatLng[] coordinatesOfCurrentLocation = {null};
         final OverviewPolyline[] overviewPolyline = new OverviewPolyline[1];
 
-        GooglePlacesRemoteServiceHelper.getDirections(currentLocation, destination)
+        //Previously was using destination as second argument
+        GooglePlacesRemoteServiceHelper.getDirections(currentLocation, wayPoints.get(wayPoints.size()-1), wayPoints)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DirectionsResponse>() {
@@ -86,23 +82,30 @@ public class DirectionsPresenter implements MainActivityContract.Presenter, Seri
 
                         Route route = directionsResponse.getRoutes().get(0);
                         overviewPolyline[0] = route.getOverviewPolyline();
-                        Leg leg = route.getLegs().get(0);
-                        stepList.addAll(leg.getSteps());
-
                         String[] coordinates = currentLocation.split(",");
+
+                        for(Leg leg: route.getLegs())
+                            stepList.addAll(leg.getSteps());
+
 
                         //Distinct marker for current location on the map
                         coordinatesOfCurrentLocation[0] = new LatLng(Double.parseDouble(coordinates[0]),
                                 Double.parseDouble(coordinates[1]));
 
                         map.addMarker(new MarkerOptions().position(coordinatesOfCurrentLocation[0]).title("Current Location")
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+                                .setTag(currentLocation);
 
-                        final EndLocation destinationEndLocation = stepList.get(stepList.size()-1).getEndLocation();
-                        LatLng coordinatesOfDestination = new LatLng(destinationEndLocation.getLat(),
-                                destinationEndLocation.getLng());
 
-                        map.addMarker(new MarkerOptions().position(coordinatesOfDestination).title("Destination"));
+                        //The tag enables us to identify which marker was clicked, so that we can launch streetview on the
+                        //correct marker
+
+                        for(String wayPoint: wayPoints) {
+                            String[] wayPointCoordinates = wayPoint.split(",");
+                            LatLng coordinate = new LatLng(Double.parseDouble(wayPointCoordinates[0])
+                                    , Double.parseDouble(wayPointCoordinates[1]));
+                            map.addMarker(new MarkerOptions().position(coordinate)).setTag(wayPoint);
+                        }
 
                         polyline.addAll(PolyUtil.decode(overviewPolyline[0].getPoints()));
 
@@ -111,8 +114,7 @@ public class DirectionsPresenter implements MainActivityContract.Presenter, Seri
                             @Override
                             public boolean onMarkerClick(Marker marker) {
                                 Intent intent = new Intent(context, StreetViewActivity.class);
-                                intent.putExtra("destinationCoordinates", destinationEndLocation.getLat()+","
-                                        + destinationEndLocation.getLng());
+                                intent.putExtra("destinationCoordinates", (String) marker.getTag());
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intent);
                                 return false;
@@ -177,5 +179,7 @@ public class DirectionsPresenter implements MainActivityContract.Presenter, Seri
 
     }
 
+    public void setWayPoints(List<String> wayPoints) {
+        this.wayPoints = wayPoints;
+    }
 }
-
