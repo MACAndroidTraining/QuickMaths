@@ -108,6 +108,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     @Override
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
+                        view.mergeSort(itemList);
                         view.initRecyclerView(itemList);
 
                         Log.d(TAG, "Walmart onComplete: ");
@@ -167,6 +168,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     public void onComplete() {
                         Log.d(TAG, "Best Buy onComplete: ");
                         Log.d(TAG, "  ");
+                        view.mergeSort(itemList);
                         view.initRecyclerView(itemList);
                     }
                 });
@@ -234,6 +236,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     @Override
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
+                        view.mergeSort(itemList);
                         view.initRecyclerView(itemList);
 
                         Log.d(TAG, "UPC DB onComplete: ");
@@ -278,15 +281,17 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     DocumentBuilder db = dbf.newDocumentBuilder();
                     Document doc = db.parse(requestUrl);
 
-                    Node lItem2 = doc.getElementsByTagName("FormattedPrice").item(0);
+                    Node priceNode = doc.getElementsByTagName("FormattedPrice").item(0);
                     Node titleNode = doc.getElementsByTagName("Title").item(0);
 
                     if( titleNode != null ) {
+                        System.out.println(titleNode.getTextContent());
+                        System.out.println(priceNode.getTextContent());
                         DisplayObject amazon = new DisplayObject(
                                 titleNode.getTextContent(),
                                 "amazon",
                                 "http://freelogo2016cdn.b-cdn.net/wp-content/uploads/2016/12/amazon_logo.png",
-                                Double.parseDouble(lItem2.getTextContent().substring(1)),
+                                Double.parseDouble(priceNode.getTextContent().substring(1)),
                                 0,
                                 true
                         );
@@ -301,7 +306,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
             }
         };
         t.start();
-
+        view.mergeSort(itemList);
         view.initRecyclerView(itemList);
     }
 }
