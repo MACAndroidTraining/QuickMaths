@@ -60,63 +60,6 @@ public class ApiActivity extends AppCompatActivity implements ApiActivityContrac
     }
 
     @Override
-    public List<DisplayObject> mergeSort(List<DisplayObject> itemList){
-        Log.d(TAG, "mergeSort: is called");
-        if(itemList.size() <= 1){
-            return itemList;
-        }
-
-        List<DisplayObject> result = new ArrayList<>();
-        List<DisplayObject> left = new ArrayList<>();
-        List<DisplayObject> right = new ArrayList<>();
-
-        int midpoint = (itemList.size()/2);
-
-        for(int i = 0; i < midpoint; i++){
-            left.add(itemList.get(i));
-        }
-        for(int j = midpoint; j < itemList.size(); j++){
-            right.add(itemList.get(j));
-        }
-
-        left = mergeSort(left);
-        right = mergeSort(right);
-
-        result = merge(left, right);
-
-        return result;
-    }
-
-    public List<DisplayObject> merge(List<DisplayObject> left, List<DisplayObject> right){
-        List<DisplayObject> result = new ArrayList<>();
-
-        while((!left.isEmpty()) && (!right.isEmpty())){
-            if(left.get(0).getPrice()>right.get(0).getPrice()){
-                result.add(left.get(0));
-                left.remove(0);
-            }
-            else if(right.get(0).getPrice()>left.get(0).getPrice()){
-                result.add(right.get(0));
-                right.remove(0);
-            }
-        }
-
-        while(!left.isEmpty()){
-            result.add(left.get(0));
-            left.remove(0);
-
-        }
-
-        while(!right.isEmpty()){
-            result.add(right.get(0));
-            right.remove(0);
-
-        }
-
-        return result;
-    }
-
-    @Override
     public void showProgress() {
 
     }

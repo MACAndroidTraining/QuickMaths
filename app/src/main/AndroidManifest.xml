@@ -51,7 +51,7 @@
             android:name=".CartActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ZxingActivity"></activity>
-        <activity android:name=".view.placesActivity.PlacesActivity"></activity>
+        <activity android:name=".view.detailsActivity.DetailsActivity"></activity>
     </application>
 
 </manifest>

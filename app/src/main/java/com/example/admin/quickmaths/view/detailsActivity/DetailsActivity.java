@@ -1,4 +1,4 @@
-package com.example.admin.quickmaths.view.placesActivity;
+package com.example.admin.quickmaths.view.detailsActivity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -29,7 +29,7 @@ import com.facebook.share.widget.ShareButton;
 
 import java.util.concurrent.Callable;
 
-public class PlacesActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
 
     //creating share button, intent, and hardcode text
     Button btnShare;
@@ -48,7 +48,7 @@ public class PlacesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_places);
+        setContentView(R.layout.activity_ddetails);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -100,7 +100,7 @@ public class PlacesActivity extends AppCompatActivity {
 
                 //Welcoming user via text view---removed if statement for now
                 // TODO:find why it returns null as if statement
-                Glide.with(PlacesActivity.this)
+                Glide.with(DetailsActivity.this)
                         .load(imageLink)
                         .into(imageView);
                 textView.setText(String.format("%s%s", getString(R.string.greet),
@@ -115,7 +115,7 @@ public class PlacesActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(PlacesActivity.class.getCanonicalName(), error.getMessage());
+                Log.d(DetailsActivity.class.getCanonicalName(), error.getMessage());
                 handleSignInResult(null);
             }
         };

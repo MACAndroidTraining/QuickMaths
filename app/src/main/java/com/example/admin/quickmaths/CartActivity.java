@@ -61,18 +61,18 @@ public class CartActivity extends Fragment {
 
     private void prepareCart() {
 
-        DisplayObject item1 = new DisplayObject("product","Walmart", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.50, 34.00, false);
-        DisplayObject item2 = new DisplayObject("product","Best Buy", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.30, 34.00, false);
-        DisplayObject item3 = new DisplayObject("product","Target", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.10, 34.00, false);
-        DisplayObject item4 = new DisplayObject("product","Big Lots", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.40, 34.00, false);
-        DisplayObject item5 = new DisplayObject("product","Kmart", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.20, 34.00, false);
-
-
-        cartList.add(item1);
-        cartList.add(item2);
-        cartList.add(item3);
-        cartList.add(item4);
-        cartList.add(item5);
+//        DisplayObject item1 = new DisplayObject("product","Walmart", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.50, 34.00, false);
+//        DisplayObject item2 = new DisplayObject("product","Best Buy", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.30, 34.00, false);
+//        DisplayObject item3 = new DisplayObject("product","Target", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.10, 34.00, false);
+//        DisplayObject item4 = new DisplayObject("product","Big Lots", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.40, 34.00, false);
+//        DisplayObject item5 = new DisplayObject("product","Kmart", "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg", 1.20, 34.00, false);
+//
+//
+//        cartList.add(item1);
+//        cartList.add(item2);
+//        cartList.add(item3);
+//        cartList.add(item4);
+//        cartList.add(item5);
 
     }
 

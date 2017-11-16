@@ -53,9 +53,9 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
     public void makeCall(int pageCallUpdate, String upc) {
         Log.d(TAG, "makeCall: upc:" + upc);
-        callWalmart(pageCallUpdate, upc);
-        callBestBuy(upc);
-        callUpcDB(upc);
+//        callWalmart(pageCallUpdate, upc);
+//        callBestBuy(upc);
+//        callUpcDB(upc);
         callAmazon(upc);
     }
 
@@ -87,13 +87,14 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                 Log.d(TAG, "Walmart onNext: Item sale price:" + i.getSalePrice());
                                 Log.d(TAG, "Walmart onNext: Item msrp:" + i.getMsrp());
                                 DisplayObject walmart = new DisplayObject(
+                                        "Wal-Mart",
                                         i.getName(),
-                                        "walmart",
-                                        "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg",
+                                        i.getShortDescription(),
                                         i.getSalePrice(),
-                                        34.00,
                                         false
                                 );
+
+//                                i.getLargeImage()
 
                                 itemList.add(walmart);
                             }
@@ -107,8 +108,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                     @Override
                     public void onComplete() {
-//                        recycleViewAdapter.notifyDataSetChanged();
-                        view.mergeSort(itemList);
+                        mergeSort(itemList);
                         view.initRecyclerView(itemList);
 
                         Log.d(TAG, "Walmart onComplete: ");
@@ -146,13 +146,14 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                 // TODO: 11/14/2017 and ratings
 
                                 DisplayObject bb = new DisplayObject(
+                                        "Best Buy",
                                         p.getName(),
-                                        "best buy",
-                                        "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg",
+                                        p.getLongDescription(),
                                         p.getSalePrice(),
-                                        34.00,
                                         false
                                 );
+
+//                                p.getImage()
 
                                 itemList.add(bb);
                             }
@@ -168,7 +169,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     public void onComplete() {
                         Log.d(TAG, "Best Buy onComplete: ");
                         Log.d(TAG, "  ");
-                        view.mergeSort(itemList);
+                        mergeSort(itemList);
                         view.initRecyclerView(itemList);
                     }
                 });
@@ -215,14 +216,14 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                     onLine = true;
 
                                 DisplayObject upcItem = new DisplayObject(
-                                        i.getTitle(),
                                         i.getMerchant(),
-                                        null,
+                                        i.getTitle(),
+                                        search.getItems().get(0).getDescription(),
                                         i.getPrice(),
-                                        34.00,
                                         onLine
                                 );
 
+//                                search.getItems().get(0).getImages().get(0);
                                 itemList.add(upcItem);
                             }
                         }
@@ -235,8 +236,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                     @Override
                     public void onComplete() {
-//                        recycleViewAdapter.notifyDataSetChanged();
-                        view.mergeSort(itemList);
+                        mergeSort(itemList);
                         view.initRecyclerView(itemList);
 
                         Log.d(TAG, "UPC DB onComplete: ");
@@ -283,16 +283,22 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                     Node priceNode = doc.getElementsByTagName("FormattedPrice").item(0);
                     Node titleNode = doc.getElementsByTagName("Title").item(0);
+                    Node image = doc.getElementsByTagName("MediumImage").item(0);
+                    Node descriptionNode = doc.getElementsByTagName("Content").item(0);
+                    Node linkNode = doc.getElementsByTagName("DetailPageURL").item(0);
+
+                    Log.d(TAG, "run: Amazon: " + descriptionNode.getTextContent());
+                    Log.d(TAG, "run: Amazon: " + linkNode.getTextContent());
+                    Log.d(TAG, "run: Amazon: " + image.getTextContent());
 
                     if( titleNode != null ) {
                         System.out.println(titleNode.getTextContent());
                         System.out.println(priceNode.getTextContent());
                         DisplayObject amazon = new DisplayObject(
+                                "Amazon",
                                 titleNode.getTextContent(),
-                                "amazon",
-                                "http://freelogo2016cdn.b-cdn.net/wp-content/uploads/2016/12/amazon_logo.png",
+                                "",
                                 Double.parseDouble(priceNode.getTextContent().substring(1)),
-                                0,
                                 true
                         );
 
@@ -306,7 +312,40 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
             }
         };
         t.start();
-        view.mergeSort(itemList);
+        mergeSort(itemList);
         view.initRecyclerView(itemList);
+    }
+
+    private List<DisplayObject> mergeSort(List<DisplayObject> itemList){
+        return itemList;
+    }
+
+    private List<DisplayObject> merge(List<DisplayObject> left, List<DisplayObject> right){
+        List<DisplayObject> result = new ArrayList<>();
+
+        while((!left.isEmpty()) && (!right.isEmpty())){
+            if(left.get(0).getPrice()>right.get(0).getPrice()){
+                result.add(left.get(0));
+                left.remove(0);
+            }
+            else if(right.get(0).getPrice()>left.get(0).getPrice()){
+                result.add(right.get(0));
+                right.remove(0);
+            }
+        }
+
+        while(!left.isEmpty()){
+            result.add(left.get(0));
+            left.remove(0);
+
+        }
+
+        while(!right.isEmpty()){
+            result.add(right.get(0));
+            right.remove(0);
+
+        }
+
+        return result;
     }
 }
