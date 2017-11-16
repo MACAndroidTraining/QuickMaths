@@ -8,30 +8,23 @@ import android.os.Parcelable;
  */
 
 public class DisplayObject implements Parcelable{
-    String store;
-    String logoURL;
-    String product;
-    String productDescription;
-    double price, distance;
+    String store, product, description;
+    double price;
     boolean onLine;
 
-    public DisplayObject(String product,String productDescription, String store, String logoURL, double price, double distance, boolean onLine) {
-        this.product = product;
-        this.productDescription = productDescription;
+    public DisplayObject(String store, String product, String description, double price, boolean onLine) {
         this.store = store;
-        this.logoURL = logoURL;
+        this.product = product;
+        this.description = description;
         this.price = price;
-        this.distance = distance;
         this.onLine = onLine;
     }
 
     protected DisplayObject(Parcel in) {
         store = in.readString();
-        logoURL = in.readString();
         product = in.readString();
-        productDescription = in.readString();
+        description = in.readString();
         price = in.readDouble();
-        distance = in.readDouble();
         onLine = in.readByte() != 0;
     }
 
@@ -47,52 +40,48 @@ public class DisplayObject implements Parcelable{
         }
     };
 
+    public DisplayObject(String product, String walmart, String s, double v, double v1, boolean b) {
+
+    }
+
     public String getStore() {
         return store;
-    }
-
-    public String getProductDescription() {
-        return productDescription;
-    }
-
-    public String getLogoURL() {
-        return logoURL;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public boolean isOnLine() {
-        return onLine;
     }
 
     public void setStore(String store) {
         this.store = store;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
+    public String getProduct() {
+        return product;
     }
 
-    public void setLogoURL(String logoURL) {
-        this.logoURL = logoURL;
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
     }
 
-    public void setDistance(double distance) {
-        this.distance = distance;
+    public boolean isOnLine() {
+        return onLine;
+    }
+
+    public void setOnLine(boolean onLine) {
+        this.onLine = onLine;
     }
 
     @Override
@@ -103,11 +92,9 @@ public class DisplayObject implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(store);
-        parcel.writeString(logoURL);
         parcel.writeString(product);
-        parcel.writeString(productDescription);
+        parcel.writeString(description);
         parcel.writeDouble(price);
-        parcel.writeDouble(distance);
         parcel.writeByte((byte) (onLine ? 1 : 0));
     }
 }
