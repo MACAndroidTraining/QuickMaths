@@ -55,7 +55,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
         Log.d(TAG, "makeCall: upc:" + upc);
         callWalmart(pageCallUpdate, upc);
         callBestBuy(upc);
-//        callUpcDB(upc);
+        callUpcDB(upc);
         callAmazon(upc);
     }
 
@@ -108,7 +108,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     @Override
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
-                        view.mergeSort(itemList);
+//                        view.mergeSort(itemList);
                         view.initRecyclerView(itemList);
 
                         Log.d(TAG, "Walmart onComplete: ");
@@ -168,7 +168,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     public void onComplete() {
                         Log.d(TAG, "Best Buy onComplete: ");
                         Log.d(TAG, "  ");
-                        view.mergeSort(itemList);
+//                        view.mergeSort(itemList);
                         view.initRecyclerView(itemList);
                     }
                 });
@@ -236,7 +236,8 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     @Override
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
-                        view.mergeSort(itemList);
+                        view.notifychange();
+//                        view.mergeSort(itemList);
                         view.initRecyclerView(itemList);
 
                         Log.d(TAG, "UPC DB onComplete: ");
@@ -306,7 +307,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
             }
         };
         t.start();
-        view.mergeSort(itemList);
+//        view.mergeSort(itemList);
         view.initRecyclerView(itemList);
     }
 }

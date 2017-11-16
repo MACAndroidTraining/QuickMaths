@@ -26,7 +26,7 @@ public class ApiActivity extends AppCompatActivity implements ApiActivityContrac
     RecyclerView rvItems;
 
     int pageCall = 1;
-    RecycleViewAdapter recycleViewAdapter;
+    public RecycleViewAdapter recycleViewAdapter;
     RecyclerView.LayoutManager layoutManager;
 
     ApiActivityPresenter presenter = new ApiActivityPresenter();
@@ -57,6 +57,10 @@ public class ApiActivity extends AppCompatActivity implements ApiActivityContrac
         rvItems.setLayoutManager(layoutManager);
         rvItems.setAdapter(recycleViewAdapter);
 
+    }
+
+    public void notifychange(){
+        recycleViewAdapter.notifyDataSetChanged();
     }
 
     @Override
