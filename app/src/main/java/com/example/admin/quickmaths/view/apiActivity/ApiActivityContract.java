@@ -17,6 +17,7 @@ public interface ApiActivityContract {
         void showProgress();
         void setItemImage(String itemImageURL);
         void setSearchType(String s);
+        void domergesort();
     }
 
     interface Presenter extends BasePresenter<View> {

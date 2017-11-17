@@ -16,7 +16,7 @@
             android:title="about" />
     </group>
 
-    <item android:title="Login">
+    <item android:title="Social">
         <menu>
             <item
                 android:id="@+id/nav_social"
@@ -24,19 +24,5 @@
                 android:title="Facebook"/>
         </menu>
     </item>
-
-
-    <!--<item android:title="Social">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_share"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:title="Share" />-->
-            <!--<item-->
-                <!--android:id="@+id/nav_send"-->
-                <!--android:icon="@drawable/ic_menu_send"-->
-                <!--android:title="Send" />-->
-        <!--</menu>-->
-    <!--</item>-->
 
 </menu>

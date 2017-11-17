@@ -59,10 +59,6 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
         callUpcDB(upc);
     }
 
-    public void callSearchUPC(String upc){
-        callUpcDB(upc);
-    }
-
     @Override
     public List<DisplayObject> mergeSort(List<DisplayObject> itemList){
         Log.d(TAG, "mergeSort: is called, itemList size: "+itemList.size());
@@ -498,8 +494,9 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onComplete: upc before merge");
-//                        view.mergeSort(itemList);
+//                        mergeSort(itemList);
                         view.initRecyclerView(itemList);
+                        view.domergesort();
 
                         Log.d(TAG, "UPC DB onComplete: ");
                         Log.d(TAG, " ");

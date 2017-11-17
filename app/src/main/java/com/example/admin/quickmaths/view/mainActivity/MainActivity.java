@@ -24,6 +24,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     Fragment currentFrag = null;
     private SearchView searchView;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +112,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 requestPermissionLocation();
         }
 
+        drawer = findViewById(R.id.drawerLayout);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+
+        // Inflate a menu to be displayed in the toolbar
+//        toolbar.inflateMenu();
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = findViewById(R.id.mySearchView);
@@ -340,7 +355,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             currentFrag = frag;
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawerLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
