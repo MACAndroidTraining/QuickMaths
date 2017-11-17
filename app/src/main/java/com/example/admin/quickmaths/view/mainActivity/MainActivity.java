@@ -2,10 +2,8 @@ package com.example.admin.quickmaths.view.mainActivity;
 
 import android.app.FragmentManager;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +14,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,14 +22,13 @@ import android.widget.Toast;
 import com.example.admin.quickmaths.CartActivity;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.ZxingActivity;
-import com.example.admin.quickmaths.view.apiActivity.ApiActivity;
-import com.google.zxing.Result;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission_group.LOCATION;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -59,9 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        mScannerView = findViewById(R.id.scannerView);
-
-//        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 //        beep = MediaPlayer.create(this, R.raw.barcode_beep_sound_effect);
@@ -80,14 +73,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int currentApiVersion = Build.VERSION.SDK_INT;
         if (currentApiVersion >= Build.VERSION_CODES.M) {
             // if proper version, check camera permissions.
-            if (checkPermission()) {
-//                Toast.makeText(getApplicationContext(),
-//                        "Permission already granted",
-//                        Toast.LENGTH_LONG).show();
+            if ( !checkPermissionCamera())
+                requestPermissionCamera();
 
-            } else {
-                requestPermission();
-            }
+            if( !checkPermissionLocation() )
+                requestPermissionLocation();
         }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -95,15 +85,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private boolean checkPermission() {
-        Log.d(TAG, "checkPermission: ");
+    private boolean checkPermissionCamera() {
+        Log.d(TAG, "checkPermissionCamera: ");
         return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) ==
                 PackageManager.PERMISSION_GRANTED);
     }
 
-    private void requestPermission() {
-        Log.d(TAG, "requestPermission: ");
+    private void requestPermissionCamera() {
+        Log.d(TAG, "requestPermissionCamera: ");
         ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
+    }
+
+    private boolean checkPermissionLocation() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermissionLocation() {
+        Log.d(TAG, "requestPermissionCamera: ");
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 200);
     }
 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         int currentapiVersion = Build.VERSION.SDK_INT;
         if (currentapiVersion >= Build.VERSION_CODES.M) {
-            if (checkPermission()) {
+            if (checkPermissionCamera()) {
 
                 //start fragment
                 FragmentManager fragmentManager = getFragmentManager();
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                mScannerView.startCamera();
                 Log.d(TAG, "onResume: Camera Started");
             } else {
-                requestPermission();
+                requestPermissionCamera();
             }
         }
     }
