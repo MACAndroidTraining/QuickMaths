@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.admin.quickmaths.model.bestBuy.Detail;
 import com.example.admin.quickmaths.model.display.DisplayObject;
 import com.example.admin.quickmaths.view.detailsActivity.DetailsActivity;
 import com.example.admin.quickmaths.view.placesActivity.GooglePlacesActivity;
@@ -36,8 +35,6 @@ import com.facebook.share.widget.ShareButton;
 
 import java.util.concurrent.Callable;
 
-import static android.content.ContentValues.TAG;
-
 public class DetailActivity extends Fragment {
 
     View myView;
@@ -46,6 +43,8 @@ public class DetailActivity extends Fragment {
     TextView tvDetailName, tvDetailStore, tvDetailPrice, tvDetailLink, tvDetailDescription;
     ImageView ivDetailImage;
     String storeName;
+    //Creating DisplayObject object to return values from wrapper
+    DisplayObject displayObject;
 
     @Nullable
     @Override
@@ -54,6 +53,9 @@ public class DetailActivity extends Fragment {
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         myView = inflater.inflate(R.layout.activity_detail, container, false);
 
+        Bundle b = getArguments();
+        displayObject = (DisplayObject) b.get("displayObject");
+        Log.d(TAG, "onCreateView: url=" + displayObject.getLink());
 
         //btnShare Bind
         btnShare = myView.findViewById(R.id.btnShare);
@@ -64,7 +66,7 @@ public class DetailActivity extends Fragment {
         ShareLinkContent content = new ShareLinkContent.Builder()
 //                .setContentTitle("QuickMaths")//switches title during post description, but reverts to url title and description by default
 //                .setContentDescription(String.valueOf("10.00"))
-                .setContentUrl(Uri.parse("http://www.google.com"))
+                .setContentUrl(Uri.parse(displayObject.getLink()))
 //                .setImageUrl(Uri.parse("http://www.ssbwiki.com/images/thumb/2/29/Yoshi_SSB4.png/200px-Yoshi_SSB4.png"))
                 .build();
         shareButton.setShareContent(content);
@@ -136,10 +138,6 @@ public class DetailActivity extends Fragment {
         facebookActivity();
     }
 
-
-
-
-
     //creating share button, intent, and hardcode text
     Button btnShare;
     Intent shareIntent;
@@ -148,9 +146,6 @@ public class DetailActivity extends Fragment {
 
     //creating Item object from model.UPCItemDB.Item
 //    Item item = new Item();
-
-    //Creating DisplayObject object to return values from wrapper
-    DisplayObject displayObject = new DisplayObject();
 
     private static final String TAG = "Facebook Login";
 
@@ -239,7 +234,7 @@ public class DetailActivity extends Fragment {
         ShareLinkContent content = new ShareLinkContent.Builder()
                 .setContentTitle("QuickMaths")//switches title during post description, but reverts to url title and description by default
                 .setContentDescription(String.valueOf(displayObject.getPrice()))
-                .setContentUrl(Uri.parse("http://www.google.com"))
+                .setContentUrl(Uri.parse(displayObject.getLink()))
 //                .setImageUrl(Uri.parse("http://www.ssbwiki.com/images/thumb/2/29/Yoshi_SSB4.png/200px-Yoshi_SSB4.png"))
                 .build();
         shareButton.setShareContent(content);
