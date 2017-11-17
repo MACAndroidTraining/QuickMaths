@@ -18,7 +18,7 @@ import com.example.admin.quickmaths.DetailActivity;
 import com.example.admin.quickmaths.MapsActivity;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.model.display.DisplayObject;
-import com.example.admin.quickmaths.view.placesActivity.PlacesActivity;
+import com.example.admin.quickmaths.view.detailsActivity.DetailsActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -30,8 +30,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public List<DisplayObject> itemList = new ArrayList<>();
     private Context context;
     private DecimalFormat df = new DecimalFormat("#.00");
-    private RecyclerViewItemClickListener listener;
     private Activity activity;
+//    private RecyclerViewItemClickListener listener;
 
     public RecycleViewAdapter(Context context, List<DisplayObject> itemList, Activity activity) {
         this.context = context;
@@ -53,45 +53,42 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         DisplayObject item = itemList.get(position);
 
         String url = "";
-        if( item.getLogoURL() != null ) {
-            url = item.getLogoURL();
-        } else {
-            switch( item.getStore() ) {
-                case "Wal-Mart.com":
-                    url = "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg";
-                    break;
-                case "Newegg Business" :
-                case "Newegg Canada" :
-                case "Newegg.com" :
-                    url = "https://images10.newegg.com/WebResource/Themes/2005/Nest/logo_424x210.png";
-                    break;
-                case "Sam's Club" :
-                    url = "http://vignette2.wikia.nocookie.net/logopedia/images/0/05/Sams-Club-" +
-                            "Logo-300x300.jpg/revision/latest?cb=20110326063427";
-                    break;
-                case "Target" :
-                    url = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Target_logo" +
-                            ".svg/2000px-Target_logo.svg.png";
-                    break;
-                case "JCPenney" :
-                    url = "https://www.underconsideration.com/brandnew/archives/jcpenney_2013_logo" +
-                            "_detail.png";
-                    break;
-                case "Dell.com" :
-                    url = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Dell_Logo" +
-                            ".svg/600px-Dell_Logo.svg.png";
-                    break;
-                case "Fye.com" :
-                    url = "https://vignette.wikia.nocookie.net/logopedia/images/4/48/F.y.e..svg" +
-                            "/revision/latest/scale-to-width-down/200?cb=20170104134023";
-                    break;
-                case "Best Buy" :
-                    url = "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg";
-                    break;
-                default:
-                    holder.storeName.setText( item.getStore() );
-                    holder.storeLogo.setVisibility(View.GONE);
-            }
+        switch( item.getStore() ) {
+            case "Wal-Mart":
+            case "Wal-Mart.com":
+                url = "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg";
+                break;
+            case "Newegg Business":
+            case "Newegg Canada":
+            case "Newegg.com":
+                url = "https://images10.newegg.com/WebResource/Themes/2005/Nest/logo_424x210.png";
+                break;
+            case "Sam's Club":
+                url = "http://vignette2.wikia.nocookie.net/logopedia/images/0/05/Sams-Club-" +
+                        "Logo-300x300.jpg/revision/latest?cb=20110326063427";
+                break;
+            case "Target":
+                url = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Target_logo" +
+                        ".svg/2000px-Target_logo.svg.png";
+                break;
+            case "JCPenney":
+                url = "https://www.underconsideration.com/brandnew/archives/jcpenney_2013_logo" +
+                        "_detail.png";
+                break;
+            case "Dell.com":
+                url = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Dell_Logo" +
+                        ".svg/600px-Dell_Logo.svg.png";
+                break;
+            case "Fye.com":
+                url = "https://vignette.wikia.nocookie.net/logopedia/images/4/48/F.y.e..svg" +
+                        "/revision/latest/scale-to-width-down/200?cb=20170104134023";
+                break;
+            case "Best Buy":
+                url = "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg";
+                break;
+            case "Amazon" :
+                url = "http://freelogo2016cdn.b-cdn.net/wp-content/uploads/2016/12/amazon_logo.png";
+                break;
         }
 
         Glide.with(context)
@@ -99,10 +96,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 .into(holder.storeLogo);
 
         holder.productName.setText( item.getProduct() );
-
-        String distance = (item.isOnLine()) ? "Online" : item.getDistance() + " miles.";
-        holder.storeDistance.setText( distance );
-
+        holder.storeName.setText(  item.getStore() );
         String price = String.valueOf( df.format( item.getPrice() ));
         String dollars = price.substring(0, price.indexOf('.'));
         String cents = price.substring(price.indexOf('.') + 1);
@@ -118,7 +112,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView storeLogo;
-        TextView productName, storeDistance, priceDollars, priceCents, storeName;
+        TextView productName, priceDollars, priceCents, storeName;
         DisplayObject d;
 
         public ViewHolder(View itemView) {
@@ -142,12 +136,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                             .replace(R.id.content_frame, frag)
                             .addToBackStack("detail_activity")
                             .commit();
+                    Log.d(TAG, "onClick: clicked");
                 }
             });
 
             storeLogo = itemView.findViewById( R.id.ivLogo );
             productName = itemView.findViewById( R.id.tvProductName);
-            storeDistance = itemView.findViewById( R.id.tvStoreDistance );
             priceDollars = itemView.findViewById( R.id.tvPriceDollars );
             priceCents = itemView.findViewById( R.id.tvPrinceCents );
             storeName = itemView.findViewById( R.id.tvStoreName );
@@ -159,11 +153,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 //        }
     }
 
-    interface RecyclerViewItemClickListener {
-        void onItemClicked(DisplayObject displayObject);
-    }
-
     public Activity getactivity(){
         return this.activity;
     }
+//    interface RecyclerViewItemClickListener {
+//        void onItemClicked(DisplayObject displayObject);
+//    }
 }

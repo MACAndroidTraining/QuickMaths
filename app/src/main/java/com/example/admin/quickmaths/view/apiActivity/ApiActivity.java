@@ -58,6 +58,7 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
         Log.d(TAG, "onCreateView: ");
         myView = inflater.inflate(R.layout.activity_api, container, false);
         init();
+        Log.d(TAG, "onCreateView: " + newItemList.size());
         return myView;
     }
 
@@ -86,6 +87,11 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
         //set up dagger
 
 //        String upc = getIntent().getStringExtra("query");
+
+        layoutManager = new LinearLayoutManager(getActivity());
+        recycleViewAdapter = new RecycleViewAdapter(getActivity(), newItemList, getActivity());
+        rvItems.setLayoutManager(layoutManager);
+        rvItems.setAdapter(recycleViewAdapter);
 
         if(oncreatecalled) {
             Log.d(TAG, "init: here");

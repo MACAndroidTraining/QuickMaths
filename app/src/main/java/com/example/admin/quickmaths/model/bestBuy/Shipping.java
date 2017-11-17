@@ -57,6 +57,8 @@ public class Shipping implements Parcelable
         this.ground = ground;
     }
 
+    public void setGround(String ground) {this.ground = 0;}
+
     public Double getSecondDay() {
         return secondDay;
     }
@@ -65,12 +67,20 @@ public class Shipping implements Parcelable
         this.secondDay = secondDay;
     }
 
+    public void setSecondDay(String secondDay) {
+        this.secondDay = 0.0;
+    }
+
     public Double getNextDay() {
         return nextDay;
     }
 
     public void setNextDay(Double nextDay) {
         this.nextDay = nextDay;
+    }
+
+    public void setNextDay(String nextDay) {
+        this.nextDay = 0.0;
     }
 
     public String getVendorDelivery() {

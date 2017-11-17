@@ -26,9 +26,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "Offers";
     private static final String COLUMN_PRODUCT = "Product";
     private static final String COLUMN_STORE = "Store";
-    private static final String COLUMN_LOGO = "Logo";
+    private static final String COLUMN_DESCRIPTION = "Description";
+    private static final String COLUMN_LINK = "Link";
+    private static final String COLUMN_IMAGEURL = "ImageURL";
     private static final String COLUMN_PRICE = "Price";
-    private static final String COLUMN_DISTANCE = "Distance";
     private static final String COLUMN_ONLINE = "Online";
     private static final String TAG = "DBHelper";
 
@@ -41,9 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
                 COLUMN_PRODUCT + " TEXT, " +
                 COLUMN_STORE + " TEXT, " +
-                COLUMN_LOGO + " TEXT, " +
+                COLUMN_DESCRIPTION + " TEXT, " +
+                COLUMN_LINK + " TEXT, " +
+                COLUMN_IMAGEURL + " TEXT, " +
                 COLUMN_PRICE + " TEXT, " +
-                COLUMN_DISTANCE + " TEXT, " +
                 COLUMN_ONLINE + " TEXT, " +
                 "PRIMARY KEY (" + COLUMN_PRODUCT + ", " + COLUMN_STORE + ")" +
                 ")";
@@ -64,9 +66,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //key column name, value
         contentValues.put(COLUMN_PRODUCT, displayObject.getProduct());
         contentValues.put(COLUMN_STORE, displayObject.getStore());
-        contentValues.put(COLUMN_LOGO, displayObject.getLogoURL());
+        contentValues.put(COLUMN_DESCRIPTION, displayObject.getImageUrl());
+        contentValues.put(COLUMN_LINK, displayObject.getImageUrl());
+        contentValues.put(COLUMN_IMAGEURL, displayObject.getImageUrl());
         contentValues.put(COLUMN_PRICE, String.valueOf(displayObject.getPrice()));
-        contentValues.put(COLUMN_DISTANCE, String.valueOf(displayObject.getDistance()));
         contentValues.put(COLUMN_ONLINE, String.valueOf(displayObject.isOnLine()));
 
         //database.insert returns row value where this data was saved
@@ -94,9 +97,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(0),
                         cursor.getString(1),
                         cursor.getString(2),
-                        Double.valueOf(cursor.getString(3)),
-                        Double.valueOf(cursor.getString(4)),
-                        Boolean.valueOf(cursor.getString(5)));
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        Double.valueOf(cursor.getString(5)),
+                        Boolean.valueOf(cursor.getString(6)));
                 offerList.add(offer);
             } while(cursor.moveToNext());
         }

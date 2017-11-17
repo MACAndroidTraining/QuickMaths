@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG = "MainActivity";
     // used while getting the permissions from the user to use the camera
     private static final int REQUEST_CAMERA = 1;
-//    private MediaPlayer beep;
+    private MediaPlayer beep;
 
     // the view to scan the code
 //    @BindView(R.id.scannerView)
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        ButterKnife.bind(this);
+        ButterKnife.bind(this);
 
 //        mScannerView = findViewById(R.id.scannerView);
 
@@ -65,12 +65,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
 //        beep = MediaPlayer.create(this, R.raw.barcode_beep_sound_effect);
-//        beep = MediaPlayer.create(this, R.raw.skraaa);
+        beep = MediaPlayer.create(this, R.raw.skraaa);
 
 //        //go straight to api
 //        String upc = "813516025388"; // refurbished apple ipod nano, 16bg, blue
 //        String upc = "039400019770"; // Bush's best brown sugar hickory baked beans, 28 oz
 //        String upc = "014633733877"; // Mirror's Edge Catalyst - PlayStation 4
+//        String upc = "045496743925";
 //        Intent intent = new Intent(this, ApiActivity.class);
 //        intent.putExtra("query", upc);
 //        startActivity(intent);

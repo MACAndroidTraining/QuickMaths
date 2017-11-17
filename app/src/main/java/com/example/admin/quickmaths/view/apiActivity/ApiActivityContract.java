@@ -15,7 +15,6 @@ public interface ApiActivityContract {
         //activity methods called by presenter
         void initRecyclerView(List<DisplayObject> itemList);
         void showProgress();
-
     }
 
     interface Presenter extends BasePresenter<View> {

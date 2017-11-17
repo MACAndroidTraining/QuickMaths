@@ -122,6 +122,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
         Log.d(TAG, "merge: result: " +result.size());
         return result;
+
     }
 
     private void callWalmart(int pageCallUpdate, String upc) {
@@ -153,12 +154,15 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                 Log.d(TAG, "Walmart onNext: Item msrp:" + i.getMsrp());
                                 DisplayObject walmart = new DisplayObject(
                                         i.getName(),
-                                        "walmart",
-                                        "http://1000logos.net/wp-content/uploads/2017/05/New-Walmart-logo.jpg",
+                                        "Wal-Mart",
+                                        i.getShortDescription(),
+                                        i.getProductUrl(),
+                                        i.getLargeImage(),
                                         i.getSalePrice(),
-                                        34.00,
                                         false
                                 );
+
+//                                i.getLargeImage()
 
                                 itemList.add(walmart);
                             }
@@ -212,12 +216,15 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                                 DisplayObject bb = new DisplayObject(
                                         p.getName(),
-                                        "best buy",
-                                        "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg",
+                                        "Best Buy",
+                                        p.getLongDescription(),
+                                        p.getUrl(),
+                                        p.getImage(),
                                         p.getSalePrice(),
-                                        34.00,
                                         false
                                 );
+
+//                                p.getImage()
 
                                 itemList.add(bb);
                             }
@@ -282,12 +289,14 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                 DisplayObject upcItem = new DisplayObject(
                                         i.getTitle(),
                                         i.getMerchant(),
-                                        null,
+                                        search.getItems().get(0).getDescription(),
+                                        i.getLink(),
+                                        search.getItems().get(0).getImages().get(0),
                                         i.getPrice(),
-                                        34.00,
                                         onLine
                                 );
 
+//                                search.getItems().get(0).getImages().get(0);
                                 itemList.add(upcItem);
                             }
                         }
@@ -349,16 +358,24 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                     Node priceNode = doc.getElementsByTagName("FormattedPrice").item(0);
                     Node titleNode = doc.getElementsByTagName("Title").item(0);
+                    Node image = doc.getElementsByTagName("MediumImage").item(0);
+                    Node descriptionNode = doc.getElementsByTagName("Content").item(0);
+                    Node linkNode = doc.getElementsByTagName("DetailPageURL").item(0);
+
+                    Log.d(TAG, "run: Amazon: " + descriptionNode.getTextContent());
+                    Log.d(TAG, "run: Amazon: " + linkNode.getTextContent());
+                    Log.d(TAG, "run: Amazon: " + image.getTextContent());
 
                     if( titleNode != null ) {
                         System.out.println(titleNode.getTextContent());
                         System.out.println(priceNode.getTextContent());
                         DisplayObject amazon = new DisplayObject(
                                 titleNode.getTextContent(),
-                                "amazon",
-                                "http://freelogo2016cdn.b-cdn.net/wp-content/uploads/2016/12/amazon_logo.png",
+                                "Amazon",
+                                descriptionNode.getTextContent(),
+                                linkNode.getTextContent(),
+                                image.getTextContent(),
                                 Double.parseDouble(priceNode.getTextContent().substring(1)),
-                                0,
                                 true
                         );
 
@@ -375,4 +392,5 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 //        view.mergeSort(itemList);
         view.initRecyclerView(itemList);
     }
+
 }
