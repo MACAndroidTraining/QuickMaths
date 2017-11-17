@@ -36,6 +36,7 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
 
     int pageCall = 1;
     int threadCheck = 0;
+    boolean threadBool;
     RecycleViewAdapter recycleViewAdapter;
     RecyclerView.LayoutManager layoutManager;
 
@@ -110,6 +111,7 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
         rvItems.setAdapter(recycleViewAdapter);
 
         if(oncreatecalled) {
+            threadBool = false;
             Log.d(TAG, "init: here");
             upc = getArguments().getString("query");
             presenter.attachView(this);
@@ -146,7 +148,6 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
 
     public void initRecyclerView(List<DisplayObject> itemList) {
         newItemList = itemList;
-        threadCheck++;
 
         layoutManager = new LinearLayoutManager(getActivity());
         recycleViewAdapter = new RecycleViewAdapter(getActivity(), newItemList, getActivity());
@@ -154,16 +155,27 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
         rvItems.setAdapter(recycleViewAdapter);
 
         Log.d(TAG, "initRecyclerView: threadCheck: "+threadCheck);
-        if(threadCheck == 4){
-            newItemList = presenter.mergeSort(newItemList);
-            initRecyclerView(newItemList);
+        if(threadCheck == 4|| threadBool){
+            Thread mergeThread = new Thread(){
+                @Override
+                public void run() {
+                    super.run();
+                    newItemList = presenter.mergeSort(newItemList);
+                    threadBool = false;
+                    initRecyclerView(newItemList);
+                }
+            };
+            mergeThread.start();
         }
     }
 
     @Override
-    public void domergesort(List<DisplayObject> itemList){
-        newItemList = itemList;
-        presenter.mergeSort(newItemList);
+    public void domergesort(){
+        threadBool = true;
+    }
+    @Override
+    public void domergesortCheck(){
+        threadCheck++;
     }
 
     @Override

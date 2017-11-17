@@ -178,6 +178,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     public void onComplete() {
 //                        recycleViewAdapter.notifyDataSetChanged();
 //                        view.mergeSort(itemList);
+                        view.domergesortCheck();
                         view.initRecyclerView(itemList);
 
                         Log.d(TAG, "Walmart onComplete: ");
@@ -241,6 +242,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                         Log.d(TAG, "Best Buy onComplete: ");
                         Log.d(TAG, "  ");
 //                        view.mergeSort(itemList);
+                        view.domergesortCheck();
                         view.initRecyclerView(itemList);
                     }
                 });
@@ -325,6 +327,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 //                        recycleViewAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onComplete: upc before merge");
 //                        view.mergeSort(itemList);
+                        view.domergesortCheck();
                         view.initRecyclerView(itemList);
 
                         Log.d(TAG, "UPC DB onComplete: ");
@@ -407,6 +410,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
         };
         t.start();
 //        view.mergeSort(itemList);
+        view.domergesortCheck();
         view.initRecyclerView(itemList);
     }
 
@@ -495,8 +499,8 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 //                        recycleViewAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onComplete: upc before merge");
 //                        mergeSort(itemList);
+                        view.domergesort();
                         view.initRecyclerView(itemList);
-                        view.domergesort(itemList);
 
                         Log.d(TAG, "UPC DB onComplete: ");
                         Log.d(TAG, " ");
