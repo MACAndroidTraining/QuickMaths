@@ -2,67 +2,173 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentBottom="false"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvDetailName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/facebook_sign_in_button"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/layout_margin"
-        android:layout_marginBottom="@dimen/layout_margin"
-        android:layout_marginTop="@dimen/layout_margin" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/my_image_view"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_marginBottom="@dimen/layout_margin"
-        android:paddingBottom="@dimen/layout_padding" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:id="@+id/tvDetailName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text"
+                android:textSize="30sp" />
 
-    <ImageButton
-        android:id="@+id/btnDetailAdd"
-        android:text="Add to cart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_shopping_cart_black_24dp"
-        android:background="@drawable/roundcorner"/>
+            <TextView
+                android:id="@+id/tvDetailStore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text"
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/colorPrimaryDark"/>
 
-    <Button
-        android:id="@+id/btnDetailMap"
-        android:text="Map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivDetailImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnShare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:text="@string/share" />
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
 
-    <com.facebook.share.widget.ShareButton
-        android:id="@+id/facebook_share_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tvDetailPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:textSize="30sp"
+                    android:textColor="@color/colorAccent"/>
+            </android.support.v7.widget.CardView>
 
-    <com.facebook.share.widget.LikeView
-        android:id="@+id/like_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Link"
+                        android:textSize="23sp"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <TextView
+                        android:id="@+id/tvDetailLink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:autoLink="all"
+                        android:clickable="true"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Description"
+                        android:textSize="23sp"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <TextView
+                        android:id="@+id/tvDetailDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin" />
+
+            <ImageView
+                android:id="@+id/my_image_view"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:paddingBottom="@dimen/layout_padding" />
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_small" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnDetailAdd"
+                    android:text="Add to cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_shopping_cart_black_24dp"
+                    android:background="@drawable/roundcorner"/>
+
+                <Button
+                    android:id="@+id/btnDetailMap"
+                    android:text="Map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btnShare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="@string/share" />
+
+                <com.facebook.share.widget.ShareButton
+                    android:id="@+id/facebook_share_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.facebook.share.widget.LikeView
+                    android:id="@+id/like_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

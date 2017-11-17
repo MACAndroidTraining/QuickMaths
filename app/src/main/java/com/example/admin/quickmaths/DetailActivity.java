@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.admin.quickmaths.model.bestBuy.Detail;
 import com.example.admin.quickmaths.model.display.DisplayObject;
 import com.example.admin.quickmaths.view.detailsActivity.DetailsActivity;
 import com.example.admin.quickmaths.view.placesActivity.GooglePlacesActivity;
@@ -38,9 +39,10 @@ import java.util.concurrent.Callable;
 public class DetailActivity extends Fragment {
 
     View myView;
-    Button btnDetailMap;
     ImageButton btnDetailAdd;
-    TextView tvDetailName;
+    Button btnDetailMap;
+    TextView tvDetailName, tvDetailStore, tvDetailPrice, tvDetailLink, tvDetailDescription;
+    ImageView ivDetailImage;
     String storeName;
 
     @Nullable
@@ -90,8 +92,18 @@ public class DetailActivity extends Fragment {
         tvDetailName = myView.findViewById(R.id.tvDetailName);
         btnDetailAdd = myView.findViewById(R.id.btnDetailAdd);
         btnDetailMap = myView.findViewById(R.id.btnDetailMap);
+        tvDetailStore = myView.findViewById(R.id.tvDetailStore);
+        tvDetailPrice = myView.findViewById(R.id.tvDetailPrice);
+        tvDetailLink = myView.findViewById(R.id.tvDetailLink);
+        ivDetailImage = myView.findViewById(R.id.ivDetailImage);
+        tvDetailDescription = myView.findViewById(R.id.tvDetailDescription);
 
-        tvDetailName.setText(d.getStore());
+        tvDetailName.setText(d.getProduct());
+        tvDetailStore.setText("Store: "+d.getStore());
+        tvDetailPrice.setText("Price: $"+String.valueOf(d.getPrice()));
+        tvDetailLink.setText(d.getLink());
+        tvDetailDescription.setText(d.getDescription());
+        Glide.with(this).load(d.getImageUrl()).into(ivDetailImage);
 
         btnDetailAdd.setOnClickListener(new View.OnClickListener() {
             @Override
