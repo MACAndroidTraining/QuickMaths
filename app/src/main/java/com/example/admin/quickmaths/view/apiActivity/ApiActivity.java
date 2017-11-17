@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.model.display.DisplayObject;
 
@@ -29,6 +31,7 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
     TextView upcTextView;
 //    @BindView(R.id.rvItems)
     RecyclerView rvItems;
+    ImageView imageView;
 
     int pageCall = 1;
     int threadCheck = 0;
@@ -44,6 +47,8 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
     String upc;
 
     boolean oncreatecalled = false;
+
+    String itemImage = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +88,13 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
 
         upcTextView = myView.findViewById(R.id.tvUPC);
         rvItems = myView.findViewById(R.id.rvItems);
+        imageView = myView.findViewById(R.id.ivItemImage);
+
+        if(!itemImage.isEmpty()){
+            Glide.with(getActivity())
+                    .load( itemImage )
+                    .into(this.imageView);
+        }
 
         //set up dagger
 
@@ -100,12 +112,18 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
             presenter.makeCall(pageCall, upc);
         }
 
-
-        upcTextView.setText("Results for: " + upc);
+        upcTextView.setText(upc);
 
 //        newItemList.add(new DisplayObject("food", "Mac's", "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg", 2.00, 0, true));
 //        newItemList = mergeSort(newItemList);
 //        recycleViewAdapter.notifyDataSetChanged();
+    }
+
+    public void setItemImage(String itemImageURL){
+        this.itemImage = itemImageURL;
+        Glide.with(getActivity())
+                .load( itemImage )
+                .into(this.imageView);
     }
 
     public void initRecyclerView(List<DisplayObject> itemList) {

@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.admin.quickmaths.model.display.DisplayObject;
 
@@ -28,6 +30,8 @@ public class CartActivity extends Fragment {
 
     View myView;
 
+    ImageButton btnCartCheckout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +46,15 @@ public class CartActivity extends Fragment {
 
 //        Toolbar toolbar = myView.findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+
+        btnCartCheckout = myView.findViewById(R.id.btnCartCheckout);
+
+        btnCartCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Checkout", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         cartList = new ArrayList<>();
         prepareCart();

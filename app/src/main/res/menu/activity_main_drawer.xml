@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_favorites"
             android:icon="@drawable/ic_list_black"
-            android:title="Favorites" />
+            android:title="Cart" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_action_about"

@@ -267,6 +267,9 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                         Log.d(TAG, "UPC DB onNext: Found " + search.getItems().get(0).getOffers().size());
 
                         if (search.getTotal() > 0) {
+
+                            view.setItemImage(search.getItems().get(0).getImages().get(0));
+
                             for (Offer i : search.getItems().get(0).getOffers()) {
 
                                 if( i.getMerchant().equals("") )
