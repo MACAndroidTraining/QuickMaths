@@ -233,13 +233,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            intent = new Intent(this, CartActivity.class);
 //            startActivity(intent);
 
-        } else if (id == R.id.nav_settings) {
-
         } else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_social) {
 
         }
 
