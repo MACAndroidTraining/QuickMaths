@@ -68,7 +68,7 @@ public class DirectionsPresenter implements MainActivityContract.Presenter {
         final OverviewPolyline[] overviewPolyline = new OverviewPolyline[1];
 
         //Previously was using destination as second argument
-        GooglePlacesRemoteServiceHelper.getDirections(currentLocation, wayPoints.get(wayPoints.size()-1), wayPoints)
+        GooglePlacesRemoteServiceHelper.getDirections(currentLocation, wayPoints.get(0), wayPoints)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DirectionsResponse>() {

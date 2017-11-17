@@ -20,6 +20,7 @@ import com.example.admin.quickmaths.utils.MainActivityContract;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -33,18 +34,14 @@ public class GooglePlacesActivity extends AppCompatActivity implements MainActiv
     RecyclerView.ItemAnimator itemAnimator;
     @Inject
     BlankFragment fragment;
-    @Inject
-    Bundle bundle;
 
-    List<Result> resultList;
-    List<Step> stepList;
-    RecyclerView recyclerView;
-    GooglePlacesAdapter adapterForNearbyPlaces;
-    GooglePlacesAdapter adapterForDirections;
-
-
-    android.support.v4.app.FragmentManager manager;
-    android.support.v4.app.FragmentTransaction transaction;
+    private List<Result> resultList;
+    private List<Step> stepList;
+    private RecyclerView recyclerView;
+    private GooglePlacesAdapter adapterForNearbyPlaces;
+    private GooglePlacesAdapter adapterForDirections;
+    private android.support.v4.app.FragmentManager manager;
+    private android.support.v4.app.FragmentTransaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +71,10 @@ public class GooglePlacesActivity extends AppCompatActivity implements MainActiv
     }
 
     @Override
-    public void updateNearbyPlaces(List<Result> nearbyPlacesList) {
+    public void updateNearbyPlaces(List<Result> nearbyPlacesList, Map<String,Double> distanceOfClosestStores) {
         resultList.addAll(nearbyPlacesList);
         adapterForNearbyPlaces = new GooglePlacesAdapter(resultList);
+        adapterForNearbyPlaces.setDistanceOfClosestStores(distanceOfClosestStores);
         recyclerView.setAdapter(adapterForNearbyPlaces);
         recyclerView.setLayoutManager(linearLayout);
         recyclerView.setItemAnimator(itemAnimator);

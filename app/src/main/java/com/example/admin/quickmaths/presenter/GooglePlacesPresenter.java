@@ -1,6 +1,7 @@
 package com.example.admin.quickmaths.presenter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import com.example.admin.quickmaths.GooglePlacesRemoteServiceHelper;
 import com.example.admin.quickmaths.model.google.GooglePlacesResult;
@@ -24,6 +25,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.content.ContentValues.TAG;
+
 
 public class GooglePlacesPresenter implements MainActivityContract.Presenter {
 
@@ -42,6 +45,8 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter {
 
     @Override
     public void getNearbyResults(final String CurrentLocation, final GoogleMap googleMap, String storeName) {
+
+        final Map<String, Double> distanceForClosestStores = new HashMap<>();
 
         GooglePlacesRemoteServiceHelper.getNearbyResults(CurrentLocation, storeName)
                 .subscribeOn(Schedulers.io())
@@ -100,36 +105,37 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter {
                             List<Result> stores = storeSearch.get(key);
                             LatLng closestStore = new LatLng(stores.get(0).getGeometry().getLocation().getLat(),
                                     stores.get(0).getGeometry().getLocation().getLng());
-
                             String closestStoreName = stores.get(0).getName();
                             Result closestResult = stores.get(0);
 
-                            double storeShortestDistance = Math.sqrt((stores.get(0).getGeometry().getLocation().getLat() -
-                                    currentLocationLat) + (stores.get(0).getGeometry().getLocation().getLng() -
-                                    currentLocationLong));
+                            double storeShortestDistance = haversine(stores.get(0).getGeometry().getLocation().getLat(),
+                                    stores.get(0).getGeometry().getLocation().getLng(), currentLocationLat, currentLocationLong);
 
                             for (Result result: stores) {
                                 Location storeLocation = result.getGeometry().getLocation();
-                                double currentStoreDistance = Math.sqrt(storeLocation.getLat() -
-                                        currentLocationLat) + (storeLocation.getLng() -
-                                        currentLocationLong);
+                                double currentStoreDistance = haversine(storeLocation.getLat(), storeLocation.getLng()
+                                        , currentLocationLat, currentLocationLong);
+
                                 if(currentStoreDistance < storeShortestDistance) {
                                     closestStore = new LatLng(storeLocation.getLat(),storeLocation.getLng());
                                     closestStoreName = result.getName();
+                                    storeShortestDistance = currentStoreDistance;
                                     closestResult = result;
                                 }
                             }
 
+                            distanceForClosestStores.put(key, storeShortestDistance);
                             resultList.add(closestResult);
+                            //Markers for closest locations
                             googleMap.addMarker(new MarkerOptions().position(closestStore)
                                     .title(closestStoreName)).showInfoWindow();
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(closestStore, 10));
                         }
 
                         //Distinct marker for current location on the map
                         LatLng currentLocation = new LatLng(currentLocationLat, currentLocationLong);
                         googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 9));
 
                     }
 
@@ -140,16 +146,28 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter {
 
                     @Override
                     public void onComplete() {
-                        view.updateNearbyPlaces(resultList);
+                        view.updateNearbyPlaces(resultList, distanceForClosestStores);
                     }
                 });
     }
 
-    //This presenter is connected to the mainActivity. Since we don't retrieve directions on the mainactivity, the
+    //This presenter is connected to the GooglePlacesActivity. Since we don't retrieve directions on the GooglePlacesActivity, the
     //getDirections method is not needed
     @Override
     public void getDirections(String destination) {
 
+    }
+
+    public static double haversine(
+            double lat1, double lng1, double lat2, double lng2) {
+        int r = 3959; // average radius of the earth in km
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                        * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return r * c;
     }
 
 }
