@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.example.admin.quickmaths.AboutFragment;
 import com.example.admin.quickmaths.CartActivity;
 import com.example.admin.quickmaths.FaceBookLoginActivity;
 import com.example.admin.quickmaths.R;
@@ -89,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setSupportActionBar(toolbar);
 
-//        beep = MediaPlayer.create(this, R.raw.barcode_beep_sound_effect);
-        beep = MediaPlayer.create(this, R.raw.skraaa);
+        beep = MediaPlayer.create(this, R.raw.barcode_beep_sound_effect);
+//        beep = MediaPlayer.create(this, R.raw.skraaa);
 
 //        //go straight to api
 //        String upc = "813516025388"; // refurbished apple ipod nano, 16bg, blue
@@ -338,7 +339,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             currentFrag = frag;
 
         } else if (id == R.id.nav_about) {
-
+            AboutFragment frag = new AboutFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, frag)
+                    .addToBackStack("cart_activity")
+                    .commit();
+            currentFrag = frag;
         } else if (id == R.id.nav_social) {
             FaceBookLoginActivity frag = new FaceBookLoginActivity();
             fragmentManager.beginTransaction()

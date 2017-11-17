@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.admin.quickmaths.AboutFragment"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="About Us"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:layout_marginBottom="50dp"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quick Maths is an Android Application developed by the Twisted Tyrants Team. We are Android consultant group currently working for the Mobile Apps Company. The reason we created this app to ease the process of finding the best deal when shopping and getting the most bang for your buck"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"/>
+
+</LinearLayout>

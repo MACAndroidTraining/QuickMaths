@@ -14,11 +14,11 @@ public interface ApiActivityContract {
     interface View extends BaseView {
         //activity methods called by presenter
         void initRecyclerView(List<DisplayObject> itemList);
+        void initRecyclerView2(List<DisplayObject> itemList);
         void showProgress();
         void setItemImage(String itemImageURL);
         void setSearchType(String s);
         void domergesort();
-        void domergesortCheck();
     }
 
     interface Presenter extends BasePresenter<View> {

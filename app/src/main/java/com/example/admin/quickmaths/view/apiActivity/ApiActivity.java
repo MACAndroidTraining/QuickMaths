@@ -148,34 +148,43 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
 
     public void initRecyclerView(List<DisplayObject> itemList) {
         newItemList = itemList;
+        threadCheck++;
 
         layoutManager = new LinearLayoutManager(getActivity());
         recycleViewAdapter = new RecycleViewAdapter(getActivity(), newItemList, getActivity());
         rvItems.setLayoutManager(layoutManager);
         rvItems.setAdapter(recycleViewAdapter);
 
-        Log.d(TAG, "initRecyclerView: threadCheck: "+threadCheck);
-        if(threadCheck == 4|| threadBool){
-            Thread mergeThread = new Thread(){
-                @Override
-                public void run() {
-                    super.run();
-                    newItemList = presenter.mergeSort(newItemList);
-                    threadBool = false;
-                    initRecyclerView(newItemList);
-                }
-            };
-            mergeThread.start();
+        Log.d(TAG, "initRecyclerView: threadCheck: " + threadCheck);
+        if (threadCheck == 4) {
+            newItemList = presenter.mergeSort(newItemList);
+            initRecyclerView(newItemList);
+
         }
+    }
+
+    public void initRecyclerView2(List<DisplayObject> itemList) {
+        newItemList = itemList;
+
+
+        layoutManager = new LinearLayoutManager(getActivity());
+        recycleViewAdapter = new RecycleViewAdapter(getActivity(), newItemList, getActivity());
+        rvItems.setLayoutManager(layoutManager);
+        rvItems.setAdapter(recycleViewAdapter);
+
+        Log.d(TAG, "initRecyclerView: threadCheck: " + threadBool);
+        if (threadBool) {
+
+            newItemList = presenter.mergeSort(newItemList);
+            threadBool = false;
+            initRecyclerView(newItemList);
+        }
+
     }
 
     @Override
     public void domergesort(){
         threadBool = true;
-    }
-    @Override
-    public void domergesortCheck(){
-        threadCheck++;
     }
 
     @Override
