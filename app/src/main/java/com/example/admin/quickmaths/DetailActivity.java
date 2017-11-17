@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.example.admin.quickmaths.model.bestBuy.Detail;
 import com.example.admin.quickmaths.model.display.DisplayObject;
 import com.example.admin.quickmaths.view.apiActivity.ApiActivity;
 import com.example.admin.quickmaths.view.placesActivity.GooglePlacesActivity;
+
+import static android.content.ContentValues.TAG;
 
 public class DetailActivity extends Fragment {
 
@@ -40,8 +43,10 @@ public class DetailActivity extends Fragment {
 
         final DisplayObject d = getArguments().getParcelable("displayObject");
 
-        if(d.getStore() != null)
+        if(d.getStore() != null) {
+            Log.d(TAG, "init: " + d.getStore());
             storeName = d.getStore();
+        }
         else
             storeName = "";
 

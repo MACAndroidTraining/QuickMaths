@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.admin.quickmaths.BlankFragment;
 import com.example.admin.quickmaths.DirectionsActivity;
@@ -26,6 +28,7 @@ import javax.inject.Inject;
 
 public class GooglePlacesActivity extends AppCompatActivity implements MainActivityContract.View{
 
+    private static final String TAG = "hey";
     @Inject
     GooglePlacesPresenter presenter;
     @Inject
@@ -55,14 +58,19 @@ public class GooglePlacesActivity extends AppCompatActivity implements MainActiv
         DaggerPresenterComponent.builder()
                 .linearLayoutManagerModule(new LinearLayoutManagerModule(this))
                 .build().inject(this);
-        storeNames.add(getIntent().getStringExtra("storeName"));
-        storeNames = getIntent().getStringArrayListExtra("stores");
+        
+        if(getIntent().getStringExtra("storeName") != null)
+            storeNames.add(getIntent().getStringExtra("storeName"));
+        else
+            storeNames = getIntent().getStringArrayListExtra("stores");
+
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         transaction.add(R.id.flFragment, fragment, "fragment").commit();
         presenter.attachView(this);
         fragment.setStoreNames(storeNames);
         fragment.setPresenter(presenter);
+
 
 
     }
@@ -97,9 +105,14 @@ public class GooglePlacesActivity extends AppCompatActivity implements MainActiv
 
     public void sendSelectedLocations(View view) {
         ArrayList<String> wayPoints = (ArrayList<String>) adapterForNearbyPlaces.getWayPoints();
-        Intent intent = new Intent(this, DirectionsActivity.class);
-        intent.putStringArrayListExtra("wayPoints", wayPoints);
-        startActivity(intent);
+
+        if(wayPoints.isEmpty()) {
+            Toast.makeText(this, "Select a result or scan another item", Toast.LENGTH_LONG).show();
+        } else {
+            Intent intent = new Intent(this, DirectionsActivity.class);
+            intent.putStringArrayListExtra("wayPoints", wayPoints);
+            startActivity(intent);
+        }
     }
 
 }
