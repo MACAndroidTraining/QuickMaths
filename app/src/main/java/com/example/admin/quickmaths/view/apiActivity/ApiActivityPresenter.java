@@ -496,7 +496,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                         Log.d(TAG, "onComplete: upc before merge");
 //                        mergeSort(itemList);
                         view.initRecyclerView(itemList);
-                        view.domergesort();
+                        view.domergesort(itemList);
 
                         Log.d(TAG, "UPC DB onComplete: ");
                         Log.d(TAG, " ");

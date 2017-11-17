@@ -161,7 +161,8 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
     }
 
     @Override
-    public void domergesort(){
+    public void domergesort(List<DisplayObject> itemList){
+        newItemList = itemList;
         presenter.mergeSort(newItemList);
     }
 
