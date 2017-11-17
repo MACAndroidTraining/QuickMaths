@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -38,7 +42,7 @@ public class BlankFragment extends Fragment implements OnMapReadyCallback, Googl
     GoogleMap googleMap;
     MainActivityContract.Presenter presenter;
     List<String> wayPoints;
-    List<String> storeNames;
+    List<String> storeNames = new ArrayList<>();
 
 
     public BlankFragment() {

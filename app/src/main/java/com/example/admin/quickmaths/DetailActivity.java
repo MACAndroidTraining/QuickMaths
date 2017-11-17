@@ -36,6 +36,8 @@ import com.facebook.share.widget.ShareButton;
 
 import java.util.concurrent.Callable;
 
+import static android.content.ContentValues.TAG;
+
 public class DetailActivity extends Fragment {
 
     View myView;
@@ -84,8 +86,10 @@ public class DetailActivity extends Fragment {
 
         final DisplayObject d = getArguments().getParcelable("displayObject");
 
-        if(d.getStore() != null)
+        if(d.getStore() != null) {
+            Log.d(TAG, "init: " + d.getStore());
             storeName = d.getStore();
+        }
         else
             storeName = "";
 
