@@ -318,14 +318,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-//        Intent intent;
         FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_camera) {
 
-//            ZxingActivity zxingActivity = (ZxingActivity) getFragmentManager().findFragmentByTag(ZXINGTAG);
-//            fragmentManager.beginTransaction()
-//                    .remove(zxingActivity);
             ZxingActivity frag = new ZxingActivity();
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, frag)
@@ -340,9 +336,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack("cart_activity")
                     .commit();
             currentFrag = frag;
-
-//            intent = new Intent(this, CartActivity.class);
-//            startActivity(intent);
 
         } else if (id == R.id.nav_about) {
 
