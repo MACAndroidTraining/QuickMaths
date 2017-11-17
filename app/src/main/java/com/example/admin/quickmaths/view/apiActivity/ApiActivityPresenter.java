@@ -365,9 +365,13 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     Node descriptionNode = doc.getElementsByTagName("Content").item(0);
                     Node linkNode = doc.getElementsByTagName("DetailPageURL").item(0);
 
-                    Log.d(TAG, "run: Amazon: " + descriptionNode.getTextContent());
-                    Log.d(TAG, "run: Amazon: " + linkNode.getTextContent());
-                    Log.d(TAG, "run: Amazon: " + image.getTextContent().split(".jpg")[0] + ".jpg");
+//                    Log.d(TAG, "run: Amazon: " + descriptionNode.getTextContent());
+//                    Log.d(TAG, "run: Amazon: " + linkNode.getTextContent());
+//                    Log.d(TAG, "run: Amazon: " + image.getTextContent().split(".jpg")[0] + ".jpg");
+
+//                    Log.d(TAG, "run: Amazon: " + descriptionNode.getTextContent());
+//                    Log.d(TAG, "run: Amazon: " + linkNode.getTextContent());
+//                    Log.d(TAG, "run: Amazon: " + image.getTextContent());
 
                     if( titleNode != null ) {
                         System.out.println(titleNode.getTextContent());
