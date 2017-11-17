@@ -16,4 +16,6 @@
     <string name="share">share</string>
     <string name="login_cancel">Login cancelled</string>
     <string name="greet">Welcome</string>
+
+    <string name="facebook_app_id">1970885516560386</string>
 </resources>

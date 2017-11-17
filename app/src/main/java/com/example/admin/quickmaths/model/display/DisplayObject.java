@@ -8,11 +8,13 @@ import android.os.Parcelable;
  */
 
 public class DisplayObject implements Parcelable{
+
     String store, product, description, imageUrl, link;
     double price;
     boolean onLine;
 
     public DisplayObject(String product, String store, String description, String link, String imageUrl, double price, boolean onLine) {
+
         this.store = store;
         this.product = product;
         this.description = description;
@@ -43,10 +45,9 @@ public class DisplayObject implements Parcelable{
         }
     };
 
-    public String getStore() {
-        return store;
-    }
+    public DisplayObject(String product, String walmart, String s, double v, double v1, boolean b) {
 
+    }
     public void setStore(String store) {
         this.store = store;
     }
@@ -55,8 +56,12 @@ public class DisplayObject implements Parcelable{
         return product;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public DisplayObject() {
+
+    }
+
+    public String getStore() {
+        return store;
     }
 
     public String getDescription() {
@@ -75,8 +80,8 @@ public class DisplayObject implements Parcelable{
         this.price = price;
     }
 
-    public boolean isOnLine() {
-        return onLine;
+    public void setProduct(String product) {
+        this.product = product;
     }
 
     public void setOnLine(boolean onLine) {
@@ -97,6 +102,9 @@ public class DisplayObject implements Parcelable{
 
     public void setLink(String link) {
         this.link = link;
+    }
+    public boolean isOnLine() {
+        return onLine;
     }
 
     @Override

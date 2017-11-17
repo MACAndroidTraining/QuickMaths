@@ -3,7 +3,6 @@ package com.example.admin.quickmaths.view.apiActivity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.admin.quickmaths.DetailActivity;
-import com.example.admin.quickmaths.MapsActivity;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.model.display.DisplayObject;
 import com.example.admin.quickmaths.view.detailsActivity.DetailsActivity;

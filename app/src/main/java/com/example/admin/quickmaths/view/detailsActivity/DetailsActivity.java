@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.admin.quickmaths.R;
-import com.example.admin.quickmaths.model.UPCItemDB.Item;
+import com.example.admin.quickmaths.model.display.DisplayObject;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -38,7 +38,10 @@ public class DetailsActivity extends AppCompatActivity {
     ShareButton shareButton;
 
     //creating Item object from model.UPCItemDB.Item
-    Item item = new Item();
+//    Item item = new Item();
+
+    //Creating DisplayObject object to return values from wrapper
+    DisplayObject displayObject = new DisplayObject();
 
     private static final String TAG = "Facebook Login";
 
@@ -123,16 +126,15 @@ public class DetailsActivity extends AppCompatActivity {
         //registering callback on login
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager, mCallBack);
 
-        //TODO: either explicitly open fb with fb btn or remove it: done
-        //Share Dialog
-        //You cannot preset the shared link in design time, if you do so, the fb share button will
-        //look disabled. You need to set in the code as below
+//        Share Dialog
+//        You cannot preset the shared link in design time, if you do so, the fb share button will
+//        look disabled. You need to set in the code as below
         shareButton = findViewById(R.id.facebook_share_button);
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentTitle(item.getTitle())
-                .setContentDescription(item.getDescription())
-                .setContentUrl(Uri.parse("http://instinctcoder.com"))
-                .setImageUrl(Uri.parse("http://www.ssbwiki.com/images/thumb/2/29/Yoshi_SSB4.png/200px-Yoshi_SSB4.png"))
+                .setContentTitle("QuickMaths")//switches title during post description, but reverts to url title and description by default
+                .setContentDescription(String.valueOf(displayObject.getPrice()))
+                .setContentUrl(Uri.parse("http://www.google.com"))
+//                .setImageUrl(Uri.parse("http://www.ssbwiki.com/images/thumb/2/29/Yoshi_SSB4.png/200px-Yoshi_SSB4.png"))
                 .build();
         shareButton.setShareContent(content);
 
@@ -147,7 +149,7 @@ public class DetailsActivity extends AppCompatActivity {
         //TODO: general implicit share button is currently hardcoded
         shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My App.");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "QuickMaths!");
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(shareIntent, "Share via "));
     }
