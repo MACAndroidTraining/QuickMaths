@@ -1,9 +1,11 @@
 package com.example.admin.quickmaths;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,12 @@ import com.example.admin.quickmaths.model.google.Result;
 import com.example.admin.quickmaths.model.google.Step;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 
 public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapter.ViewHolder>{
 
@@ -25,6 +32,9 @@ public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapte
     private Context context;
     private List<Step> stepList;
     private List<String> wayPoints = new ArrayList<>();
+    private Map<String, Double> distanceOfClosestStores = new HashMap<>();
+    private Map<Double, String> wayPointMap = new TreeMap<>();
+    private final String defaultImage = "http://is2.mzstatic.com/image/thumb/Purple128/v4/16/75/63/167563c2-cc97-60e3-23ef-ad1a1d8986fb/source/1200x630bb.jpg";
 
 
     // TODO: 11/16/2017 Create a seperate adapter
@@ -53,22 +63,27 @@ public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapte
 
     }
 
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
+        String pictureUrl;
         if(resultList != null) {
             final Result result = resultList.get(position);
             List<Photo> photoList = result.getPhotos();
             if (photoList != null) {
                 Photo photo = photoList.get(0);
-                String restaurantpic = "https://maps.googleapis.com/maps/api/place/photo?" +
+                pictureUrl = "https://maps.googleapis.com/maps/api/place/photo?" +
                         "maxheight=" + photo.getHeight() +
                         "&photoreference=" + photo.getPhotoReference() +
                         "&key=" + GooglePlacesRemoteServiceHelper.PLACES_API_KEY;
+            } else
+                pictureUrl = defaultImage;
 
                 holder.mListBinding.tvPlaceName.setText(result.getName());
+                holder.mListBinding.tvDistance.setText(String.format("%.2f",
+                        distanceOfClosestStores.get(result.getName())) + " mi");
                 Glide.with(context)
-                        .load(restaurantpic)
+                        .load(pictureUrl)
                         .into(holder.mListBinding.ivPlaceImage);
 
                 holder.mListBinding.getRoot().setOnClickListener(new View.OnClickListener() {
@@ -77,11 +92,11 @@ public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapte
 
                         Location destinationLocation = result.getGeometry().getLocation();
                         String destinationCoordintes = destinationLocation.getLat() + "," + destinationLocation.getLng();
+                        wayPointMap.put(distanceOfClosestStores.get(result.getName()), destinationCoordintes);
                         wayPoints.add(destinationCoordintes);
                     }
                 });
 
-            }
         } else {
             Step step = stepList.get(position);
             holder.mStepBinding.tvStep.setText(Html.fromHtml(step.getHtmlInstructions()));
@@ -112,8 +127,10 @@ public class GooglePlacesAdapter extends RecyclerView.Adapter<GooglePlacesAdapte
         }
     }
 
-    public List<String> getWayPoints() {
-        return wayPoints;
-    }
+    public List<String> getWayPoints() {return new ArrayList<>(wayPointMap.values()); }
 
+
+    public void setDistanceOfClosestStores(Map<String, Double> distanceOfClosestStores) {
+        this.distanceOfClosestStores = distanceOfClosestStores;
+    }
 }

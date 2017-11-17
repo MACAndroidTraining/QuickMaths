@@ -13,6 +13,7 @@ import com.example.admin.quickmaths.presenter.DirectionsPresenter;
 import com.example.admin.quickmaths.utils.MainActivityContract;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -61,7 +62,7 @@ public class DirectionsActivity extends AppCompatActivity implements MainActivit
     }
 
     @Override
-    public void updateNearbyPlaces(List<Result> nearbyPlacesList) {
+    public void updateNearbyPlaces(List<Result> nearbyPlacesList, Map<String, Double> map) {
 
     }
 

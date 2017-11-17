@@ -15,10 +15,11 @@
         android:layout_height="0dp">
 
         <Button
-            android:text="Go"
+            android:text="Get Directions"
             android:onClick="sendSelectedLocations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </FrameLayout>
 
 

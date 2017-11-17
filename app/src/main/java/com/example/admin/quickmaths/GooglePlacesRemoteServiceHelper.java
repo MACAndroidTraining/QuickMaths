@@ -33,7 +33,7 @@ public class GooglePlacesRemoteServiceHelper {
 
         Retrofit retrofit = create();
         GooglePlaceRemoteService service = retrofit.create(GooglePlaceRemoteService.class);
-        return service.getNearbyResults(PLACES_API_KEY, coordinates, 10000+"",
+        return service.getNearbyResults(PLACES_API_KEY, coordinates, 50000+"",
                 storeName);
     }
 
