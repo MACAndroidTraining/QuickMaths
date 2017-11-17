@@ -30,6 +30,12 @@ public class ZxingActivity extends Fragment implements ZXingScannerView.ResultHa
     ZXingScannerView mScannerView;
     SearchView mySearchView;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

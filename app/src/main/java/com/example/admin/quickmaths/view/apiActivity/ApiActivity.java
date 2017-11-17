@@ -32,6 +32,7 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
 //    @BindView(R.id.rvItems)
     RecyclerView rvItems;
     ImageView imageView;
+    TextView searchType;
 
     int pageCall = 1;
     int threadCheck = 0;
@@ -49,6 +50,8 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
     boolean oncreatecalled = false;
 
     String itemImage = "";
+
+    String stringSearchType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +92,7 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
         upcTextView = myView.findViewById(R.id.tvUPC);
         rvItems = myView.findViewById(R.id.rvItems);
         imageView = myView.findViewById(R.id.ivItemImage);
+        searchType = myView.findViewById(R.id.searchType);
 
         if(!itemImage.isEmpty()){
             Glide.with(getActivity())
@@ -109,14 +113,28 @@ public class ApiActivity extends Fragment implements ApiActivityContract.View{
             Log.d(TAG, "init: here");
             upc = getArguments().getString("query");
             presenter.attachView(this);
-            presenter.makeCall(pageCall, upc);
+            if (upc.matches("[0-9]+") && upc.length() > 1) {
+                Log.d(TAG, "init: numbers");
+                presenter.makeCall(pageCall, upc);
+                stringSearchType = "UPC: ";
+            }else{
+                Log.d(TAG, "init: text search");
+                presenter.textSearch(upc);
+                stringSearchType = "SEARCH: ";
+            }
         }
 
+        searchType.setText(stringSearchType);
         upcTextView.setText(upc);
 
 //        newItemList.add(new DisplayObject("food", "Mac's", "http://freelogophoto.b-cdn.net/wp-content/uploads/2012/04/best_buy-logo.jpg", 2.00, 0, true));
 //        newItemList = mergeSort(newItemList);
 //        recycleViewAdapter.notifyDataSetChanged();
+    }
+
+    public void setSearchType(String s){
+        stringSearchType = s;
+        searchType.setText(stringSearchType);
     }
 
     public void setItemImage(String itemImageURL){

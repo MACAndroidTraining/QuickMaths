@@ -21,7 +21,7 @@
             <item
                 android:id="@+id/nav_social"
                 android:icon="@drawable/com_facebook_button_icon"
-                android:title="Login"/>
+                android:title="Facebook"/>
         </menu>
     </item>
 

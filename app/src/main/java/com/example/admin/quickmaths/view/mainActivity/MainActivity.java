@@ -1,7 +1,11 @@
 package com.example.admin.quickmaths.view.mainActivity;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -10,24 +14,40 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.ArrayMap;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.admin.quickmaths.CartActivity;
+import com.example.admin.quickmaths.FaceBookLoginActivity;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.ZxingActivity;
+import com.example.admin.quickmaths.data.RetrofitHelper;
+import com.example.admin.quickmaths.model.UPCItemDB.Offer;
+import com.example.admin.quickmaths.model.UPCItemDB.SearchResult;
+import com.example.admin.quickmaths.model.display.DisplayObject;
+import com.example.admin.quickmaths.view.apiActivity.ApiActivity;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.PACKAGE_USAGE_STATS;
 import static android.Manifest.permission_group.LOCATION;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -48,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //    NavigationView navView;
 //    @BindView(R.id.drawerLayout)
 //    DrawerLayout drawerLayout;
+
+    String query;
+
+    boolean search = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +107,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =  findViewById(R.id.mySearchView);
+
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent: ");
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            Log.d(TAG, "onNewIntent: search");
+            query = intent.getStringExtra(SearchManager.QUERY);
+//            recipeList.clear();
+//            presenter.getRecipes(0, query);
+            FragmentManager fragmentManager = getFragmentManager();
+
+            Bundle args = new Bundle();
+            args.putString("query",query);
+            ApiActivity frag = new ApiActivity();
+            frag.setArguments(args);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, frag)
+                    .addToBackStack("api_activity")
+                    .commit();
+
+            search = true;
+        }
+
+        //hide keyboard after search
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private boolean checkPermissionCamera() {
@@ -163,6 +225,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         Log.d(TAG, "onResume: ");
 
+        if(search){
+            search = false;
+            return;
+        }
+
         int currentapiVersion = Build.VERSION.SDK_INT;
         if (currentapiVersion >= Build.VERSION_CODES.M) {
             if (checkPermissionCamera()) {
@@ -171,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new ZxingActivity())
+//                        .addToBackStack("zxing_activity")
                         .commit();
 
 //                if (mScannerView == null) {
@@ -220,6 +288,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_camera) {
 
+//            ZxingActivity zxingActivity = (ZxingActivity) getFragmentManager().findFragmentByTag(ZXINGTAG);
+//            fragmentManager.beginTransaction()
+//                    .remove(zxingActivity);
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ZxingActivity())
                     .commit();
@@ -237,11 +308,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_about) {
 
         } else if (id == R.id.nav_social) {
-
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new FaceBookLoginActivity())
+                    .addToBackStack("facebook_activity")
+                    .commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawerLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
     }
 }

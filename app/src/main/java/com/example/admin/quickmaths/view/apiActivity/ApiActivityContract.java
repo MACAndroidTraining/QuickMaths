@@ -16,6 +16,7 @@ public interface ApiActivityContract {
         void initRecyclerView(List<DisplayObject> itemList);
         void showProgress();
         void setItemImage(String itemImageURL);
+        void setSearchType(String s);
     }
 
     interface Presenter extends BasePresenter<View> {

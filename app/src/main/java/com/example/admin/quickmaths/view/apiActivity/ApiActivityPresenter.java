@@ -59,6 +59,10 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
         callUpcDB(upc);
     }
 
+    public void callSearchUPC(String upc){
+        callUpcDB(upc);
+    }
+
     @Override
     public List<DisplayObject> mergeSort(List<DisplayObject> itemList){
         Log.d(TAG, "mergeSort: is called, itemList size: "+itemList.size());
@@ -265,10 +269,14 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                     public void onNext(@NonNull SearchResult search) {
 
                         Log.d(TAG, "UPC DB onNext: Found " + search.getItems().get(0).getOffers().size());
+                        boolean hasImage = false;
 
                         if (search.getTotal() > 0) {
 
-                            view.setItemImage(search.getItems().get(0).getImages().get(0));
+                            if(search.getItems().get(0).getImages().size() > 0) {
+                                view.setItemImage(search.getItems().get(0).getImages().get(0));
+                                hasImage = true;
+                            }
 
                             for (Offer i : search.getItems().get(0).getOffers()) {
 
@@ -289,12 +297,18 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                         i.getMerchant().equals("TigerDirect") )
                                     onLine = true;
 
+                                String image;
+                                if(hasImage)
+                                    image = search.getItems().get(0).getImages().get(0);
+                                else
+                                    image = "https://thumb10.shutterstock.com/display_pic_with_logo/1425959/261719003/stock-vector-no-image-available-sign-internet-web-icon-to-indicate-the-absence-of-image-until-it-will-be-261719003.jpg";
+
                                 DisplayObject upcItem = new DisplayObject(
                                         i.getTitle(),
                                         i.getMerchant(),
                                         search.getItems().get(0).getDescription(),
                                         i.getLink(),
-                                        search.getItems().get(0).getImages().get(0),
+                                        image,
                                         i.getPrice(),
                                         onLine
                                 );
@@ -398,6 +412,99 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
         t.start();
 //        view.mergeSort(itemList);
         view.initRecyclerView(itemList);
+    }
+
+    public void textSearch(String search){
+        Map<String, String> query = new ArrayMap<>();
+        query.put("s", search);
+
+        RetrofitHelper.textSearch(query)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<SearchResult>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        Log.d(TAG, "UPC DB onSubscribe: " + d.toString());
+                    }
+
+                    @Override
+                    public void onNext(@NonNull SearchResult search) {
+
+                        Log.d(TAG, "UPC DB onNext: Found " + search.getItems().get(0).getOffers().size());
+                        boolean hasImage = false;
+
+                        if (search.getTotal() > 0) {
+
+                            if(search.getItems().get(0).getImages().size() > 0) {
+                                view.setItemImage(search.getItems().get(0).getImages().get(0));
+                                hasImage = true;
+                            }
+
+                            for(com.example.admin.quickmaths.model.UPCItemDB.Item item: search.getItems()){
+                                for (Offer i : item.getOffers()) {
+
+                                    if( i.getMerchant().equals("") )
+                                        break;
+
+                                    Log.d(TAG, "UPC DB onNext: Merchant name: " + i.getMerchant());
+                                    Log.d(TAG, "UPC DB onNext: Domain name: " + i.getDomain());
+                                    Log.d(TAG, "UPC DB onNext: Item name: " + i.getTitle());
+                                    Log.d(TAG, "UPC DB onNext: Item sale price:" + i.getPrice());
+                                    Log.d(TAG, "UPC DB onNext: ");
+
+                                    boolean onLine = (i.getMerchant().contains(".com"));
+
+                                    if( i.getMerchant().equals("Wal-Mart.com") )
+                                        onLine = false;
+                                    else if( i.getMerchant().equals("GameFly") ||
+                                            i.getMerchant().equals("TigerDirect") )
+                                        onLine = true;
+
+                                    String image;
+                                    if(hasImage)
+                                        image = search.getItems().get(0).getImages().get(0);
+                                    else
+                                        image = "https://thumb10.shutterstock.com/display_pic_with_logo/1425959/261719003/stock-vector-no-image-available-sign-internet-web-icon-to-indicate-the-absence-of-image-until-it-will-be-261719003.jpg";
+
+                                    DisplayObject upcItem = new DisplayObject(
+                                            i.getTitle(),
+                                            i.getMerchant(),
+                                            search.getItems().get(0).getDescription(),
+                                            i.getLink(),
+                                            image,
+                                            i.getPrice(),
+                                            onLine
+                                    );
+
+//                                search.getItems().get(0).getImages().get(0);
+                                    itemList.add(upcItem);
+                                }
+                            }
+
+
+                        } else {
+                            Log.d(TAG, "onNext: in else");
+                            view.setSearchType("Nothing Found: ");
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.d(TAG, "UPC DB onError: " + e.toString());
+                        view.setSearchType("Nothing Found: ");
+                    }
+
+                    @Override
+                    public void onComplete() {
+//                        recycleViewAdapter.notifyDataSetChanged();
+                        Log.d(TAG, "onComplete: upc before merge");
+//                        view.mergeSort(itemList);
+                        view.initRecyclerView(itemList);
+
+                        Log.d(TAG, "UPC DB onComplete: ");
+                        Log.d(TAG, " ");
+                    }
+                });
     }
 
 }

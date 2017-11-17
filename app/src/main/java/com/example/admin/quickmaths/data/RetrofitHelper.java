@@ -62,6 +62,13 @@ public class RetrofitHelper {
         return service.upcDBService(query);
     }
 
+    static public Observable<SearchResult> textSearch(Map<String, String> query){
+        Retrofit retrofit = create(BASE_URL_UPCDB);
+        RequestService service = retrofit.create(RequestService.class);
+        Log.d(TAG, "textSearch: " + query);
+        return service.upcDBSearchService(query);
+    }
+
     public interface RequestService {
         @GET("/v1/search")
         Observable<WalmartSearch> walmartResponseService(@QueryMap Map<String, String> query);
@@ -76,6 +83,11 @@ public class RetrofitHelper {
         @GET("lookup")
         Observable<SearchResult> upcDBService(@QueryMap Map<String, String> query);
 //        https://api.upcitemdb.com/prod/trial/lookup?upc=052000320169
+
+        @GET("search")
+        Observable<SearchResult> upcDBSearchService(@QueryMap Map<String, String> query);
+//        https://api.upcitemdb.com/prod/trial/search?s="Gatorade"
+
     }
 }
 
