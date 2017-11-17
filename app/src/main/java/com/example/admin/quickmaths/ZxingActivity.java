@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.admin.quickmaths.view.apiActivity.ApiActivity;
+import com.example.admin.quickmaths.view.mainActivity.MainActivity;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -95,6 +96,8 @@ public class ZxingActivity extends Fragment implements ZXingScannerView.ResultHa
                 .replace(R.id.content_frame, frag)
                 .addToBackStack("api_activity")
                 .commit();
+
+        ((MainActivity) getActivity()).setdidsearch();
 
     }
 

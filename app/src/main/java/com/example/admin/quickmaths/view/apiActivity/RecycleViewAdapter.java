@@ -17,6 +17,7 @@ import com.example.admin.quickmaths.DetailActivity;
 import com.example.admin.quickmaths.R;
 import com.example.admin.quickmaths.model.display.DisplayObject;
 import com.example.admin.quickmaths.view.detailsActivity.DetailsActivity;
+import com.example.admin.quickmaths.view.mainActivity.MainActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -130,6 +131,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                     args.putParcelable("displayObject", d);
                     DetailActivity frag = new DetailActivity();
                     frag.setArguments(args);
+                    ((MainActivity) activity).setCurrentFrag(frag);
+                    Log.d(TAG, "onClick: " + activity.getLocalClassName());
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame, frag)
                             .addToBackStack("detail_activity")

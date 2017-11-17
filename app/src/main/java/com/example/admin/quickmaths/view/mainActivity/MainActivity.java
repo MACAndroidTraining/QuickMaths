@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -73,6 +74,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     boolean search = false;
 
+    boolean didsearch = false;
+
+    Fragment currentFrag = null;
+    private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =  findViewById(R.id.mySearchView);
+        searchView = findViewById(R.id.mySearchView);
 
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -136,7 +142,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack("api_activity")
                     .commit();
 
+            currentFrag = frag;
             search = true;
+            didsearch = true;
         }
 
         //hide keyboard after search
@@ -220,26 +228,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .show();
     }
 
+    public void setdidsearch(){
+        didsearch = true;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
+
+        searchView.clearFocus(); // close the keyboard on load
 
         if(search){
             search = false;
             return;
         }
 
-        int currentapiVersion = Build.VERSION.SDK_INT;
-        if (currentapiVersion >= Build.VERSION_CODES.M) {
-            if (checkPermissionCamera()) {
+        if(!didsearch){
+            int currentapiVersion = Build.VERSION.SDK_INT;
+            if (currentapiVersion >= Build.VERSION_CODES.M) {
+                if (checkPermissionCamera()) {
 
-                //start fragment
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new ZxingActivity())
+                    //start fragment
+                    FragmentManager fragmentManager = getFragmentManager();
+                    ZxingActivity frag = new ZxingActivity();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, frag)
 //                        .addToBackStack("zxing_activity")
-                        .commit();
+                            .commit();
 
 //                if (mScannerView == null) {
 //                    // check if the scanner view is null. If so, create a new one.
@@ -248,11 +264,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                }
 //                mScannerView.setResultHandler(this);
 //                mScannerView.startCamera();
-                Log.d(TAG, "onResume: Camera Started");
-            } else {
-                requestPermissionCamera();
+                    Log.d(TAG, "onResume: Camera Started");
+                    currentFrag = frag;
+                } else {
+                    requestPermissionCamera();
+                }
             }
         }
+
+
     }
 
 //    private void showUPCAlert( final String result ) {
@@ -291,16 +311,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            ZxingActivity zxingActivity = (ZxingActivity) getFragmentManager().findFragmentByTag(ZXINGTAG);
 //            fragmentManager.beginTransaction()
 //                    .remove(zxingActivity);
+            ZxingActivity frag = new ZxingActivity();
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new ZxingActivity())
+                    .replace(R.id.content_frame, frag)
                     .commit();
+            currentFrag = frag;
 
         } else if (id == R.id.nav_favorites) {
 
+            CartActivity frag = new CartActivity();
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new CartActivity())
+                    .replace(R.id.content_frame, frag)
                     .addToBackStack("cart_activity")
                     .commit();
+            currentFrag = frag;
 
 //            intent = new Intent(this, CartActivity.class);
 //            startActivity(intent);
@@ -308,10 +332,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_about) {
 
         } else if (id == R.id.nav_social) {
+            FaceBookLoginActivity frag = new FaceBookLoginActivity();
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new FaceBookLoginActivity())
+                    .replace(R.id.content_frame, frag)
                     .addToBackStack("facebook_activity")
                     .commit();
+            currentFrag = frag;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawerLayout);
@@ -342,11 +368,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
+//        if(currentFrag != null){
+//            Log.d(TAG, "onStart: " + currentFrag);
+//            FragmentManager fragmentManager = getFragmentManager();
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.content_frame, currentFrag)
+//                    .addToBackStack("cart_activity")
+//                    .commit();
+//        }
+    }
+
+    public void setCurrentFrag(Fragment frag){
+        currentFrag = frag;
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Log.d(TAG, "onSaveInstanceState: ");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "onRestoreInstanceState: ");
     }
 }
