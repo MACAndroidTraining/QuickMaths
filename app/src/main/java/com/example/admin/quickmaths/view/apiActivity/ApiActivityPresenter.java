@@ -364,7 +364,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
 
                     Log.d(TAG, "run: Amazon: " + descriptionNode.getTextContent());
                     Log.d(TAG, "run: Amazon: " + linkNode.getTextContent());
-                    Log.d(TAG, "run: Amazon: " + image.getTextContent());
+                    Log.d(TAG, "run: Amazon: " + image.getTextContent().split(".jpg")[0] + ".jpg");
 
                     if( titleNode != null ) {
                         System.out.println(titleNode.getTextContent());
@@ -374,7 +374,7 @@ public class ApiActivityPresenter implements ApiActivityContract.Presenter {
                                 "Amazon",
                                 descriptionNode.getTextContent(),
                                 linkNode.getTextContent(),
-                                image.getTextContent(),
+                                image.getTextContent().split(".jpg")[0] + ".jpg",
                                 Double.parseDouble(priceNode.getTextContent().substring(1)),
                                 true
                         );
