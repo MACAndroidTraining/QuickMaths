@@ -15,11 +15,13 @@ public interface ApiActivityContract {
         //activity methods called by presenter
         void initRecyclerView(List<DisplayObject> itemList);
         void showProgress();
-        List<DisplayObject> mergeSort(List<DisplayObject> listItem);
+
     }
 
     interface Presenter extends BasePresenter<View> {
         //presenter methods called by activity
         void makeCall(int pageCallUpdate, String upc);
+        List<DisplayObject> mergeSort(List<DisplayObject> listItem);
+        List<DisplayObject> merge(List<DisplayObject> left, List<DisplayObject> right);
     }
 }
