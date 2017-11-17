@@ -42,6 +42,7 @@ public class GooglePlacesActivity extends AppCompatActivity implements MainActiv
     private GooglePlacesAdapter adapterForDirections;
     private android.support.v4.app.FragmentManager manager;
     private android.support.v4.app.FragmentTransaction transaction;
+    List<String> storeNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +55,13 @@ public class GooglePlacesActivity extends AppCompatActivity implements MainActiv
         DaggerPresenterComponent.builder()
                 .linearLayoutManagerModule(new LinearLayoutManagerModule(this))
                 .build().inject(this);
-        String storeName = getIntent().getStringExtra("storeName");
+        storeNames.add(getIntent().getStringExtra("storeName"));
+        storeNames = getIntent().getStringArrayListExtra("stores");
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         transaction.add(R.id.flFragment, fragment, "fragment").commit();
         presenter.attachView(this);
-        fragment.setStoreName(storeName);
+        fragment.setStoreNames(storeNames);
         fragment.setPresenter(presenter);
 
 

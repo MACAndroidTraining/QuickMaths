@@ -1,7 +1,6 @@
 package com.example.admin.quickmaths.presenter;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import com.example.admin.quickmaths.GooglePlacesRemoteServiceHelper;
 import com.example.admin.quickmaths.model.google.GooglePlacesResult;
@@ -25,8 +24,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-import static android.content.ContentValues.TAG;
-
 
 public class GooglePlacesPresenter implements MainActivityContract.Presenter {
 
@@ -44,11 +41,11 @@ public class GooglePlacesPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
-    public void getNearbyResults(final String CurrentLocation, final GoogleMap googleMap, String storeName) {
+    public void getNearbyResults(final String CurrentLocation, final GoogleMap googleMap, List<String> storeNames) {
 
         final Map<String, Double> distanceForClosestStores = new HashMap<>();
 
-        GooglePlacesRemoteServiceHelper.getNearbyResults(CurrentLocation, storeName)
+        GooglePlacesRemoteServiceHelper.getNearbyResults(CurrentLocation, storeNames)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<GooglePlacesResult, List<Result>>() {

@@ -55,7 +55,7 @@ public class DirectionsPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
-    public void getNearbyResults(String coordinates, GoogleMap googleMap, String anything) {
+    public void getNearbyResults(String coordinates, GoogleMap googleMap, List<String> anything) {
         currentLocation = coordinates;
         map = googleMap;
 
@@ -152,7 +152,7 @@ public class DirectionsPresenter implements MainActivityContract.Presenter {
                                                     .build();
 
                                     map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPolylinePosition)
-                                            , 10, this);
+                                            , 1, this);
                                     animationCounter ++;
                                 }
                             }

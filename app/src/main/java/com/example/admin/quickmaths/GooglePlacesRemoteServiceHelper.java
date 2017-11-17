@@ -29,12 +29,20 @@ public class GooglePlacesRemoteServiceHelper {
         return retrofit;
     }
 
-    public static Observable<GooglePlacesResult> getNearbyResults(String coordinates, String storeName) {
+    public static Observable<GooglePlacesResult> getNearbyResults(String coordinates, List<String> storeNames) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i=0; i < storeNames.size(); i++) {
+            if (i < storeNames.size()-1)
+                sb.append("(").append(storeNames.get(i)).append(")").append(" ").append("OR ");
+            else
+                sb.append("(").append(storeNames.get(i)).append(")");
+        }
 
         Retrofit retrofit = create();
         GooglePlaceRemoteService service = retrofit.create(GooglePlaceRemoteService.class);
         return service.getNearbyResults(PLACES_API_KEY, coordinates, 50000+"",
-                storeName);
+                sb.toString());
     }
 
     public static Observable<DirectionsResponse> getDirections(String origin, String destination, List<String> wayPoints) {
