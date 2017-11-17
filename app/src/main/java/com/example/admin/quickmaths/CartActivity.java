@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.admin.quickmaths.model.display.DisplayObject;
+import com.example.admin.quickmaths.view.placesActivity.GooglePlacesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,15 @@ public class CartActivity extends Fragment {
         btnCartCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Checkout", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), GooglePlacesActivity.class);
+                List<String> storeName = new ArrayList<>();
+
+                for(DisplayObject object: cartList) {
+                    storeName.add(object.getStore());
+                }
+
+                intent.putStringArrayListExtra("stores", (ArrayList<String>) storeName);
+                startActivity(intent);
             }
         });
 
