@@ -126,9 +126,9 @@ public class PlacesActivity extends AppCompatActivity {
         //registering callback on login
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager, mCallBack);
 
-        //Share Dialog
-        //You cannot preset the shared link in design time, if you do so, the fb share button will
-        //look disabled. You need to set in the code as below
+//        Share Dialog
+//        You cannot preset the shared link in design time, if you do so, the fb share button will
+//        look disabled. You need to set in the code as below
         shareButton = findViewById(R.id.facebook_share_button);
         ShareLinkContent content = new ShareLinkContent.Builder()
                 .setContentTitle("QuickMaths")//switches title during post description, but reverts to url title and description by default
@@ -149,7 +149,7 @@ public class PlacesActivity extends AppCompatActivity {
         //TODO: general implicit share button is currently hardcoded
         shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My App.");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "QuickMaths!");
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(shareIntent, "Share via "));
     }

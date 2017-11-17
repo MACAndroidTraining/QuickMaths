@@ -64,9 +64,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //key column name, value
         contentValues.put(COLUMN_PRODUCT, displayObject.getProduct());
         contentValues.put(COLUMN_STORE, displayObject.getStore());
-        contentValues.put(COLUMN_LOGO, displayObject.getLogoURL());
+//        contentValues.put(COLUMN_LOGO, displayObject.getLogoURL());
         contentValues.put(COLUMN_PRICE, String.valueOf(displayObject.getPrice()));
-        contentValues.put(COLUMN_DISTANCE, String.valueOf(displayObject.getDistance()));
+//        contentValues.put(COLUMN_DISTANCE, String.valueOf(displayObject.getDistance()));
         contentValues.put(COLUMN_ONLINE, String.valueOf(displayObject.isOnLine()));
 
         //database.insert returns row value where this data was saved

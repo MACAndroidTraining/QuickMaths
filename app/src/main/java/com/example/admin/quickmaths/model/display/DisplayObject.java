@@ -44,6 +44,10 @@ public class DisplayObject implements Parcelable{
 
     }
 
+    public DisplayObject() {
+
+    }
+
     public String getStore() {
         return store;
     }

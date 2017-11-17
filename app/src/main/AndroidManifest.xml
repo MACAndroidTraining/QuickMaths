@@ -43,6 +43,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDg12Lebo1fFa3uBjupmlEertJd8x5w650" />
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
